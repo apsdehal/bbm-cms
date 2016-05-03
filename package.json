@@ -1,7 +1,7 @@
 {
-  "name": "metronic",
-  "version": "4.5.0",
-  "description": "Metronic by Keenthemes",
+  "name": "bbm-cms",
+  "version": "1.0.0",
+  "description": "CMS for BBM",
   "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,6 +26,7 @@
     "morgan": "1.6.1",
     "passport": "0.2.2",
     "passport-local": "1.0.0",
+    "requests": "^0.1.7",
     "swig": "1.4.2",
     "winston": "1.0.1"
   },
