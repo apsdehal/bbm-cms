@@ -6,7 +6,8 @@
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 
-var local = require('./passport/local');
+var login = require('./passport/login');
+var signup = require('./passport/signup');
 
 /**
  * Expose
@@ -25,5 +26,6 @@ module.exports = function (passport, config) {
   })
 
   // use these strategies
-  passport.use(local);
+  passport.use('login', login);
+  passport.use('signup', signup);
 };

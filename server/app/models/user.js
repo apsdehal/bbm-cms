@@ -4,7 +4,6 @@
  */
 
 var mongoose = require('mongoose');
-var userPlugin = require('mongoose-user');
 var Schema = mongoose.Schema;
 
 /**
@@ -14,38 +13,13 @@ var Schema = mongoose.Schema;
 var UserSchema = new Schema({
   name: { type: String, default: '' },
   email: { type: String, default: '' },
-  hashed_password: { type: String, default: '' },
-  salt: { type: String, default: '' }
+  password: { type: String, default: ''},
+  firstName: { type: String, default: ''},
+  lastName: { type: String, default: '' },
+  isSuperUser: { type: Boolean, default: false },
+  isAdmin: { type; Boolean, default: false }
 });
 
-/**
- * User plugin
- */
-
-UserSchema.plugin(userPlugin, {});
-
-/**
- * Add your
- * - pre-save hooks
- * - validations
- * - virtuals
- */
-
-/**
- * Methods
- */
-
-UserSchema.method({
-
-});
-
-/**
- * Statics
- */
-
-UserSchema.static({
-
-});
 
 /**
  * Register
