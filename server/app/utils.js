@@ -10,7 +10,9 @@ module.exports = {
   },
 
   getVisibleUser: function(user) {
-    var keys = ['username', 'firstName', 'lastName', 'email'];
+    var keys = [
+      'username', 'firstName', 'lastName', 'email', 'isSuperUser', 'isAdmin'
+    ];
     var newUser = {};
 
     keys.map(function (key) {
@@ -18,5 +20,10 @@ module.exports = {
     })
 
     return newUser;
+  },
+  isAuthenticated: function (req, res, next) {
+    if (req.isAuthenticated())
+      return next();
+    return res.status(401);
   }
 }
