@@ -1,14 +1,15 @@
 var mongoose = require('mongoose');
 var LocalStrategy = require('passport-local').Strategy;
-var config = require('config');
 var User = mongoose.model('User');
+var bCrypt = require('bcrypt-nodejs');
+var utils = require('../../app/utils');
 
 module.exports = new LocalStrategy({
     passReqToCallback : true
   },
   function(req, username, password, done) {
     findOrCreateUser = function(){
-      User.findOne({'username':username},function(err, user) {
+      User.findOne({'username': username}, function (err, user) {
         if (err){
           console.log('Error in SignUp: '+err);
           return done(err);
@@ -19,11 +20,11 @@ module.exports = new LocalStrategy({
              req.flash('message','User Already Exists'));
         } else {
           var newUser = new User();
-          newUser.username = username;
-          newUser.password = createHash(password);
-          newUser.email = req.param('email');
-          newUser.firstName = req.param('firstName');
-          newUser.lastName = req.param('lastName');
+          newUser.username = req.body.username
+          newUser.password = utils.createHash(password);
+          newUser.email = req.body.email;
+          newUser.firstName = req.body.firstName;
+          newUser.lastName = req.body.lastName;
 
           newUser.save(function(err) {
             if (err){
@@ -38,9 +39,5 @@ module.exports = new LocalStrategy({
     };
 
     process.nextTick(findOrCreateUser);
-  });
+  }
 );
-
-var createHash = function(password){
- return bCrypt.hashSync(password, bCrypt.genSaltSync(10), null);
-}

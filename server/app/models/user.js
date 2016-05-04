@@ -11,13 +11,14 @@ var Schema = mongoose.Schema;
  */
 
 var UserSchema = new Schema({
-  name: { type: String, default: '' },
+  name: { type: String, default: ''},
+  username: { type: String, default: ''},
   email: { type: String, default: '' },
   password: { type: String, default: ''},
   firstName: { type: String, default: ''},
   lastName: { type: String, default: '' },
   isSuperUser: { type: Boolean, default: false },
-  isAdmin: { type; Boolean, default: false }
+  isAdmin: { type: Boolean, default: false }
 });
 
 

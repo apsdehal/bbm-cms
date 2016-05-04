@@ -5,8 +5,8 @@
 
 var mongoose = require('mongoose');
 var LocalStrategy = require('passport-local').Strategy;
-var config = require('config');
 var User = mongoose.model('User');
+var utils = require('../../app/utils');
 
 /**
  * Expose
@@ -22,15 +22,15 @@ module.exports = new LocalStrategy({
           return done(err);
 
         if (!user){
-          console.log('User Not Found with username '+username);
+          console.log('User Not Found with username ' + username);
           return done(null, false,
-                req.flash('message', 'User Not found.'));
+                req.status(401).flash('message', 'Username or password is wrong'));
         }
 
-        if (!isValidPassword(user, password)){
+        if (!utils.isValidPassword(user, password)){
           console.log('Invalid Password');
           return done(null, false,
-              req.flash('message', 'Invalid Password'));
+              req.status(401).flash('message', 'Username or password is wrong'));
         }
 
         return done(null, user);
@@ -38,6 +38,3 @@ module.exports = new LocalStrategy({
     );
 });
 
-var isValidPassword = function(user, password){
-  return bCrypt.compareSync(password, user.password);
-}
