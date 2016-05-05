@@ -4,10 +4,11 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var prettify = require('gulp-prettify');
-var minifyCss = require("gulp-minify-css");
-var rename = require("gulp-rename");
-var uglify = require("gulp-uglify");
-var rtlcss = require("gulp-rtlcss");
+var minifyCss = require('gulp-minify-css');
+var rename = require('gulp-rename');
+var uglify = require('gulp-uglify');
+var rtlcss = require('gulp-rtlcss');
+var concat = require('gulp-concat');
 
 
 //*** SASS compiler task
@@ -96,11 +97,22 @@ gulp.task('rtlcss', function () {
 //*** HTML formatter task
 gulp.task('prettify', function() {
 
-  	gulp.src('./**/*.html').
-  	  	pipe(prettify({
-    		indent_size: 4,
-    		indent_inner_html: true,
-    		unformatted: ['pre', 'code']
-   		})).
-   		pipe(gulp.dest('./'));
+	gulp.src('./**/*.html').
+	  	pipe(prettify({
+  		indent_size: 4,
+  		indent_inner_html: true,
+  		unformatted: ['pre', 'code']
+ 		})).
+ 		pipe(gulp.dest('./'));
+});
+
+gulp.task('concat', function () {
+  return gulp.src('./web/js/**/*.js').
+          pipe(concat('main.js')).
+          pipe(gulp.dest('./web/js'));
+});
+
+
+gulp.task('watch', function () {
+  return gulp.watch('./web/js/**/*.js', ['concat']);
 });
