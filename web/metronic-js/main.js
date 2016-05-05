@@ -199,7 +199,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                             './assets/global/plugins/jquery.sparkline.min.js',
 
                             './assets/pages/scripts/dashboard.min.js',
-                            'js/controllers/DashboardController.js',
+                            'metronic-js/controllers/DashboardController.js',
                         ]
                     });
                 }]
@@ -222,7 +222,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                     }, {
                         name: 'bbmCms',
                         files: [
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -247,7 +247,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                     }, {
                         name: 'bbmCms',
                         files: [
-                            'js/controllers/UISelectController.js'
+                            'metronic-js/controllers/UISelectController.js'
                         ]
                     }]);
                 }]
@@ -265,7 +265,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                     return $ocLazyLoad.load([{
                         name: 'bbmCms',
                         files: [
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -288,7 +288,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
                             './assets/global/plugins/jstree/dist/jstree.min.js',
                             './assets/pages/scripts/ui-tree.min.js',
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -324,7 +324,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                             './assets/global/plugins/typeahead/typeahead.bundle.min.js',
                             './assets/pages/scripts/components-form-tools-2.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -357,7 +357,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
                             './assets/pages/scripts/components-date-time-pickers.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -386,7 +386,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                             './assets/pages/scripts/components-bootstrap-select.min.js',
                             './assets/pages/scripts/components-select2.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     }]);
                 }]
@@ -412,7 +412,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
                             './assets/pages/scripts/table-datatables-managed.min.js',
 
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     });
                 }]
@@ -440,7 +440,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                             './assets/global/scripts/datatable.js',
 
                             'js/scripts/table-ajax.js',
-                            'js/controllers/GeneralPageController.js'
+                            'metronic-js/controllers/GeneralPageController.js'
                         ]
                     });
                 }]
@@ -467,7 +467,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
                             './assets/pages/scripts/profile.min.js',
 
-                            'js/controllers/UserProfileController.js'
+                            'metronic-js/controllers/UserProfileController.js'
                         ]
                     });
                 }]
@@ -518,7 +518,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 
                             './assets/apps/scripts/todo-2.min.js',
 
-                            'js/controllers/TodoController.js'
+                            'metronic-js/controllers/TodoController.js'
                         ]
                     });
                 }]
