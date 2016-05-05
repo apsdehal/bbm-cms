@@ -380,7 +380,26 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 }]);
 
 /* Init global settings and run the app */
-bbmCms.run(["$rootScope", "settings", "$state", function($rootScope, settings, $state) {
+bbmCms.run(["$rootScope", "settings", "$state", 'UserResource',
+  function($rootScope, settings, $state, UserResource) {
     $rootScope.$state = $state; // state to be accessed from view
     $rootScope.$settings = settings; // state to be accessed from view
+
+    $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
+                                                 , fromState, fromParams) {
+
+      var isLogin = toState.name === "login";
+      if(isLogin){
+         return; // no need to redirect
+      }
+
+      // now, redirect only not authenticated
+      UserResource.loggedin().$promise.then(function (data) {
+        $rootScope.user = data;
+      }, function (error) {
+        e.preventDefault(); // stop current execution
+        $state.go('login'); // go to login
+      });
+
+  });
 }]);

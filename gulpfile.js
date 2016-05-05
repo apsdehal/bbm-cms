@@ -109,7 +109,7 @@ gulp.task('prettify', function() {
 gulp.task('concat', function () {
   return gulp.src('./web/js/**/*.js').
           pipe(concat('main.js')).
-          pipe(gulp.dest('./web/js'));
+          pipe(gulp.dest('./web/dist'));
 });
 
 

@@ -43,6 +43,14 @@ module.exports = function (app, passport) {
     res.json({'message': 'Logged out successfully'});
   });
 
+  app.get('/user/loggedin', function (req, res) {
+    if (req.isAuthenticated()) {
+      return res.status(200).json(utils.getVisibleUser(req.user));
+    } else {
+      return res.status(401).json({message: 'User not logged in'});
+    }
+  })
+
   /**
    * Error handling
    */

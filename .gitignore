@@ -3,4 +3,4 @@ npm-debug.log
 server/config/config.js
 web/js/config.js
 web/bower_components
-web/js/main.js
+web/dist
