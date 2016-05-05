@@ -92,4 +92,9 @@ module.exports = function (app, passport) {
   // connect flash for flash messages - should be declared after sessions
   app.use(flash());
 
+  app.use(express.static(__dirname + '../../../web'));
+  //Store all HTML files in view folder.
+  app.use(express.static(__dirname + '../../../web'));
+
+
 };

@@ -5,18 +5,18 @@
 
 var mongoose = require('mongoose');
 var utils = require('../app/utils');
+var path = require('path');
 
 /**
  * Expose
  */
 
 module.exports = function (app, passport) {
-
   app.get('/', function (req, res) {
-    res.send('Home');
+    res.sendFile('index.html');
   });
 
-  app.post('/login', function (req, res, next) {
+  app.post('/user/login', function (req, res, next) {
     passport.authenticate('login', function(err, user, info) {
       if (err) {
         return next(err);
@@ -31,14 +31,14 @@ module.exports = function (app, passport) {
     })(req, res, next);
   });
 
-  app.post('/signup',
+  app.post('/user/signup',
     passport.authenticate('signup'),
     function (req, res) {
       return res.json(utils.getVisibleUser(req.user));
     }
   );
 
-  app.get('/logout', function(req, res) {
+  app.get('/user/logout', function(req, res) {
     req.logout();
     res.json({'message': 'Logged out successfully'});
   });
