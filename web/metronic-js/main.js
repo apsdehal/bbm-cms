@@ -29,13 +29,13 @@ initialization can be disabled and Layout.init() should be called on page load c
 /* Setup Rounting For All Pages */
 bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     // Redirect any unmatched url
-    $urlRouterProvider.otherwise("/dashboard.html");
+    $urlRouterProvider.otherwise("/dashboard");
 
     $stateProvider
 
         // Dashboard
         .state('dashboard', {
-            url: "/dashboard.html",
+            url: "/dashboard",
             templateUrl: "views/dashboard.html",
             data: {pageTitle: 'Admin Dashboard Template'},
             controller: "DashboardController",
@@ -56,6 +56,13 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                     });
                 }]
             }
+        })
+
+        .state('login', {
+          url: '/login',
+          templateUrl: 'views/login.html',
+          data: {pageTitle: 'Login to CMS'},
+          controller: 'LoginController'
         })
 
         // AngularJS plugins
@@ -389,16 +396,18 @@ bbmCms.run(["$rootScope", "settings", "$state", 'UserResource',
                                                  , fromState, fromParams) {
 
       var isLogin = toState.name === "login";
-      if(isLogin){
-         return; // no need to redirect
-      }
 
       // now, redirect only not authenticated
       UserResource.loggedin().$promise.then(function (data) {
         $rootScope.user = data;
+        if (isLogin) {
+          $state.go('dashboard');
+        }
       }, function (error) {
         e.preventDefault(); // stop current execution
-        $state.go('login'); // go to login
+        if (!isLogin) {
+          $state.go('login'); // go to login
+        }
       });
 
   });
