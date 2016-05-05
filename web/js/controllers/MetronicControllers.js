@@ -1,6 +1,14 @@
 
 /* Setup Layout Part - Header */
-bbmCms.controller('HeaderController', ['$scope', function($scope) {
+bbmCms.controller('HeaderController',
+    ['$scope', '$rootScope', 'UserResource', function($scope, $rootScope, UserResource) {
+
+    $scope.logoutUser = function () {
+      UserResource.logout().$promise.then(function (data) {
+        $rootScope.user = {};
+      });
+    }
+
     $scope.$on('$includeContentLoaded', function() {
         Layout.initHeader(); // init header
     });
