@@ -18,13 +18,21 @@ bbmCms.controller('LoginModalController', [
   '$state',
   'AuthService',
   function ($scope, $modalInstance, $state, AuthService) {
+    $scope.loginform = {
+      username: '',
+      password: ''
+    }
     $scope.login = function () {
       AuthService.login({
         username: $scope.loginform.username,
         password: $scope.loginform.password,
         success: function () {
+          $scope.message = false;
           $modalInstance.close();
           $state.go('dashboard');
+        },
+        reject: function (data) {
+          $scope.message = data.message;
         }
       });
     }

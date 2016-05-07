@@ -20,13 +20,15 @@ function AuthService($rootScope, $state, UserResource) {
     var success = props.success || noop;
     if (this.user && this.isLoggedIn) {
       success({message: 'User already logged in', user: this.user});
+      return;
     }
 
     var self = this;
     var reject = props.reject || noop;
 
-    if (!props.username || !props.password) {
+    if (!props.username.length || !props.password.length) {
       reject({message: 'Username and Password should not be empty'});
+      return;
     }
     UserResource.login({
       username: props.username, password: props.password
@@ -64,6 +66,7 @@ function AuthService($rootScope, $state, UserResource) {
     var success = props.success || noop;
     if (!this.isLoggedIn) {
       success({message: 'User already logged out'});
+      return;
     }
 
     var reject = props.reject || noop;
