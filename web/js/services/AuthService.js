@@ -46,10 +46,13 @@ function AuthService($rootScope, $state, UserResource) {
 
   this.checkLogin = function(props) {
     props = props || {};
+    var self = this;
     UserResource.loggedin()
     .$promise
     .then(function (data) {
       var success = props.success || noop;
+      self.user = data;
+      self.isLoggedIn = true;
       $rootScope.user = data;
       $rootScope.$broadcast('user:change', data);
       success({message: 'User is logged in', user: data});
@@ -82,6 +85,39 @@ function AuthService($rootScope, $state, UserResource) {
     }, function (err) {
       reject({message: 'Log out failure', error: err})
     });
+  }
+
+  this.signup = function (props) {
+    props = props || {};
+    var self = this;
+    var success = props.success || noop;
+    var reject = props.reject || noop;
+
+    if (!props.username.length ||
+        !props.password.length ||
+        !props.firstName.length ||
+        !props.lastName.length ||
+        !props.email.length) {
+        success({message: "All fields are necessary"});
+        return;
+    }
+
+    UserResource.signup({
+      username: props.username,
+      password: props.password,
+      firstName: props.firstName,
+      lastName: props.lastName,
+      email: props.email})
+    .$promise
+    .then(function (data) {
+      $rootScope.user = data;
+      $rootScope.$broadcast('user:change', data);
+      self.user = data;
+      self.isLoggedIn = true;
+      success({message: 'Signed up successfully', user: data});
+    }, function (data) {
+      reject({message: 'Failed to signup'});
+    })
   }
 }
 

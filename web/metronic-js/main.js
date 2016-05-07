@@ -65,6 +65,13 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
           controller: 'LoginController'
         })
 
+        .state('signup', {
+          url: '/signup',
+          templateUrl: 'views/signup.html',
+          data: {pageTitle: 'Sign Up for CMS'},
+          controller: 'SignupController'
+        })
+
         // AngularJS plugins
         .state('fileupload', {
             url: "/file_upload.html",
@@ -395,6 +402,9 @@ bbmCms.run(["$rootScope", "settings", "$state", 'AuthService',
     $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
                                                  , fromState, fromParams) {
 
+      if (toState.name === 'signup') {
+        return;
+      }
       var isLogin = toState.name === "login";
 
       // now, redirect only not authenticated

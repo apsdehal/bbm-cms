@@ -1,0 +1,47 @@
+<script type="text/ng-template" id="signup-modal.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Signup</h3>
+    </div>
+    <uib-alert ng-if="message" type="danger">{{message}}</uib-alert>
+    <form role="form">
+      <div class="form-group row">
+        <label for="inputText1" class="col-sm-2 text-center form-control-label">First Name</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="signupform.firstName" class="form-control" id="inputText1" placeholder="First Name">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputText2" class="col-sm-2 text-center form-control-label">Last Name</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="signupform.lastName" class="form-control" id="inputText2" placeholder="Last Name">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputText3" class="col-sm-2 text-center form-control-label">Username</label>
+        <div class="col-sm-10">
+          <input type="text" ng-model="signupform.username" class="form-control" id="inputText3" placeholder="Username">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputText4" class="col-sm-2 text-center form-control-label">Email</label>
+        <div class="col-sm-10">
+          <input type="email" ng-model="signupform.email" class="form-control" id="inputText4" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputPassword1" class="col-sm-2 text-center form-control-label">Password</label>
+        <div class="col-sm-10">
+          <input type="password" ng-model="signupform.password" class="form-control" id="inputPassword1" placeholder="Password">
+        </div>
+      </div>
+      <div class="form-group row">
+        <label for="inputPassword2" class="col-sm-2 text-center form-control-label">Confirm Password</label>
+        <div class="col-sm-10">
+          <input type="password" ng-model="signupform.confirmPassword" class="form-control" id="inputPassword2" placeholder="Confirm Password">
+        </div>
+      </div>
+    <div class="modal-footer">
+          <button class="btn btn-primary" type="button" ng-click="signup()">SignUp</button>
+      </div>
+    </form>
+</script>

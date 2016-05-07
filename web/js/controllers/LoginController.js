@@ -36,5 +36,9 @@ bbmCms.controller('LoginModalController', [
         }
       });
     }
+
+    $scope.signup = function () {
+      $state.go('signup');
+    }
   }
 ]);

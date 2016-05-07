@@ -29,7 +29,7 @@ module.exports = new LocalStrategy({
           newUser.save(function(err) {
             if (err){
               console.log('Error in Saving user: '+err);
-              throw err;
+              return done(err, null);
             }
             console.log('User Registration succesful');
             return done(null, newUser);
