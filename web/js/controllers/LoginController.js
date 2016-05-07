@@ -2,8 +2,7 @@ bbmCms.controller('LoginController', [
   '$scope',
   '$rootScope',
   '$uibModal',
-  'UserResource',
-  function($scope, $rootScope, $uibModal, UserResource) {
+  function($scope, $rootScope, $uibModal) {
     var modalInstance = $uibModal.open({
       templateUrl: 'login-modal.html',
       controller: 'LoginModalController',
@@ -16,18 +15,18 @@ bbmCms.controller('LoginController', [
 bbmCms.controller('LoginModalController', [
   '$scope',
   '$modalInstance',
-  '$rootScope',
   '$state',
-  'UserResource',
-  function ($scope, $modalInstance, $rootScope, $state, UserResource) {
+  'AuthService',
+  function ($scope, $modalInstance, $state, AuthService) {
     $scope.login = function () {
-      UserResource.login({
-        username: $scope.loginform.username, password: $scope.loginform.password
-      }).$promise.then(function (data) {
-        $rootScope.user = data;
-        $modalInstance.close();
-        $state.go('dashboard');
-      })
+      AuthService.login({
+        username: $scope.loginform.username,
+        password: $scope.loginform.password,
+        success: function () {
+          $modalInstance.close();
+          $state.go('dashboard');
+        }
+      });
     }
   }
 ]);

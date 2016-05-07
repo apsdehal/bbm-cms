@@ -1,12 +1,14 @@
 
 /* Setup Layout Part - Header */
 bbmCms.controller('HeaderController',
-    ['$scope', '$rootScope', 'UserResource', function($scope, $rootScope, UserResource) {
+    ['$scope', 'AuthService', function($scope, AuthService) {
 
+    $scope.user = {};
+    $scope.$on('user:change', function (e, data) {
+      $scope.user = data;
+    });
     $scope.logoutUser = function () {
-      UserResource.logout().$promise.then(function (data) {
-        $rootScope.user = {};
-      });
+      AuthService.logout();
     }
 
     $scope.$on('$includeContentLoaded', function() {
