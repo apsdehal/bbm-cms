@@ -362,11 +362,11 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         })
 
         // Todo
-        .state('todo', {
-            url: "/todo",
-            templateUrl: "views/todo.html",
-            data: {pageTitle: 'Todo'},
-            controller: "TodoController",
+        .state('content', {
+            abstract: true,
+            templateUrl: "views/content.html",
+            data: {pageTitle: 'Content Management'},
+            controller: "ContentController",
             resolve: {
                 deps: ['$ocLazyLoad', function($ocLazyLoad) {
                     return $ocLazyLoad.load({
@@ -383,12 +383,24 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
                             './assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
 
                             './assets/apps/scripts/todo-2.min.js',
-
-                            'metronic-js/controllers/TodoController.js'
                         ]
                     });
                 }]
             }
+        })
+        .state('content.article', {
+          url: "/content/article",
+          data: {pageTitle: 'Article Content Management'},
+          views: {
+            'header': {
+              templateUrl: 'views/article-header.html',
+              controller: 'ArticleHeaderController'
+            },
+            'main': {
+              templateUrl: 'views/article-main.html',
+              controller: 'ArticleMainController'
+            }
+          }
         })
 
 }]);
