@@ -1,6 +1,6 @@
 node_modules
 npm-debug.log
 server/config/config.js
-web/js/config.js
+web/metronic-js/config.js
 web/bower_components
 web/dist
