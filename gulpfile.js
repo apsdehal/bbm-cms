@@ -107,7 +107,7 @@ gulp.task('prettify', function() {
 });
 
 gulp.task('concat', function () {
-  return gulp.src('./web/js/**/*.js').
+  return gulp.src(['./web/js/**/*.js', '!./web/js/services/lb-services.js']).
           pipe(concat('main.js')).
           pipe(gulp.dest('./web/dist'));
 });
