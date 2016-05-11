@@ -391,30 +391,14 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         .state('content.article', {
           url: "/content/article",
           data: {pageTitle: 'Article Content Management'},
-          views: {
-            'header': {
-              templateUrl: 'views/article-header.html',
-              controller: 'ArticleHeaderController'
-            },
-            'main': {
-              templateUrl: 'views/article-main.html',
-              controller: 'ArticleMainController'
-            }
-          }
+          templateUrl: 'views/article-main.html',
+          controller: 'ArticleMainController'
         })
         .state('content.image', {
           url: "/content/image",
           data: {pageTitle: 'Image Content Management'},
-          views: {
-            'header': {
-              templateUrl: 'views/image-header.html',
-              controller: 'ImageHeaderController'
-            },
-            'main': {
-              templateUrl: 'views/image-main.html',
-              controller: 'ImageMainController'
-            }
-          }
+          templateUrl: 'views/image-main.html',
+          controller: 'ImageMainController'
         })
 
 }]);

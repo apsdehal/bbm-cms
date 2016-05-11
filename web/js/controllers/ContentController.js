@@ -8,6 +8,8 @@ function ContentController($rootScope, $scope, $state) {
     $scope.isActive = function (name) {
       return $state.current.name === ('content.' + name);
     }
+
+    $scope.currentName = $state.current.name.split('.')[1];
 };
 
 ContentController.$inject = ['$rootScope', '$scope', '$state'];
