@@ -44,6 +44,10 @@ function AuthService($rootScope, $state, UserResource) {
     })
   };
 
+  this.getCurrentUser = function () {
+    return this.user;
+  }
+
   this.checkLogin = function(props) {
     props = props || {};
     var self = this;

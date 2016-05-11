@@ -9,36 +9,8 @@
                         </div>
                         <div class="actions">
                             <div class="btn-group">
-                                <a class="btn green btn-circle btn-sm" href="#" data-toggle="dropdown" dropdown-menu-hover data-close-others="true"> MANAGE
-                                    <i class="fa fa-angle-down"></i>
+                                <div class="btn green btn-circle btn-sm" ng-click="setupNewArticle()">New Article</div>
                                 </a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li>
-                                        <a href="#">
-                                            <i class="i"></i> New Task </a>
-                                    </li>
-                                    <li class="divider"> </li>
-                                    <li>
-                                        <a href="#"> Pending
-                                            <span class="badge badge-danger"> 4 </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> Completed
-                                            <span class="badge badge-success"> 12 </span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#"> Overdue
-                                            <span class="badge badge-warning"> 9 </span>
-                                        </a>
-                                    </li>
-                                    <li class="divider"> </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="i"></i> Delete Project </a>
-                                    </li>
-                                </ul>
                             </div>
                         </div>
                     </div>
@@ -51,6 +23,7 @@
                                         <div ng-repeat="article in articles">
                                             <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentArticle($index)">
                                                 <div class="todo-tasklist-item-title"> {{::article.title}} </div>
+                                                <div class="divider"></div>
                                                 <div class="todo-tasklist-item-text"> {{::article.description}} </div>
                                                 <div class="todo-tasklist-controls pull-left">
                                                     <span class="todo-tasklist-date">
@@ -58,12 +31,13 @@
                                                     <span class="todo-tasklist-badge badge badge-roundless">{{::article.author}}</span>
                                                 </div>
                                             </div>
+                                            <br/>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="todo-tasklist-devider"> </div>
-                            <div class="portlet portlet-light col-md-7 col-sm-8">
+                            <div class="portlet light col-md-7 col-sm-8">
                                 <div style="min-height: 600px;">
                                     <form action="#" class="form-horizontal">
                                         <!-- TASK HEAD -->
@@ -106,8 +80,8 @@
 
                                                 <!-- TASK TAGS -->
                                                 <div class="form-actions right todo-form-actions">
-                                                    <button class="btn btn-circle btn-sm green">Save Changes</button>
-                                                    <button class="btn btn-circle btn-sm btn-default">Cancel</button>
+                                                    <button class="btn btn-circle btn-sm green" ng-click="saveCurrentArticle($event)">Save Changes</button>
+                                                    <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentArticle($event)">Delete</button>
                                                 </div>
                                             </div>
                                         <div class="tabbable-line">

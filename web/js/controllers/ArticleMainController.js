@@ -1,7 +1,11 @@
-function ArticleMainController($rootScope, $scope, Article) {
+function ArticleMainController($rootScope, $scope, Article, AuthService) {
   $scope.articles = [];
   $scope.currentArticle = false;
   $scope.isEditActive = true;
+  var currentSelected = false;
+  var isNewArticle = false;
+  var user = false;
+
 
   $scope.editButtonText = 'render';
   $scope.toggleEdit = function () {
@@ -18,6 +22,11 @@ function ArticleMainController($rootScope, $scope, Article) {
       return '';
     }
 
+    if (!$scope.currentArticle.tags) {
+      $scope.currentArticle.tags = [];
+      return '';
+    }
+
     var x = [];
     x.push($scope.currentArticle.tags.map(function (tag) {
       return tag.name;
@@ -29,6 +38,7 @@ function ArticleMainController($rootScope, $scope, Article) {
   $scope.changeCurrentArticle = function (index) {
     if ($scope.articles.length > index) {
       $scope.currentArticle = $scope.articles[index];
+      currentSelected = index;
     }
   }
 
@@ -36,11 +46,44 @@ function ArticleMainController($rootScope, $scope, Article) {
     if (newValue !== oldValue) {
       $scope.currentArticleTags = getCurrentArticleTags();
     }
-  })
+  });
+
+  $scope.saveCurrentArticle = function (e) {
+    e.preventDefault();
+    if ($scope.currentArticle && !isNewArticle) {
+      $scope.currentArticle.$save();
+    }
+
+    if (isNewArticle) {
+      $scope.currentArticle.author = AuthService.getCurrentUser().username;
+      var newArticle = new Article($scope.currentArticle);
+      $scope.currentArticle = newArticle;
+      $scope.currentArticle.$save();
+    }
+  }
+
+  $scope.deleteCurrentArticle = function (e) {
+    e.preventDefault();
+    if ($scope.currentArticle && !isNewArticle) {
+      Article.deleteById(({id: $scope.currentArticle.id}))
+      .$promise
+      .then(function () {
+        $scope.currentArticle = false;
+        $scope.articles.splice(currentSelected, 1);
+      });
+    }
+  }
+
+  $scope.setupNewArticle = function () {
+    $scope.currentArticle = false;
+    isNewArticle = true;
+    currentSelected = false
+  }
+
   Article.find(
     {filter:
-      {order: 'created DESC',
-       limit: 3}},
+      {order: 'storyId DESC',
+       limit: 5}},
     function (list) {
       $scope.articles = list;
       $scope.currentArticle = list[0];
@@ -48,6 +91,6 @@ function ArticleMainController($rootScope, $scope, Article) {
   );
 };
 
-ArticleMainController.$inject = ['$rootScope', '$scope', 'Article'];
+ArticleMainController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService'];
 
 bbmCms.controller('ArticleMainController', ArticleMainController);
