@@ -400,6 +400,12 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
           templateUrl: 'views/image-main.html',
           controller: 'ImageMainController'
         })
+        .state('content.product', {
+          url: "/content/product",
+          data: {pageTitle: 'Product Content Management'},
+          templateUrl: 'views/product-main.html',
+          controller: 'ProductMainController'
+        })
 
 }]);
 
