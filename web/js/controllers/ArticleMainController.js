@@ -43,9 +43,7 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
   }
 
   $scope.$watch('currentArticle', function (newValue, oldValue) {
-    if (newValue !== oldValue) {
-      $scope.currentArticleTags = getCurrentArticleTags();
-    }
+    $scope.currentArticleTags = getCurrentArticleTags();
   });
 
   $scope.saveCurrentArticle = function (e) {

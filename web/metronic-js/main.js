@@ -402,6 +402,20 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
             }
           }
         })
+        .state('content.image', {
+          url: "/content/image",
+          data: {pageTitle: 'Image Content Management'},
+          views: {
+            'header': {
+              templateUrl: 'views/image-header.html',
+              controller: 'ImageHeaderController'
+            },
+            'main': {
+              templateUrl: 'views/image-main.html',
+              controller: 'ImageMainController'
+            }
+          }
+        })
 
 }]);
 

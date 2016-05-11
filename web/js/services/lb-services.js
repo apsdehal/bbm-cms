@@ -4001,6 +4001,12 @@ module.factory(
           method: "GET"
         },
 
+        "upsert": {
+          url: urlBase + "/images",
+          method: "PUT"
+        },
+
+
         /**
          * @ngdoc method
          * @name lbServices.Image#find
