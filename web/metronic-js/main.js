@@ -406,6 +406,12 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
           templateUrl: 'views/product-main.html',
           controller: 'ProductMainController'
         })
+        .state('content.conversation', {
+          url: "/content/conversation",
+          data: {pageTitle: 'Conversation Content Management'},
+          templateUrl: 'views/conversation-main.html',
+          controller: 'ConversationMainController'
+        })
 
 }]);
 

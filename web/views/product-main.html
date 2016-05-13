@@ -9,7 +9,7 @@
                         </div>
                         <div class="actions">
                             <div class="btn-group">
-                                <div class="btn green btn-circle btn-sm" ng-click="currentProduct()">New product</div>
+                                <div class="btn green btn-circle btn-sm" ng-click="setupNewProduct()">New product</div>
                                 </a>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                                             <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentProduct($index)">
                                                 <div class="todo-tasklist-item-title"> {{::product.title}} </div>
                                                 <div class="divider"></div>
-                                                <div class="todo-tasklist-item-text"> {{ product.desc | oneFifty}} </div>
+                                                <div class="todo-tasklist-item-text"> {{::product.desc | oneFifty}} </div>
                                                 <div class="todo-tasklist-controls pull-left">
                                                     <span class="todo-tasklist-date">
                                                         <i class="fa fa-thumbs-o-up"></i> {{::product.likes.length}} </span>
