@@ -61,6 +61,21 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
     }
   }
 
+  $scope.getConversations = function (val) {
+    return Discussion.find({
+      filter: {
+        where: {
+          title: {
+            like: val
+          }
+        },
+        limit: 6
+      }
+    }).$promise.then(function (responses) {
+      return responses;
+    });
+  }
+
   $scope.setupNewConversation = function () {
     $scope.currentConversation = false;
     isNewConversation = true;

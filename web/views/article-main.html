@@ -7,15 +7,7 @@
                 <span class="caption-helper">Manage:</span> &nbsp;
                 <span class="caption-subject font-green bold uppercase">Articles</span>
             </div>
-            <div class="col-md-6 col-sm-12">
-              <input type="text" ng-model="searchSelected" placeholder="Find articles" uib-typeahead="article as article.title for article in getArticles($viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-wait-ms="1000" class="form-control">
-              <div ng-show="loading">
-              <i class="glyphicon glyphicon-refresh"></i> Loading results...
-              </div>
-              <div ng-show="noResults">
-              <i class="glyphicon glyphicon-remove"></i> No Results Found
-            </div>
-            </div>
+            <content-search data-get-content="getArticles(val)" data-current-content="currentArticle" data-content-type="article" data-label-attr="title"></content-search>
             <div class="actions col-md-3 col-sm-12">
                 <div class="btn-group pull-right">
                     <div class="btn green btn-circle btn-sm" ng-click="setupNewArticle()">New Article</div>
