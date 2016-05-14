@@ -47,10 +47,15 @@
                                 <!-- TASK TITLE -->
                                 <div>
                                     <div class="form-group">
-                                        <div class="col-md-12">
-                                          <div class="todo-tasklist-item-title">
-                                             <img class="todo-userpic" ng-src="{{currentProduct.page.image}}" width="27px" height="27px"> {{currentProduct.page.displayName}}
-                                          </div>
+                                        <div class="col-md-12 media">
+                                              <a class="pull-left" href="#">
+                                                  <img class="todo-userpic" src="{{currentProduct.page.image}}" width="27px" height="27px"> </a>
+                                              <div class="media-body todo-comment">
+                                                  <p class="todo-comment-head">
+                                                      <span class="todo-comment-username">{{currentProduct.page.displayName}}</span> &nbsp;
+                                                      <span class="todo-comment-date">{{ currentProduct.updated | formatTime }}</span>
+                                                  </p>
+                                              </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -158,7 +163,7 @@
                                                         <div class="media-body todo-comment">
                                                             <p class="todo-comment-head">
                                                                 <span class="todo-comment-username">{{comment.page.displayName}}</span> &nbsp;
-                                                                <span class="todo-comment-date">17 Sep 2014 at 2:05pm</span>
+                                                                <span class="todo-comment-date">{{ comment.created | formatTime }}</span>
                                                             </p>
                                                             <p class="todo-text-color"> {{comment.text}} </p>
                                                         </div>
