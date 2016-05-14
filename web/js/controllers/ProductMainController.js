@@ -67,8 +67,8 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
     currentSelected = false
   }
 
-  $scope.getImages = function (val) {
-    return Image.find({
+  $scope.getProducts = function (val) {
+    return Product.find({
       filter: {
         where: {
           title: {
