@@ -1,0 +1,8 @@
+<ui-select multiple ng-model="currentContent.tags">
+  <ui-select-match placeholder="Select tags...">{{$item.name}}</ui-select-match>
+  <ui-select-choices repeat="tag in tags track by $index"
+           refresh="refreshTags($select.search)"
+           refresh-delay="1000">
+    <span ng-bind-html="tag.name | highlight: $select.search"></span>
+  </ui-select-choices>
+</ui-select>
