@@ -6,6 +6,7 @@ Metronic AngularJS App Main Script
 var bbmCms = angular.module('bbmCms', [
     'ui.router',
     'ui.bootstrap',
+    'ui.select',
     'oc.lazyLoad',
     'ngSanitize',
     'ngResource',
