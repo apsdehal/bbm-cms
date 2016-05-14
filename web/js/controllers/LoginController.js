@@ -13,11 +13,12 @@ bbmCms.controller('LoginController', [
 
 
 bbmCms.controller('LoginModalController', [
+  '$rootScope',
   '$scope',
   '$modalInstance',
   '$state',
   'AuthService',
-  function ($scope, $modalInstance, $state, AuthService) {
+  function ($rootScope, $scope, $modalInstance, $state, AuthService) {
     $scope.loginform = {
       username: '',
       password: ''

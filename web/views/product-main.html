@@ -21,14 +21,14 @@
                         <div class="todo-tasklist">
                             <div ng-repeat="product in products">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentProduct($index)">
-                                    <div class="todo-tasklist-item-title"> {{::product.title}} </div>
+                                    <div class="todo-tasklist-item-title">                                    <img class="todo-userpic" ng-src="{{::product.page.image}}" width="27px" height="27px">{{::product.title}} </div>
                                     <div class="divider"></div>
                                     <div class="todo-tasklist-item-text"> {{::product.desc | oneFifty}} </div>
                                     <div class="todo-tasklist-controls pull-left">
                                         <span class="todo-tasklist-date">
                                             <i class="fa fa-thumbs-o-up"></i> {{::product.likes.length}} </span>
                                         <span class="todo-tasklist-badge badge badge-roundless">{{::product.price_curr}}</span>
-                                        <span class="todo-tasklist-badge badge badge-roundless">{{::product.brand}}</span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::product.page.displayName}}</span>
                                     </div>
                                 </div>
                                 <br/>
@@ -47,8 +47,9 @@
                                 <div>
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                          <div class="todo-tasklist-item-title">Brand:</div>
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Product Brand..." ng-model="currentProduct.brand">
+                                          <div class="todo-tasklist-item-title">
+                                             <img class="todo-userpic" ng-src="{{currentProduct.page.image}}" width="27px" height="27px"> {{currentProduct.page.displayName}}
+                                          </div>
                                         </div>
                                     </div>
                                     <div class="form-group">

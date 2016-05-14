@@ -22,12 +22,14 @@
                             <div ng-repeat="conversation in conversations">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentConversation($index)">
                                     <div class="todo-tasklist-item-title">
-                                    <img class="todo-userpic" ng-src="{{::conversation.page.image}}" width="27px" height="27px" >{{::conversation.title}} by {{::conversation.page.displayName}}</div>
+                                    <img class="todo-userpic" ng-src="{{::conversation.page.image}}" width="27px" height="27px" >{{::conversation.title}}</div>
                                     <div class="divider"></div>
                                     <div class="todo-tasklist-item-text"> {{::conversation.content | oneFifty}} </div>
                                     <div class="todo-tasklist-controls pull-left">
                                         <span class="todo-tasklist-date">
                                             <i class="fa fa-thumbs-o-up"></i> {{::conversation.likes.length}} </span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::conversation.page.displayName}}</span>
+
                                     </div>
                                 </div>
                                 <br/>
