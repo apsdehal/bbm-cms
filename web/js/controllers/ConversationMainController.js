@@ -6,34 +6,12 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
   var user = false;
 
 
-  var getCurrentConversationTags = function () {
-    if (!$scope.currentConversation) {
-      return '';
-    }
-
-    if (!$scope.currentConversation.tags) {
-      $scope.currentConversation.tags = [];
-      return '';
-    }
-
-    var x = [];
-    x.push($scope.currentConversation.tags.map(function (tag) {
-      return tag.name;
-    }));
-
-    return x.join(',');
-  };
-
   $scope.changeCurrentConversation = function (index) {
     if ($scope.conversations.length > index) {
       $scope.currentConversation = $scope.conversations[index];
       currentSelected = index;
     }
   }
-
-  $scope.$watch('currentConversation', function (newValue, oldValue) {
-    $scope.currentConversationTags = getCurrentConversationTags();
-  });
 
   $scope.saveCurrentConversation = function (e) {
     e.preventDefault();

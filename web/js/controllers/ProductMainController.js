@@ -5,35 +5,12 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
   var isNewProduct = false;
   var user = false;
 
-
-  var getCurrentProductTags = function () {
-    if (!$scope.currentProduct) {
-      return '';
-    }
-
-    if (!$scope.currentProduct.tags) {
-      $scope.currentProduct.tags = [];
-      return '';
-    }
-
-    var x = [];
-    x.push($scope.currentProduct.tags.map(function (tag) {
-      return tag.name;
-    }));
-
-    return x.join(',');
-  };
-
   $scope.changeCurrentProduct = function (index) {
     if ($scope.products.length > index) {
       $scope.currentProduct = $scope.products[index];
       currentSelected = index;
     }
   }
-
-  $scope.$watch('currentProduct', function (newValue, oldValue) {
-    $scope.currentProductTags = getCurrentProductTags();
-  });
 
   $scope.saveCurrentProduct = function (e) {
     e.preventDefault();

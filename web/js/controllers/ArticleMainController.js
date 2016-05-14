@@ -17,23 +17,6 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
       $scope.editButtonText = 'edit';
     }
   }
-  var getCurrentArticleTags = function () {
-    if (!$scope.currentArticle) {
-      return '';
-    }
-
-    if (!$scope.currentArticle.tags) {
-      $scope.currentArticle.tags = [];
-      return '';
-    }
-
-    var x = [];
-    x.push($scope.currentArticle.tags.map(function (tag) {
-      return tag.name;
-    }));
-
-    return x.join(',');
-  };
 
   $scope.changeCurrentArticle = function (index) {
     if ($scope.articles.length > index) {
@@ -41,10 +24,6 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
       currentSelected = index;
     }
   }
-
-  $scope.$watch('currentArticle', function (newValue, oldValue) {
-    $scope.currentArticleTags = getCurrentArticleTags();
-  });
 
 
   $scope.saveCurrentArticle = function (e) {

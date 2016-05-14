@@ -6,34 +6,12 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
   var user = false;
 
 
-  var getCurrentImageTags = function () {
-    if (!$scope.currentImage) {
-      return '';
-    }
-
-    if (!$scope.currentImage.tags) {
-      $scope.currentImage.tags = [];
-      return '';
-    }
-
-    var x = [];
-    x.push($scope.currentImage.tags.map(function (tag) {
-      return tag.name;
-    }));
-
-    return x.join(',');
-  };
-
   $scope.changeCurrentImage = function (index) {
     if ($scope.images.length > index) {
       $scope.currentImage = $scope.images[index];
       currentSelected = index;
     }
   }
-
-  $scope.$watch('currentImage', function (newValue, oldValue) {
-    $scope.currentImageTags = getCurrentImageTags();
-  });
 
   $scope.saveCurrentImage = function (e) {
     e.preventDefault();
