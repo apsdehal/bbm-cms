@@ -46,6 +46,12 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
     $scope.currentArticleTags = getCurrentArticleTags();
   });
 
+  $scope.$watch('searchSelected', function (newValue, oldValue) {
+    if (typeof newValue === 'object') {
+      $scope.currentArticle = newValue;
+    }
+  });
+
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
     if ($scope.currentArticle && !isNewArticle) {
@@ -76,6 +82,24 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
     $scope.currentArticle = false;
     isNewArticle = true;
     currentSelected = false
+  }
+
+  $scope.getArticles = function (val) {
+    return Article.find({
+      filter: {
+        where: {
+          title: {
+            like: val
+          }
+        },
+        limit: 6
+      }
+    }).$promise.then(function (responses) {
+      // return responses.map(function (response) {
+      //   return response.title;
+      // })
+      return responses;
+    });
   }
 
   Article.find(
