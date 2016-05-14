@@ -10,7 +10,7 @@ function ContentSearchDirective() {
     },
     templateUrl: 'views/directives/content-search.html',
     link: function (scope) {
-      scope.type = 'title';
+      scope.labelAttr = scope.labelAttr || 'title';
       scope.$watch('searchSelected', function (newValue, oldValue) {
         if (typeof newValue === 'object') {
           scope.currentContent = newValue;

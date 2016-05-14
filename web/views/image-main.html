@@ -2,13 +2,14 @@
     <div class="portlet light">
         <!-- PROJECT HEAD -->
         <div class="portlet-title">
-            <div class="caption">
+            <div class="caption col-md-3 col-sm-12">
                 <i class="icon-bar-chart font-green hide"></i>
                 <span class="caption-helper">Manage:</span> &nbsp;
                 <span class="caption-subject font-green bold uppercase">Images</span>
             </div>
-            <div class="actions">
-                <div class="btn-group">
+            <content-search data-get-content="getImages(val)" data-current-content="currentImage" data-content-type="image" data-label-attr="title"></content-search>
+            <div class="actions col-md-3 col-sm-12">
+                <div class="btn-group pull-right">
                     <div class="btn green btn-circle btn-sm" ng-click="setupNewImage()">New Image</div>
                 </div>
             </div>

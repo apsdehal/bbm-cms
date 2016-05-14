@@ -67,6 +67,21 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
     currentSelected = false
   }
 
+  $scope.getImages = function (val) {
+    return Image.find({
+      filter: {
+        where: {
+          title: {
+            like: val
+          }
+        },
+        limit: 6
+      }
+    }).$promise.then(function (responses) {
+      return responses;
+    });
+  }
+
   Image.find(
     {filter:
       {order: 'storyId DESC',

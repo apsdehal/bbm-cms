@@ -67,6 +67,21 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
     currentSelected = false
   }
 
+  $scope.getImages = function (val) {
+    return Image.find({
+      filter: {
+        where: {
+          title: {
+            like: val
+          }
+        },
+        limit: 6
+      }
+    }).$promise.then(function (responses) {
+      return responses;
+    });
+  }
+
   Product.find(
     {filter:
       {order: 'storyId DESC',
