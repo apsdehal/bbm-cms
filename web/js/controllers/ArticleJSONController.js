@@ -125,6 +125,16 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
     });
   }
 
+  $scope.downloadFile = function () {
+    var json = JSON.stringify($scope.articles);
+    var blob = new Blob([json], {type: "application/json"});
+    var url  = URL.createObjectURL(blob);
+    var dlAnchorElem = document.createElement('a');
+    dlAnchorElem.setAttribute("href", url);
+    dlAnchorElem.setAttribute("download", $scope.fileName);
+    dlAnchorElem.click();
+  }
+
   $scope.$on('$viewContentLoaded', function() {
     var inputs = document.querySelectorAll( '.inputfile' );
     Array.prototype.forEach.call( inputs, function( input ) {
@@ -138,6 +148,8 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
         } else {
           fileName = e.target.value.split( '\\' ).pop();
         }
+
+        $scope.fileName = fileName;
 
         label.innerHTML = fileName ? fileName : labelVal;
       });
