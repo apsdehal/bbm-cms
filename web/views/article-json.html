@@ -37,6 +37,14 @@
         <!-- end PROJECT HEAD -->
         <div ng-show="isFileLoaded" class="portlet-body">
             <div class="row">
+                <div class="col-md-3 col-sm-0">
+                </div>
+                <content-search data-get-content="getArticles(val)" data-current-content="currentArticle" data-content-type="article" data-label-attr="title"></content-search>
+                <div class="col-md-3 col-sm-0">
+                </div>
+            </div>
+            <br/>
+            <div class="row">
                 <div class="col-md-5 col-sm-4">
                     <div style="min-height: 600px;">
                         <div class="todo-tasklist">
@@ -105,10 +113,26 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="todo-tasklist-item-title col-md-12">
+                                        Description
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Article Description" ng-model="currentArticle.description">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">
+                                        Link
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Article Link" ng-model="currentArticle.link">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">
                                         Image URL:
                                         </div>
                                         <div class="col-md-12">
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Article Image URL" ng-model="currentArticle.imgUrl">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Article Image URL" ng-model="currentArticle.imgURL">
                                         </div>
                                     </div>
                                     <!-- END TASK DESC -->

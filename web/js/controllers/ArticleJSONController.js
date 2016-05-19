@@ -1,4 +1,4 @@
-function ArticleJSONController($rootScope, $scope, Article, AuthService) {
+function ArticleJSONController($rootScope, $scope, $filter, Article, AuthService) {
   $scope.isFileLoaded = false;
   $scope.articles = [];
   $scope.currentArticle = false;
@@ -100,18 +100,7 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
   }
 
   $scope.getArticles = function (val) {
-    return Article.find({
-      filter: {
-        where: {
-          title: {
-            like: val
-          }
-        },
-        limit: 6
-      }
-    }).$promise.then(function (responses) {
-      return responses;
-    });
+    return $filter('limitTo')($filter('filter')($scope.articles, {title: val}), 10);
   }
 
   $scope.downloadFile = function () {
@@ -146,6 +135,6 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
   });
 };
 
-ArticleJSONController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService'];
+ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'AuthService'];
 
 bbmCms.controller('ArticleJSONController', ArticleJSONController);
