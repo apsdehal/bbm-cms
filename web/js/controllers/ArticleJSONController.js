@@ -30,7 +30,7 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
       alert("This browser doesn't seem to support the `files` property of file inputs.");
     }
     else if (!input.files[0]) {
-      alert("Please select a .json file before clicking 'Load State' button");
+      alert("Please select a .json file before clicking 'Upload' button");
     }
     else {
       file = input.files[0];
@@ -80,27 +80,16 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
 
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
-    if ($scope.currentArticle && !isNewArticle) {
-      $scope.currentArticle.$save();
-    }
-
     if (isNewArticle) {
-      $scope.currentArticle.author = AuthService.getCurrentUser().username;
-      var newArticle = new Article($scope.currentArticle);
-      $scope.currentArticle = newArticle;
-      $scope.currentArticle.$save();
+      $scope.articles.push($scope.currentArticle);
     }
   }
 
   $scope.deleteCurrentArticle = function (e) {
     e.preventDefault();
     if ($scope.currentArticle && !isNewArticle) {
-      Article.deleteById(({id: $scope.currentArticle.id}))
-      .$promise
-      .then(function () {
-        $scope.currentArticle = false;
-        $scope.articles.splice(currentSelected, 1);
-      });
+      $scope.articles.splice(currentIndex, 1);
+      $scope.currentArticle = false;
     }
   }
 
