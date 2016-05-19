@@ -153,6 +153,12 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
           templateUrl: 'views/article-main.html',
           controller: 'ArticleMainController'
         })
+        .state('content.articleJson', {
+          url: "/content/articlejson",
+          data: {pageTitle: 'Article Content Management from JSON'},
+          templateUrl: 'views/article-json.html',
+          controller: 'ArticleJSONController'
+        })
         .state('content.image', {
           url: "/content/image",
           data: {pageTitle: 'Image Content Management'},
