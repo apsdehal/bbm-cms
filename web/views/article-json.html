@@ -47,6 +47,9 @@
             <div class="row">
                 <div class="col-md-5 col-sm-4">
                     <div style="min-height: 600px;">
+                        <div class="col-md-12 text-center">
+                            <uib-pagination boundary-links="true" total-items="totalArticles" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
                         <div class="todo-tasklist">
                             <div ng-repeat="article in articles.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentArticle($index)">
@@ -57,8 +60,7 @@
                                     <div class="todo-tasklist-item-text"> {{article.description}} </div>
                                     <div class="todo-tasklist-controls pull-left">
                                         <span class="todo-tasklist-date">
-                                            <!-- <i class="fa fa-thumbs-o-up"></i> {{::article.likes.length}} </span> -->
-                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::article.author}}</span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">by {{article.author}}</span>
                                     </div>
 
                                 </div>
@@ -76,7 +78,9 @@
                                 </div>
                             </div>
                         </div>
-                        <uib-pagination ng-if="articles.length" boundary-links="true" total-items="totalArticles" ng-change="changePage()" num-pages="numPages" items-per-page="itemsPerPage" max-size="maxSize" rotate="false" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        <div class="col-md-12 text-center">
+                            <uib-pagination boundary-links="true" total-items="totalArticles" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
                     </div>
                 </div>
                 <div class="todo-tasklist-devider"> </div>
