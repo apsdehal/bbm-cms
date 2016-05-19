@@ -88,3 +88,4 @@ bbmCms.config([
 
   LoopBackResourceProvider.setUrlBase(bbmCmsConfig.bbmApiUrl);
 }]);
+

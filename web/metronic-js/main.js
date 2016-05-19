@@ -209,6 +209,5 @@ bbmCms.run(["$rootScope", "settings", "$state", 'AuthService',
           }
         }
       })
-
   });
 }]);

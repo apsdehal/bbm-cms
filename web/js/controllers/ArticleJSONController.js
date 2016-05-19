@@ -2,12 +2,18 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
   $scope.isFileLoaded = false;
   $scope.articles = [];
   $scope.currentArticle = false;
+  $scope.totalArticles = 0;
   $scope.isEditActive = true;
+  $scope.viewby = 10;
+  $scope.itemsPerPage = $scope.viewby;
+  $scope.maxSize = 5;
+  $scope.currentPage = 1;
+
   var currentSelected = false;
   var isNewArticle = false;
   var user = false;
 
-  $scope.loadFile = function(){
+  $scope.loadFile = function (){
 
     var input, file, fr;
     if (typeof window.FileReader !== 'function') {
@@ -39,13 +45,19 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
         })
         $scope.isFileLoaded = true;
         $scope.currentArticle = $scope.articles[0];
+        $scope.totalArticles = $scope.articles.length;
         $scope.$apply();
     }}
+  }
 
+  $scope.setItemsPerPage = function(num) {
+    $scope.itemsPerPage = num;
+    $scope.currentPage = 1; //reset to first paghe
+  }
 
-
-
- }
+  $scope.changePage = function () {
+    $scope.currentArticle = $scope.articles[($scope.currentPage - 1) * $scope.itemsPerPage];
+  }
 
   $scope.editButtonText = 'render';
   $scope.toggleEdit = function () {
@@ -112,6 +124,25 @@ function ArticleJSONController($rootScope, $scope, Article, AuthService) {
       return responses;
     });
   }
+
+  $scope.$on('$viewContentLoaded', function() {
+    var inputs = document.querySelectorAll( '.inputfile' );
+    Array.prototype.forEach.call( inputs, function( input ) {
+      var label  = input.nextElementSibling,
+        labelVal = label.innerHTML;
+
+      input.addEventListener( 'change', function( e ) {
+        var fileName = '';
+        if( this.files && this.files.length > 1 ) {
+          fileName = ( this.getAttribute( 'data-caption' ) || '' ).replace( '{count}', this.files.length );
+        } else {
+          fileName = e.target.value.split( '\\' ).pop();
+        }
+
+        label.innerHTML = fileName ? fileName : labelVal;
+      });
+    });
+  });
 };
 
 ArticleJSONController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService'];
