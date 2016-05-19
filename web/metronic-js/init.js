@@ -11,7 +11,7 @@ var bbmCms = angular.module('bbmCms', [
     'ngSanitize',
     'ngResource',
     'lbServices',
-    'textAngular'
+    'angularTrix'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */

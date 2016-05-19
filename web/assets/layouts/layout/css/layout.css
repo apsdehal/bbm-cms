@@ -1664,7 +1664,8 @@ Page content
   margin: 0 auto; }
 
 .editor {
-  height: 250px !important; }
+  height: 300px !important;
+  overflow: auto; }
 
 /***
 Page footer
