@@ -1663,6 +1663,9 @@ Page content
 .center {
   margin: 0 auto; }
 
+.editor {
+  height: 250px !important; }
+
 /***
 Page footer
 ***/

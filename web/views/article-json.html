@@ -107,12 +107,9 @@
                                     <!-- TASK DESC -->
                                     <div class="form-group">
                                         <div class="todo-tasklist-item-title col-md-12">Content:
-                                            <button type="button" class="btn btn-circle btn-xs" ng-class="isEditActive ? 'green' : 'btn-default'" ng-click="toggleEdit()">&nbsp;{{editButtonText}}&nbsp;</button>
                                         </div>
                                         <div class="col-md-12">
-                                            <textarea class="form-control todo-taskbody-taskdesc" ng-model="currentArticle.content" ng-if="isEditActive" rows="8" placeholder="Article Content..."></textarea>
-                                            <div class="col-md-12" ng-if="!isEditActive" ng-bind-html="currentArticle.content | sanitize">
-                                            </div>
+                                            <text-angular  ta-text-editor-class="form-control editor border-around" ta-html-editor-class="border-around"  ng-model="currentArticle.content"></text-angular>
                                         </div>
                                     </div>
                                     <div class="form-group">

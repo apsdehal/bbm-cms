@@ -10,7 +10,8 @@ var bbmCms = angular.module('bbmCms', [
     'oc.lazyLoad',
     'ngSanitize',
     'ngResource',
-    'lbServices'
+    'lbServices',
+    'textAngular'
 ]);
 
 /* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
@@ -69,20 +70,6 @@ bbmCms.config([
   // this option might be handy for migrating old apps, but please don't use it
   // in new ones!
   $controllerProvider.allowGlobals();
-  $httpProvider.interceptors.push(['$q', function ($q) {
-    return {
-      // Add ajaxRoot to each of the request that go through $http, $resource as $resource
-      // also uses $http internally
-      request: function (config) {
-        if (config && config.url) {
-          if (config.url.indexOf('.html') === -1 && config.url.indexOf('http') === -1) {
-           config.url = bbmCmsConfig.ajaxRoot + config.url;
-          }
-        }
-        return config || $q.when(config);
-      }
-    };
-  }]);
 
   $httpProvider.defaults.withCredentials = true;
 
