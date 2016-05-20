@@ -93,7 +93,11 @@ module.exports = function (app, passport) {
   app.use(flash());
 
   //Store all HTML files in view folder.
-  app.use(express.static(__dirname + '../../../build'));
+  if (env === 'production') {
+    app.use(express.static(__dirname + '../../../build'));
+  } else {
+    app.use(express.static(__dirname + '../../../web'));
+  }
 
 
 };
