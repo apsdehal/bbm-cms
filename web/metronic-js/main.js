@@ -32,150 +32,161 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
     $urlRouterProvider.otherwise("/dashboard");
 
     $stateProvider
-
+        .state('root', {
+          abstract: true,
+          views: {
+            'header': {
+              templateUrl: 'views/metronic/header.html',
+              controller: 'HeaderController'
+            },
+            'footer': {
+              templateUrl: 'views/metronic/footer.html',
+              controller: 'FooterController'
+            },
+            'theme-panel': {
+              templateUrl: 'views/metronic/theme-panel.html',
+              controller: 'ThemePanelController'
+            },
+            'sidebar': {
+              templateUrl: 'views/metronic/sidebar.html',
+              controller: 'SidebarController'
+            },
+            'quick-sidebar': {
+              templateUrl: 'views/metronic/quick-sidebar.html',
+              controller: 'QuickSidebarController'
+            },
+          }
+        })
         // Dashboard
-        .state('dashboard', {
-            url: "/dashboard",
-            templateUrl: "views/dashboard.html",
-            data: {pageTitle: 'Admin Dashboard Template'},
-            controller: "DashboardController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'bbmCms',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                        files: [
-                            './assets/global/plugins/morris/morris.css',
-                            './assets/global/plugins/morris/morris.min.js',
-                            './assets/global/plugins/morris/raphael-min.js',
-                            './assets/global/plugins/jquery.sparkline.min.js',
+        .state('root.dashboard', {
+          url: "/dashboard",
+          data: {pageTitle: 'Admin Dashboard Template'},
 
-                            './assets/pages/scripts/dashboard.min.js',
-                            'metronic-js/controllers/DashboardController.js',
-                        ]
-                    });
-                }]
+          views: {
+            'main@': {
+              templateUrl: "views/dashboard.html",
+              controller: "DashboardController",
+              resolve: {
+                  deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                      return $ocLazyLoad.load({
+                          name: 'bbmCms',
+                          insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
+                          files: [
+                              './assets/global/plugins/morris/morris.css',
+                              './assets/global/plugins/morris/morris.min.js',
+                              './assets/global/plugins/morris/raphael-min.js',
+                              './assets/global/plugins/jquery.sparkline.min.js',
+
+                              './assets/pages/scripts/dashboard.min.js'
+                          ]
+                      });
+                  }]
+              }
             }
+          }
         })
 
-        .state('login', {
+        .state('root.login', {
           url: '/login',
-          templateUrl: 'views/login.html',
           data: {pageTitle: 'Login to CMS'},
-          controller: 'LoginController'
+          views: {
+            'main@': {
+              templateUrl: 'views/login.html',
+              controller: 'LoginController'
+            }
+          }
         })
 
-        .state('signup', {
+        .state('root.signup', {
           url: '/signup',
-          templateUrl: 'views/signup.html',
           data: {pageTitle: 'Sign Up for CMS'},
-          controller: 'SignupController'
-        })
-
-        // User Profile
-        .state("profile", {
-            url: "/profile",
-            templateUrl: "views/profile/main.html",
-            data: {pageTitle: 'User Profile'},
-            controller: "UserProfileController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'bbmCms',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css',
-                            './assets/pages/css/profile.css',
-
-                            './assets/global/plugins/jquery.sparkline.min.js',
-                            './assets/global/plugins/bootstrap-fileinput/bootstrap-fileinput.js',
-
-                            './assets/pages/scripts/profile.min.js',
-
-                            'metronic-js/controllers/UserProfileController.js'
-                        ]
-                    });
-                }]
+          views: {
+            'main@': {
+              templateUrl: 'views/signup.html',
+              controller: 'SignupController'
             }
+          }
         })
 
-        // User Profile Dashboard
-        .state("profile.dashboard", {
-            url: "/dashboard",
-            templateUrl: "views/profile/dashboard.html",
-            data: {pageTitle: 'User Profile'}
-        })
+        .state('root.content', {
+          abstract: true,
+          data: {pageTitle: 'Content Management'},
+          views: {
+            'main@': {
+              templateUrl: "views/content.html",
+              controller: "ContentController",
+              resolve: {
+                  deps: ['$ocLazyLoad', function($ocLazyLoad) {
+                      return $ocLazyLoad.load({
+                          name: 'bbmCms',
+                          insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
+                          files: [
+                              './assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
+                              './assets/apps/css/todo-2.css',
+                              './assets/global/plugins/select2/css/select2.min.css',
+                              './assets/global/plugins/select2/css/select2-bootstrap.min.css',
 
-        // User Profile Account
-        .state("profile.account", {
-            url: "/account",
-            templateUrl: "views/profile/account.html",
-            data: {pageTitle: 'User Account'}
-        })
+                              './assets/global/plugins/select2/js/select2.full.min.js',
 
-        // User Profile Help
-        .state("profile.help", {
-            url: "/help",
-            templateUrl: "views/profile/help.html",
-            data: {pageTitle: 'User Help'}
-        })
+                              './assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
 
-        // Todo
-        .state('content', {
-            abstract: true,
-            templateUrl: "views/content.html",
-            data: {pageTitle: 'Content Management'},
-            controller: "ContentController",
-            resolve: {
-                deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                    return $ocLazyLoad.load({
-                        name: 'bbmCms',
-                        insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                        files: [
-                            './assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css',
-                            './assets/apps/css/todo-2.css',
-                            './assets/global/plugins/select2/css/select2.min.css',
-                            './assets/global/plugins/select2/css/select2-bootstrap.min.css',
-
-                            './assets/global/plugins/select2/js/select2.full.min.js',
-
-                            './assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js',
-
-                            './assets/apps/scripts/todo-2.min.js',
-                        ]
-                    });
-                }]
+                              './assets/apps/scripts/todo-2.min.js',
+                          ]
+                      });
+                  }]
+              }
             }
+          }
         })
-        .state('content.article', {
+        .state('root.content.article', {
           url: "/content/article",
           data: {pageTitle: 'Article Content Management'},
-          templateUrl: 'views/article-main.html',
-          controller: 'ArticleMainController'
+          views: {
+            'main@': {
+              templateUrl: 'views/article-main.html',
+              controller: 'ArticleMainController'
+            }
+          }
         })
-        .state('content.articleJson', {
+        .state('root.content.articleJson', {
           url: "/content/articlejson",
           data: {pageTitle: 'Article Content Management from JSON'},
-          templateUrl: 'views/article-json.html',
-          controller: 'ArticleJSONController'
+          views: {
+            'main@': {
+              templateUrl: 'views/article-json.html',
+              controller: 'ArticleJSONController'
+            }
+          }
         })
-        .state('content.image', {
+        .state('root.content.image', {
           url: "/content/image",
           data: {pageTitle: 'Image Content Management'},
-          templateUrl: 'views/image-main.html',
-          controller: 'ImageMainController'
+          views: {
+            'main@': {
+              templateUrl: 'views/image-main.html',
+              controller: 'ImageMainController'
+            }
+          }
         })
-        .state('content.product', {
+        .state('root.content.product', {
           url: "/content/product",
           data: {pageTitle: 'Product Content Management'},
-          templateUrl: 'views/product-main.html',
-          controller: 'ProductMainController'
+          views: {
+            'main@': {
+              templateUrl: 'views/product-main.html',
+              controller: 'ProductMainController'
+            }
+          }
         })
-        .state('content.conversation', {
+        .state('root.content.conversation', {
           url: "/content/conversation",
           data: {pageTitle: 'Conversation Content Management'},
-          templateUrl: 'views/conversation-main.html',
-          controller: 'ConversationMainController'
+          views: {
+            'main@': {
+                templateUrl: 'views/conversation-main.html',
+                controller: 'ConversationMainController'
+            }
+          }
         })
 
 }]);

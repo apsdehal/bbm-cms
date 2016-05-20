@@ -6,10 +6,10 @@ function ContentController($rootScope, $scope, $state) {
     $rootScope.settings.layout.pageSidebarClosed = true;
 
     $scope.isActive = function (name) {
-      return $state.current.name === ('content.' + name);
+      return $state.current.name === ('root.content.' + name);
     }
 
-    $scope.currentName = $state.current.name.split('.')[1];
+    $scope.currentName = $state.current.name.split('.')[2];
 };
 
 ContentController.$inject = ['$rootScope', '$scope', '$state'];

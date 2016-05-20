@@ -11,21 +11,21 @@ bbmCms.controller('HeaderController',
       AuthService.logout();
     }
 
-    $scope.$on('$includeContentLoaded', function() {
+    $scope.$on('$viewContentLoaded', function() {
         Layout.initHeader(); // init header
     });
 }]);
 
 /* Setup Layout Part - Sidebar */
 bbmCms.controller('SidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+    $scope.$on('$viewContentLoaded', function() {
         Layout.initSidebar(); // init sidebar
     });
 }]);
 
 /* Setup Layout Part - Quick Sidebar */
 bbmCms.controller('QuickSidebarController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+    $scope.$on('$viewContentLoaded', function() {
        setTimeout(function(){
             QuickSidebar.init(); // init quick sidebar
         }, 2000)
@@ -34,14 +34,16 @@ bbmCms.controller('QuickSidebarController', ['$scope', function($scope) {
 
 /* Setup Layout Part - Theme Panel */
 bbmCms.controller('ThemePanelController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+    $scope.$on('$viewContentLoaded', function() {
         Demo.init(); // init theme panel
     });
 }]);
 
 /* Setup Layout Part - Footer */
 bbmCms.controller('FooterController', ['$scope', function($scope) {
-    $scope.$on('$includeContentLoaded', function() {
+    $scope.$on('$viewContentLoaded', function() {
         Layout.initFooter(); // init footer
     });
+}]);
+bbmCms.controller('MainController', ['$scope', function($scope) {
 }]);
