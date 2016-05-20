@@ -10,6 +10,7 @@ var uglify = require('gulp-uglify');
 var rtlcss = require('gulp-rtlcss');
 var concat = require('gulp-concat');
 var usemin = require('gulp-usemin');
+var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var runSequence = require('run-sequence');
@@ -67,9 +68,20 @@ gulp.task('prettify', function() {
 });
 
 gulp.task('concat', function () {
-  return gulp.src(['./web/js/**/*.js', '!./web/js/services/lb-services.js']).
+  gulp.src(['./web/js/app.js']).
+  pipe(gulp.dest('./web/dist/'));
+
+  gulp.src(['./web/js/app-config.js']).
+  pipe(gulp.dest('./web/dist/'));
+
+  gulp.src(['./web/js/**/*.js',
+            '!./web/js/services/lb-services.js',
+            '!./web/js/app.js',
+            '!./web/js/sample.config.js',
+            '!./web/js/app-config.js']).
           pipe(concat('main.js')).
           pipe(gulp.dest('./web/dist'));
+
 });
 
 gulp.task('usemin', function() {

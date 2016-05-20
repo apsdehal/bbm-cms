@@ -35,7 +35,7 @@ bbmCms.controller('QuickSidebarController', ['$scope', function($scope) {
 /* Setup Layout Part - Theme Panel */
 bbmCms.controller('ThemePanelController', ['$scope', function($scope) {
     $scope.$on('$viewContentLoaded', function() {
-        Demo.init(); // init theme panel
+        // Demo.init(); // init theme panel
     });
 }]);
 
