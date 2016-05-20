@@ -31,7 +31,7 @@ bbmCms.controller('LoginModalController', [
           $rootScope.user = data.user;
           $scope.message = false;
           $modalInstance.close();
-          $state.go('dashboard');
+          $state.go('root.dashboard');
         },
         reject: function (data) {
           $scope.message = data.message;
@@ -40,7 +40,7 @@ bbmCms.controller('LoginModalController', [
     }
 
     $scope.signup = function () {
-      $state.go('signup');
+      $state.go('root.signup');
     }
   }
 ]);

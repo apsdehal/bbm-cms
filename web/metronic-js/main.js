@@ -160,23 +160,23 @@ bbmCms.run(["$rootScope", "settings", "$state", 'AuthService',
     $rootScope.$on( '$stateChangeStart', function(e, toState  , toParams
                                                  , fromState, fromParams) {
 
-      if (toState.name === 'signup') {
+      if (toState.name === 'root.signup') {
         return;
       }
-      var isLogin = toState.name === "login";
+      var isLogin = toState.name === "root.login";
 
       // now, redirect only not authenticated
       AuthService.checkLogin({
         success: function () {
           if (isLogin) {
-            $state.go('dashboard');
+            $state.go('root.dashboard');
           }
 
         },
         reject: function () {
           e.preventDefault(); // stop current execution
           if (!isLogin) {
-            $state.go('login'); // go to login
+            $state.go('root.login'); // go to login
           }
         }
       })

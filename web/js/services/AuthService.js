@@ -1,4 +1,4 @@
-function AuthService($rootScope, $state, UserResource) {
+function AuthService($rootScope, $state, User) {
 
   this.user = {};
   this.isLoggedIn = false;
@@ -30,14 +30,14 @@ function AuthService($rootScope, $state, UserResource) {
       reject({message: 'Username and Password should not be empty'});
       return;
     }
-    UserResource.login({
-      username: props.username, password: props.password
+    User.login({
+      email: props.username, password: props.password
     }).$promise.then(function (data) {
-      $rootScope.user = data;
-      $rootScope.$broadcast('user:change', data);
-      self.user = data;
+      $rootScope.user = data.user;
+      $rootScope.$broadcast('user:change', data.user);
+      self.user = data.user;
       self.isLoggedIn = true;
-      success({message: 'Logged in successfully', user: data});
+      success({message: 'Logged in successfully', user: data.user});
     }, function (err) {
       self.isLoggedIn = false;
       reject({message: 'Username or Password is incorrect', error: err});
@@ -51,7 +51,7 @@ function AuthService($rootScope, $state, UserResource) {
   this.checkLogin = function(props) {
     props = props || {};
     var self = this;
-    UserResource.loggedin()
+    User.getCurrent()
     .$promise
     .then(function (data) {
       var success = props.success || noop;
@@ -77,7 +77,7 @@ function AuthService($rootScope, $state, UserResource) {
     }
 
     var reject = props.reject || noop;
-    UserResource.logout()
+    User.logout()
     .$promise
     .then(function (data) {
       $rootScope.user = {};
@@ -85,7 +85,7 @@ function AuthService($rootScope, $state, UserResource) {
       self.isLoggedIn = false;
       $rootScope.$broadcast('user:change', {});
       success({message: 'Log out successful'});
-      $state.go('login');
+      $state.go('root.login');
     }, function (err) {
       reject({message: 'Log out failure', error: err})
     });
@@ -114,16 +114,16 @@ function AuthService($rootScope, $state, UserResource) {
       email: props.email})
     .$promise
     .then(function (data) {
-      $rootScope.user = data;
-      $rootScope.$broadcast('user:change', data);
-      self.user = data;
+      $rootScope.user = data.user;
+      $rootScope.$broadcast('user:change', data.user);
+      self.user = data.user;
       self.isLoggedIn = true;
-      success({message: 'Signed up successfully', user: data});
+      success({message: 'Signed up successfully', user: data.user});
     }, function (data) {
       reject({message: 'Failed to signup'});
     })
   }
 }
 
-AuthService.$inject = ['$rootScope', '$state', 'UserResource'];
+AuthService.$inject = ['$rootScope', '$state', 'User'];
 bbmCms.service('AuthService', AuthService);
