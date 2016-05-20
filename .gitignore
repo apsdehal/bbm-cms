@@ -4,3 +4,4 @@ server/config/config.js
 web/metronic-js/config.js
 web/bower_components
 web/dist
+build

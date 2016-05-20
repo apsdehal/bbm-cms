@@ -61,22 +61,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
           views: {
             'main@': {
               templateUrl: "views/dashboard.html",
-              controller: "DashboardController",
-              resolve: {
-                  deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                      return $ocLazyLoad.load({
-                          name: 'bbmCms',
-                          insertBefore: '#ng_load_plugins_before', // load the above css files before a LINK element with this ID. Dynamic CSS files must be loaded between core and theme css files
-                          files: [
-                              './assets/global/plugins/morris/morris.css',
-                              './assets/global/plugins/morris/morris.min.js',
-                              './assets/global/plugins/morris/raphael-min.js',
-
-                              './assets/pages/scripts/dashboard.min.js'
-                          ]
-                      });
-                  }]
-              }
+              controller: "DashboardController"
             }
           }
         })
@@ -109,18 +94,7 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
           views: {
             'main@': {
               templateUrl: "views/content.html",
-              controller: "ContentController",
-              resolve: {
-                  deps: ['$ocLazyLoad', function($ocLazyLoad) {
-                      return $ocLazyLoad.load({
-                          name: 'bbmCms',
-                          insertBefore: '#ng_load_plugins_before', // load the above css files before '#ng_load_plugins_before'
-                          files: [
-                              './assets/apps/css/todo-2.css'
-                          ]
-                      });
-                  }]
-              }
+              controller: "ContentController"
             }
           }
         })

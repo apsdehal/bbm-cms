@@ -6,20 +6,12 @@ Metronic AngularJS App Main Script
 var bbmCms = angular.module('bbmCms', [
     'ui.router',
     'ui.bootstrap',
-    'ui.select',
-    'oc.lazyLoad',
+    'ui.select',,
     'ngSanitize',
     'ngResource',
     'lbServices',
     'angularTrix'
 ]);
-
-/* Configure ocLazyLoader(refer: https://github.com/ocombe/ocLazyLoad) */
-bbmCms.config(['$ocLazyLoadProvider', function($ocLazyLoadProvider) {
-    $ocLazyLoadProvider.config({
-        // global configs go here
-    });
-}]);
 
 /********************************************
  BEGIN: BREAKING CHANGE in AngularJS v1.3.x:

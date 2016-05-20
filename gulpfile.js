@@ -18,10 +18,19 @@ var rev = require('gulp-rev')
 gulp.task('sass', function () {
   // bootstrap compilation
 	gulp.src('./web/sass/style.scss').pipe(sass()).pipe(gulp.dest('./web/assets/style.css'));
+});
 
 //*** SASS watch(realtime) compiler task
 gulp.task('sass:watch', function () {
 	gulp.watch('./web/sass/**/*.scss', ['sass']);
+});
+
+
+gulp.task('copy', function () {
+  gulp.src('./web/views/**/*.html').pipe(gulp.dest('./build/views/'))
+  gulp.src('./web/fonts/**/*').pipe(gulp.dest('./build/fonts/'))
+  gulp.src('./web/images/**/*').pipe(gulp.dest('./build/images/'))
+  gulp.src('./web/favicon.ico').pipe(gulp.dest('./build/'))
 });
 
 //*** CSS & JS minify task
@@ -81,9 +90,9 @@ gulp.task('usemin', function() {
       css: [ minifyCss(), rev() ],
       js: [ uglify({ outSourceMap: true }), rev() ],
     }))
-    .pipe(gulp.dest('./web/'));
+    .pipe(gulp.dest('./build/'));
 });
 
 gulp.task('watch', function () {
-  return gulp.watch('./web/js/**/*.js', ['concat']);
+  return gulp.watch('./web/js/**/*.js', ['concat', 'usemin', 'copy']);
 });
