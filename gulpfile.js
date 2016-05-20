@@ -84,18 +84,6 @@ gulp.task('concat', function () {
 
 });
 
-gulp.task('usemin', function() {
-  return gulp.src('./*.html')
-    .pipe(usemin({
-      css: [ rev() ],
-      html: [ minifyHtml({ empty: true }) ],
-      js: [ uglify(), rev() ],
-      inlinejs: [ uglify() ],
-      inlinecss: [ minifyCss(), 'concat' ]
-    }))
-    .pipe(gulp.dest('build/'));
-});
-
 
 gulp.task('usemin', function() {
   return gulp.src('./web/index.html')
