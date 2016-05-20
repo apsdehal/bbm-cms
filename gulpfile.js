@@ -9,6 +9,9 @@ var rename = require('gulp-rename');
 var uglify = require('gulp-uglify');
 var rtlcss = require('gulp-rtlcss');
 var concat = require('gulp-concat');
+var usemin = require('gulp-usemin');
+var minifyCss = require('gulp-minify-css');
+var rev = require('gulp-rev')
 
 
 //*** SASS compiler task
@@ -112,6 +115,27 @@ gulp.task('concat', function () {
           pipe(gulp.dest('./web/dist'));
 });
 
+gulp.task('usemin', function() {
+  return gulp.src('./*.html')
+    .pipe(usemin({
+      css: [ rev() ],
+      html: [ minifyHtml({ empty: true }) ],
+      js: [ uglify(), rev() ],
+      inlinejs: [ uglify() ],
+      inlinecss: [ minifyCss(), 'concat' ]
+    }))
+    .pipe(gulp.dest('build/'));
+});
+
+
+gulp.task('usemin', function() {
+  return gulp.src('./web/index.html')
+    .pipe(usemin({
+      css: [ minifyCss(), rev() ],
+      js: [ uglify({ outSourceMap: true }), rev() ],
+    }))
+    .pipe(gulp.dest('./web/'));
+});
 
 gulp.task('watch', function () {
   return gulp.watch('./web/js/**/*.js', ['concat']);
