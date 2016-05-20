@@ -11,7 +11,8 @@ var rtlcss = require('gulp-rtlcss');
 var concat = require('gulp-concat');
 var usemin = require('gulp-usemin');
 var minifyCss = require('gulp-minify-css');
-var rev = require('gulp-rev')
+var rev = require('gulp-rev');
+var runSequence = require('run-sequence');
 
 
 //*** SASS compiler task
@@ -95,4 +96,8 @@ gulp.task('usemin', function() {
 
 gulp.task('watch', function () {
   return gulp.watch('./web/js/**/*.js', ['concat', 'usemin', 'copy']);
+});
+
+gulp.task('build', function (callback) {
+  return runSequence('concat', 'usemin', 'copy', callback);
 });
