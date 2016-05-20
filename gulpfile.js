@@ -95,7 +95,9 @@ gulp.task('usemin', function() {
 });
 
 gulp.task('watch', function () {
-  return gulp.watch('./web/js/**/*.js', ['concat', 'usemin', 'copy']);
+  return gulp.watch('./web/js/**/*.js', function () {
+     return  runSequence('concat', 'usemin', 'copy')
+  });
 });
 
 gulp.task('build', function (callback) {
