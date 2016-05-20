@@ -2,6 +2,19 @@
 TODO Page
 ***/
 /* Cubic Bezier Transition */
+.bbm-logo {
+  line-height: 3.75;
+  padding-left: 25%;
+}
+
+.bbm-logo span {
+  color: white;
+}
+
+.bbm-logo .color--red {
+  color: red;
+}
+
 .todo-sidebar {
   float: left;
   width: 230px;

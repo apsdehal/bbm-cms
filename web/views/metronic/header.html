@@ -2,8 +2,7 @@
 <div class="page-header-inner">
     <!-- BEGIN LOGO -->
     <div class="page-logo">
-        <a href="#/">
-            <img src="{{settings.layoutPath}}/img/logo.png" alt="logo" class="logo-default" /> </a>
+        <a href="#/" class="bbm-logo"><b><span>BBM</span> <span class="color--red">CMS</span></b></a>
         <div class="menu-toggler sidebar-toggler">
             <span></span>
             <!-- DOC: Remove the above "hide" to enable the sidebar toggler button on header -->
@@ -54,7 +53,7 @@
             <!-- BEGIN QUICK SIDEBAR TOGGLER -->
             <!-- DOC: Apply "dropdown-dark" class after below "dropdown-extended" to change the dropdown styte -->
             <li class="dropdown dropdown-quick-sidebar-toggler">
-                <a href="javascript:;" class="dropdown-toggle">
+                <a href="#" ng-click="logoutUser()" class="dropdown-toggle">
                     <i class="icon-logout"></i>
                 </a>
             </li>
