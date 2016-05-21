@@ -1,0 +1,163 @@
+<div class="todo-content">
+    <div class="col-md-12">
+        <br/>
+    </div>
+    <div class="portlet light">
+        <!-- PROJECT HEAD -->
+        <div class="portlet-title">
+            <div class="caption col-md-3 col-sm-12">
+                <i class="icon-bar-chart font-green hide"></i>
+                <span class="caption-helper">Manage:</span> &nbsp;
+                <span class="caption-subject font-green bold uppercase">Images</span>
+            </div>
+            <div class="col-md-6">
+                <div class="col-md-1">
+                </div>
+                <div class="col-md-3 text-center">
+                    <input type="file" name="file" id="file" class="js-file-input inputfile" data-caption="{count} files selected"/>
+                    <label for="file" class="btn btn-danger">Choose a file</label>
+
+                </div>
+                <div class="col-md-3 text-center">
+                    <button class="btn btn-primary" ng-click="loadFile()">Upload</button>
+                </div>
+                <div class="col-md-3 text-center">
+                    <button ng-class="{ 'disabled': !isFileLoaded}" class="btn center btn-success" ng-click="downloadFile()">Download</button>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+
+            <div class="actions col-md-3 col-sm-12">
+                <div class="btn-group pull-right">
+                    <div class="btn green btn-circle btn-sm" ng-click="setupNewImage()">New Image</div>
+                </div>
+            </div>
+        </div>
+        <!-- end PROJECT HEAD -->
+        <div ng-show="isFileLoaded" class="portlet-body">
+            <div class="row">
+                <div class="col-md-3 col-sm-0">
+                </div>
+                <content-search data-get-content="getImages(val)" data-current-content="currentImage" data-content-type="Image" data-label-attr="title"></content-search>
+                <div class="col-md-3 col-sm-0">
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-md-5 col-sm-4">
+                    <div style="min-height: 600px;">
+                        <div class="col-md-12 text-center">
+                            <uib-pagination boundary-links="true" total-items="totalImages" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
+                        <div class="todo-tasklist">
+                            <div ng-repeat="image in images.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+                                <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentImage($index)">
+                                    <div class="todo-tasklist-item-title">
+                                      {{image.title}}
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="todo-tasklist-item-text"> {{image.description}} </div>
+                                    <div class="todo-tasklist-controls pull-left">
+                                        <span class="todo-tasklist-date">
+                                        <span class="todo-tasklist-badge badge badge-roundless">by {{image.author}}</span>
+                                    </div>
+
+                                </div>
+                                <br/>
+                            </div>
+                            <div ng-show="!images.length">
+                                <div class="col-md-12">
+                                    <div class="col-md-3">
+                                    </div>
+                                    <div class="col-md-6">
+                                    Upload JSON file to view its images
+                                    </div>
+                                    <div class="col-md-3">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <uib-pagination boundary-links="true" total-items="totalImages" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="todo-tasklist-devider"> </div>
+                <div class="portlet light col-md-7 col-sm-8">
+                    <div style="min-height: 600px;">
+                        <form action="#" class="form-horizontal">
+                            <!-- TASK HEAD -->
+                            <div class="form">
+                                <div class="form-group">
+                                    <div class="todo-tasklist-item-title col-md-12">Author:</div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Author..." ng-model="currentImage.author">
+                                    </div>
+                                </div>
+                                <!-- END TASK HEAD -->
+                                <!-- TASK TITLE -->
+                                <div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">Title:</div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Title..." ng-model="currentImage.title">
+                                        </div>
+                                    </div>
+                                    <!-- TASK DESC -->
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">Content:
+                                        </div>
+                                        <div class="col-md-12">
+                                            <trix-editor angular-trix class="editor" rows="8" ng-model="currentImage.content" placeholder="Image Content..."></trix-editor>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">
+                                        Description
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Description" ng-model="currentImage.description">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">
+                                        Link
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Link" ng-model="currentImage.link">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">
+                                        Image URL:
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Image URL" ng-model="currentImage.imgURL">
+                                        </div>
+                                    </div>
+                                    <!-- END TASK DESC -->
+                                    <!-- TASK TAGS -->
+                                    <div class="form-group">
+                                      <div class="todo-tasklist-item-title col-md-12">
+                                      Tags:
+                                      </div>
+                                      <duv class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Tags" ng-model="currentImage.tags">
+                                      </duv>
+                                    </div>
+
+                                    <!-- TASK TAGS -->
+                                    <div class="form-actions right todo-form-actions">
+                                        <button class="btn btn-circle btn-sm green" ng-click="saveCurrentImage($event)">Save Changes</button>
+                                        <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentImage($event)">Delete image</button>
+                                    </div>
+                                </div>
+                           </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

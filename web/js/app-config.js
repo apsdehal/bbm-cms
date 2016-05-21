@@ -128,6 +128,16 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
             }
           }
         })
+        .state('root.content.imageJson', {
+          url: "/content/imagejson",
+          data: {pageTitle: 'Image Content Management from JSON'},
+          views: {
+            'main@': {
+              templateUrl: 'views/image-json.html',
+              controller: 'ImageJSONController'
+            }
+          }
+        })
         .state('root.content.product', {
           url: "/content/product",
           data: {pageTitle: 'Product Content Management'},
