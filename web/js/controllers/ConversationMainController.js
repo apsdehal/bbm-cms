@@ -62,7 +62,7 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
 
   Discussion.find(
     {filter:
-      {order: 'storyId DESC',
+      {order: 'created DESC',
        limit: 5}},
     function (list) {
       console.log(list);

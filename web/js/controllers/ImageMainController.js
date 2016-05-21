@@ -62,7 +62,7 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
 
   Image.find(
     {filter:
-      {order: 'storyId DESC',
+      {order: 'created DESC',
        limit: 5}},
     function (list) {
       console.log(list);
