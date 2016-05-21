@@ -61,7 +61,12 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                            <div class="todo-tasklist-item-title pull-left">Category: {{ currentImage.category[0] }}</div>
+                                    <div class="todo-tasklist-item-title col-md-12">Category:
+                                    </div>
+                                    <div class="col-md-12">
+                                      <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentImage.category[0]">
+                                      <br/>
+                                    </div>
                                     </div>
                                     <div class="todo-tasklist-item-title col-md-12">Title:</div>
                                     <div class="col-md-12">

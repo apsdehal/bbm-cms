@@ -90,53 +90,29 @@
                             <!-- TASK HEAD -->
                             <div class="form">
                                 <div class="form-group">
-                                    <div class="todo-tasklist-item-title col-md-12">Author:</div>
                                     <div class="col-md-12">
-                                        <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Author..." ng-model="currentImage.author">
+                                    <div class="todo-tasklist-item-title col-md-12">Category:
+                                    </div>
+                                    <div class="col-md-12">
+                                      <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentImage.category[0]">
+                                      <br/>
+                                    </div>
+                                    </div>
+                                    <div class="todo-tasklist-item-title col-md-12">Title:</div>
+                                    <div class="col-md-12">
+                                        <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Title..." ng-model="currentImage.title">
                                     </div>
                                 </div>
-                                <!-- END TASK HEAD -->
-                                <!-- TASK TITLE -->
-                                <div>
-                                    <div class="form-group">
-                                        <div class="todo-tasklist-item-title col-md-12">Title:</div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Title..." ng-model="currentImage.title">
-                                        </div>
+                                <!-- TASK DESC -->
+                                <div class="form-group">
+                                    <div class="todo-tasklist-item-title col-md-12">Image:
                                     </div>
-                                    <!-- TASK DESC -->
-                                    <div class="form-group">
-                                        <div class="todo-tasklist-item-title col-md-12">Content:
-                                        </div>
-                                        <div class="col-md-12">
-                                            <trix-editor angular-trix class="editor" rows="8" ng-model="currentImage.content" placeholder="Image Content..."></trix-editor>
-                                        </div>
+                                    <div class="col-md-12">
+                                      <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentImage.url">
+                                      <br/>
+                                      <img ng-src="{{currentImage.url}}" title="{{currentImage.title}}"/>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="todo-tasklist-item-title col-md-12">
-                                        Description
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Description" ng-model="currentImage.description">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="todo-tasklist-item-title col-md-12">
-                                        Link
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Link" ng-model="currentImage.link">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="todo-tasklist-item-title col-md-12">
-                                        Image URL:
-                                        </div>
-                                        <div class="col-md-12">
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Image URL" ng-model="currentImage.imgURL">
-                                        </div>
-                                    </div>
-                                    <!-- END TASK DESC -->
+                                </div>                                    <!-- END TASK DESC -->
                                     <!-- TASK TAGS -->
                                     <div class="form-group">
                                       <div class="todo-tasklist-item-title col-md-12">
@@ -144,7 +120,7 @@
                                       </div>
                                       <duv class="col-md-12">
                                             <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Tags" ng-model="currentImage.tags">
-                                      </duv>
+                                      </div>
                                     </div>
 
                                     <!-- TASK TAGS -->
