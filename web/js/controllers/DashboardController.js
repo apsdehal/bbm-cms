@@ -60,6 +60,13 @@ function DashboardController($rootScope, $scope, $http, $timeout,
 
     });
 
+    $scope.getActivityClass = function (activity) {
+      switch (activity.type) {
+        case 'like': return 'fa-thumbs-o-up';
+        case 'share': return 'fa-share-alt';
+        default: return 'fa-check';
+      }
+    }
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageContentWhite = true;
     $rootScope.settings.layout.pageBodySolid = false;
