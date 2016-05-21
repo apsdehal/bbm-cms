@@ -99,64 +99,8 @@
                                         <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentArticle($event)">Delete article</button>
                                     </div>
                                 </div>
-                                <div class="tabbable-line">
-                                    <ul class="nav nav-tabs ">
-                                        <li class="active">
-                                            <a href="#" data-target="#tab_1" data-toggle="tab"> Comments </a>
-                                        </li>
-                                    </ul>
-                                    <div class="tab-content">
-                                        <div class="tab-pane active" id="tab_1">
-                                            <!-- TASK COMMENTS -->
-                                            <div class="form-group" ng-if="currentArticle.comments.length">
-                                                <div class="col-md-12">
-                                                    <ul class="media-list">
-                                                        <li class="media" ng-repeat="comment in currentArticle.comments">
-                                                            <a class="pull-left" href="#">
-                                                                <img class="todo-userpic" src="{{comment.page.image}}" width="27px" height="27px"> </a>
-                                                            <div class="media-body todo-comment">
-                                                                <p class="todo-comment-head">
-                                                                    <span class="todo-comment-username">{{comment.page.displayName}}</span> &nbsp;
-                                                                    <span class="todo-comment-date">{{ comment.created | formatTime }}</span>
-                                                                </p>
-                                                                <p class="todo-text-color"> {{comment.text}} </p>
-                                                            </div>
-                                                        </li>
-                                                        </ul>
-                                                </div>
+                                <comments data-current="currentArticle"</comments>
 
-                                            </div>
-                                            <!-- END TASK COMMENTS -->
-                                            <!-- TASK COMMENT FORM -->
-                                            <div class="form-group" ng-if="!currentArticle.comments.length">
-                                                <div class="col-md-12">
-                                                    <ul class="media-list">
-                                                        <li class="media">
-                                                            <div class="media-body">
-                                                            No comments to show
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="col-md-12">
-                                                    <ul class="media-list">
-                                                        <li class="media">
-                                                            <a class="pull-left" href="#">
-                                                                <img class="todo-userpic" src="{{settings.assetsPath}}/pages/media/users/avatar4.jpg" width="27px" height="27px"> </a>
-                                                            <div class="media-body">
-                                                                <textarea class="form-control todo-taskbody-taskdesc" rows="4" placeholder="Type comment..."></textarea>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                    <button type="button" class="pull-right btn btn-sm btn-circle green"> &nbsp; Submit &nbsp; </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                            <!-- END TASK COMMENT FORM -->
-                                    </div>
-                                </div>
                             </div>
                         </form>
                     </div>
