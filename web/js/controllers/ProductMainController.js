@@ -4,6 +4,8 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
   var currentSelected = false;
   var isNewProduct = false;
   var user = false;
+  var skip = 10;
+  var limit = 10;
 
   $scope.changeCurrentProduct = function (index) {
     if ($scope.products.length > index) {
@@ -59,12 +61,32 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
     });
   }
 
+  $scope.nextProducts = function () {
+    if ($scope.busy) {
+      return;
+    }
+
+    $scope.busy = true;
+
+    Product.find(
+      {filter:
+        {order: 'storyId DESC',
+         skip: skip,
+         limit: limit}},
+      function (list) {
+        $scope.busy = false;
+        $scope.products = $scope.products.concat(list);
+        skip += limit;
+      }
+    );
+  }
+
+
   Product.find(
     {filter:
       {order: 'storyId DESC',
-       limit: 5}},
+       limit: limit}},
     function (list) {
-      console.log(list);
       $scope.products = list;
       $scope.currentProduct = list[0];
     }

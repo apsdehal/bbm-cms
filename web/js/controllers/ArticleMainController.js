@@ -5,7 +5,8 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
   var currentSelected = false;
   var isNewArticle = false;
   var user = false;
-
+  var skip = 10;
+  var limit = 10;
 
   $scope.editButtonText = 'render';
   $scope.toggleEdit = function () {
@@ -73,10 +74,30 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
     });
   }
 
+  $scope.nextArticles = function () {
+    if ($scope.busy) {
+      return;
+    }
+
+    $scope.busy = true;
+
+    Article.find(
+      {filter:
+        {order: 'storyId DESC',
+         skip: skip,
+         limit: limit}},
+      function (list) {
+        $scope.busy = false;
+        $scope.articles = $scope.articles.concat(list);
+        skip += limit;
+      }
+    );
+  }
+
   Article.find(
     {filter:
       {order: 'storyId DESC',
-       limit: 5}},
+       limit: limit}},
     function (list) {
       $scope.articles = list;
       $scope.currentArticle = list[0];

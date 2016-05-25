@@ -4,7 +4,8 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
   var currentSelected = false;
   var isNewConversation = false;
   var user = false;
-
+  var skip = 10;
+  var limit = 10;
 
   $scope.changeCurrentConversation = function (index) {
     if ($scope.conversations.length > index) {
@@ -54,6 +55,27 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
     });
   }
 
+
+  $scope.nextConversations = function () {
+    if ($scope.busy) {
+      return;
+    }
+
+    $scope.busy = true;
+
+    Discussion.find(
+      {filter:
+        {order: 'created DESC',
+         skip: skip,
+         limit: limit}},
+      function (list) {
+        $scope.busy = false;
+        $scope.conversations = $scope.conversations.concat(list);
+        skip += limit;
+      }
+    );
+  }
+
   $scope.setupNewConversation = function () {
     $scope.currentConversation = false;
     isNewConversation = true;
@@ -63,9 +85,8 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
   Discussion.find(
     {filter:
       {order: 'created DESC',
-       limit: 5}},
+       limit: limit}},
     function (list) {
-      console.log(list);
       $scope.conversations = list;
       $scope.currentConversation = list[0];
     }

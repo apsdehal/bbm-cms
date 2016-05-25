@@ -18,8 +18,8 @@
         <div class="portlet-body">
             <div class="row">
                 <div class="col-md-5 col-sm-4">
-                    <div style="min-height: 600px;">
-                        <div class="todo-tasklist">
+                    <div style="max-height: 600px; overflow: auto">
+                        <div class="todo-tasklist" infinite-scroll="nextConversations()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
                             <div ng-repeat="conversation in conversations">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentConversation($index)">
                                     <div class="todo-tasklist-item-title">
@@ -35,6 +35,7 @@
                                 </div>
                                 <br/>
                             </div>
+                            <div ng-show="busy" class="text-center">Loading ...</div>
                         </div>
                     </div>
                 </div>

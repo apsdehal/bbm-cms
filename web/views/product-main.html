@@ -18,8 +18,8 @@
         <div class="portlet-body">
             <div class="row">
                 <div class="col-md-5 col-sm-4">
-                    <div style="min-height: 600px;">
-                        <div class="todo-tasklist">
+                    <div style="max-height: 600px; overflow: auto">
+                        <div class="todo-tasklist" infinite-scroll="nextProducts()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
                             <div ng-repeat="product in products">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentProduct($index)">
                                     <div class="todo-tasklist-item-title">                                    <img class="todo-userpic" ng-src="{{::product.page.image}}" width="27px" height="27px">{{::product.title}} </div>
@@ -29,11 +29,12 @@
                                         <span class="todo-tasklist-date">
                                             <i class="fa fa-thumbs-o-up"></i> {{::product.likes.length}} </span>
                                         <span class="todo-tasklist-badge badge badge-roundless">{{::product.price_curr}}</span>
-                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::product.page.displayName}}</span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::(product.page.displayName || product.brand)}}</span>
                                     </div>
                                 </div>
                                 <br/>
                             </div>
+                            <div ng-show="busy" class="text-center">Loading ...</div>
                         </div>
                     </div>
                 </div>
@@ -52,7 +53,7 @@
                                                   <img class="todo-userpic" src="{{currentProduct.page.image}}" width="27px" height="27px"> </a>
                                               <div class="media-body todo-comment">
                                                   <p class="todo-comment-head">
-                                                      <span class="todo-comment-username">{{currentProduct.page.displayName}}</span> &nbsp;
+                                                      <span class="todo-comment-username">{{(currentProduct.page.displayName || currentProduct.brand)}}</span> &nbsp;
                                                       <span class="todo-comment-date">{{ currentProduct.updated | formatTime }}</span>
                                                   </p>
                                               </div>

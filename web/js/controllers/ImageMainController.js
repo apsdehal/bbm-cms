@@ -4,6 +4,8 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
   var currentSelected = false;
   var isNewImage = false;
   var user = false;
+  var skip = 10;
+  var limit = 10;
 
 
   $scope.changeCurrentImage = function (index) {
@@ -60,10 +62,31 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
     });
   }
 
+  $scope.nextImages = function () {
+    if ($scope.busy) {
+      return;
+    }
+
+    $scope.busy = true;
+
+    Image.find(
+      {filter:
+        {order: 'created DESC',
+         skip: skip,
+         limit: limit}},
+      function (list) {
+        $scope.busy = false;
+        $scope.images = $scope.images.concat(list);
+        skip += limit;
+      }
+    );
+  }
+
+
   Image.find(
     {filter:
       {order: 'created DESC',
-       limit: 5}},
+       limit: limit}},
     function (list) {
       console.log(list);
       $scope.images = list;
