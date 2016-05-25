@@ -26,6 +26,9 @@
                                       <img class="todo-userpic" ng-src="{{::image.page.image}}" width="27px" height="27px" >{{::image.title}}
                                     </div>
                                     <div class="divider"></div>
+                                    <div class="todo-tasklist-item-text text-center">
+                                    <img ng-src="{{::image.url}}" width="90px" height="90px" >
+                                    </div>
                                     <div class="todo-tasklist-controls pull-left">
                                         <span class="todo-tasklist-date">
                                             <i class="fa fa-thumbs-o-up"></i> {{::image.likes.length}} </span>
@@ -62,10 +65,10 @@
 
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                    <div class="todo-tasklist-item-title col-md-12">Category:
+                                    <div class="todo-tasklist-item-title">Category:
                                     </div>
-                                    <div class="col-md-12">
-                                      <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentImage.category[0]">
+                                    <div>
+                                      <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Category" ng-model="currentImage.category[0]">
                                       <br/>
                                     </div>
                                     </div>
