@@ -13,7 +13,8 @@ var usemin = require('gulp-usemin');
 var clean = require('gulp-clean');
 var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
-var runSequence = require('run-sequence');
+var clean = require('gulp-clean');
+var gulpSequence = require('gulp-sequence').use(gulp);
 
 
 //*** SASS compiler task
@@ -84,6 +85,9 @@ gulp.task('concat', function () {
 
 });
 
+gulp.task('clean', function () {
+  return gulp.src('build', {read: false}).pipe(clean());
+});
 
 gulp.task('usemin', function() {
   return gulp.src('./web/index.html')
@@ -96,10 +100,8 @@ gulp.task('usemin', function() {
 
 gulp.task('watch', function () {
   return gulp.watch('./web/js/**/*.js', function () {
-     return  runSequence('concat', 'usemin', 'copy')
+     return  gulpSequence('clean', 'concat', 'usemin', 'copy')
   });
 });
 
-gulp.task('build', function (callback) {
-  return runSequence('concat', 'usemin', 'copy', callback);
-});
+gulp.task('build', gulpSequence('clean', 'concat', 'usemin', 'copy'));
