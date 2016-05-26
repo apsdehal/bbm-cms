@@ -7,15 +7,11 @@ var express = require('express');
 var session = require('express-session');
 var compression = require('compression');
 var morgan = require('morgan');
-var cookieParser = require('cookie-parser');
-var cookieSession = require('cookie-session');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 
-var mongoStore = require('connect-mongo')(session);
 var flash = require('connect-flash');
 var winston = require('winston');
-var config = require('./config');
 var pkg = require('../../package.json');
 
 var env = process.env.NODE_ENV || 'development';
@@ -71,19 +67,6 @@ module.exports = function (app, passport) {
     }
   }));
 
-  // cookieParser should be above session
-  app.use(cookieParser());
-  app.use(cookieSession({ secret: 'secret' }));
-  app.use(session({
-    secret: pkg.name,
-    proxy: true,
-    resave: true,
-    saveUninitialized: true,
-    store: new mongoStore({
-      url: config.db,
-      collection : 'sessions'
-    })
-  }));
 
   // use passport session
   app.use(passport.initialize());
