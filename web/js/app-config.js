@@ -89,6 +89,16 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
         })
 
         .state('root.content', {
+          url: '/expert',
+          data: {pageTitle: 'Expert Management'},
+          views: {
+            'main@': {
+              templateUrl: "views/expert.html",
+              controller: "ExpertController"
+            }
+          }
+        })
+        .state('root.content', {
           abstract: true,
           data: {pageTitle: 'Content Management'},
           views: {
