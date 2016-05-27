@@ -17,6 +17,24 @@ function ExpertController($scope, Page, ExpertService) {
     $scope.currentExpert = $scope.experts[index];
   }
 
+  $scope.saveCurrentProject = function (event, index) {
+    event.preventDefault();
+    if ($scope.currentExpert.projects.length < index) {
+      return false;
+    }
+
+    $scope.currentExpert.projects[index].$save();
+  }
+
+  $scope.deleteCurrentProject = function (event, index) {
+    event.preventDefault();
+    if ($scope.currentExpert.projects.length < index) {
+      return false;
+    }
+
+    $scope.currentExpert.projects[index].$delete();
+  }
+
   ExpertService.getExperts(1).then(function (data) {
     data = data.data;
     $scope.totalExperts = data.response.numFound;
