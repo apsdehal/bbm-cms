@@ -59,6 +59,27 @@
                 <div class="todo-tasklist-devider"> </div>
                 <div class="portlet light col-md-7 col-sm-8">
                     <div style="min-height: 600px;">
+                      <div class="form" style="overflow: auto">
+                        <div class="form-group">
+                          <div class="col-md-12 media">
+                            <a class="pull-left" href="#">
+                            <img class="todo-userpic" src="{{currentExpert.image}}" width="27px" height="27px">
+                            </a>
+                            <div class="media-body todo-comment">
+                              <p class="todo-comment-head">
+                                  <span class="todo-comment-username">{{currentExpert.title}} by {{currentExpert.displayName}}</span> &nbsp;
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12">{{currentExpert['_company.about']}}</div>
+                        </div>
+                      </div>
+                      <br/>
+                      <div class="col-md-12">
+                        <uib-accordion close-others="oneAtATime">
+                          <uib-accordion-group heading={{project.title}} ng-repeat="project in currentExpert.projects"></uib-accordion-group>
+                        </uib-accordion>
+                      </div>
                     </div>
                 </div>
             </div>
