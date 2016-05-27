@@ -15,6 +15,7 @@ var minifyCss = require('gulp-minify-css');
 var rev = require('gulp-rev');
 var clean = require('gulp-clean');
 var gulpSequence = require('gulp-sequence').use(gulp);
+var runSequence = require('run-sequence');
 
 
 //*** SASS compiler task
@@ -98,10 +99,11 @@ gulp.task('usemin', function() {
     .pipe(gulp.dest('./build/'));
 });
 
+gulp.task('build', gulpSequence('clean', 'concat', 'usemin', 'copy'));
+
 gulp.task('watch', function () {
   return gulp.watch('./web/js/**/*.js', function () {
-     return  gulpSequence('clean', 'concat', 'usemin', 'copy')
+    return runSequence('clean', 'concat', 'usemin', 'copy');
   });
 });
 
-gulp.task('build', gulpSequence('clean', 'concat', 'usemin', 'copy'));

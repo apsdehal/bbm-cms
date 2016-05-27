@@ -1,0 +1,112 @@
+<div class="todo-content">
+    <div class="portlet light">
+        <!-- PROJECT HEAD -->
+        <div class="portlet-title">
+            <div class="caption col-md-3 col-sm-12">
+                <i class="icon-bar-chart font-green hide"></i>
+                <span class="caption-helper">Manage:</span> &nbsp;
+                <span class="caption-subject font-green bold uppercase">Experts</span>
+            </div>
+            <content-search data-get-content="getExperts(val)" data-current-content="currentExpert" data-content-type="expert" data-label-attr="_company.name"></content-search>
+            <div class="actions col-md-3 col-sm-12">
+                <div class="btn-group pull-right">
+                    <div class="btn green btn-circle btn-sm" ng-click="setupNewexpert()">New expert</div>
+                </div>
+            </div>
+        </div>
+        <!-- end PROJECT HEAD -->
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-4">
+                    <div style="max-height: 600px; overflow: auto;">
+                        <div class="todo-tasklist" infinite-scroll="nextexperts()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
+                            <div ng-repeat="expert in experts">
+                                <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentexpert($index)">
+                                    <div class="todo-tasklist-item-title">
+                                      <img class="todo-userpic" ng-src="{{::expert.page.image}}" width="27px" height="27px" >{{::expert.title}}
+                                    </div>
+                                    <div class="divider"></div>
+                                    <div class="todo-tasklist-item-text"> {{::expert.description}} </div>
+                                    <div class="todo-tasklist-controls pull-left">
+                                        <span class="todo-tasklist-date">
+                                            <i class="fa fa-thumbs-o-up"></i> {{::expert.likes.length}} </span>
+                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::expert.page.displayName}}</span>
+                                    </div>
+
+                                </div>
+                                <br/>
+                            </div>
+                            <div ng-show="busy" class="text-center">Loading ...</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="todo-tasklist-devider"> </div>
+                <div class="portlet light col-md-7 col-sm-8">
+                    <div style="min-height: 600px;">
+                        <form action="#" class="form-horizontal">
+                            <!-- TASK HEAD -->
+                            <div class="form">
+                                <div class="form-group">
+                                    <div class="col-md-12 media">
+                                          <a class="pull-left" href="#">
+                                              <img class="todo-userpic" src="{{currentExpert.page.image}}" width="27px" height="27px"> </a>
+                                          <div class="media-body todo-comment">
+                                              <p class="todo-comment-head">
+                                                  <span class="todo-comment-username">{{currentExpert.page.displayName}}</span> &nbsp;
+                                                  <span class="todo-comment-date">{{ currentExpert.created | formatTime }}</span>
+                                              </p>
+                                          </div>
+                                    </div>
+                                </div>
+                                <!-- END TASK HEAD -->
+                                <!-- TASK TITLE -->
+                                <div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">Title:</div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="expert Title..." ng-model="currentExpert.title">
+                                        </div>
+                                    </div>
+                                    <!-- TASK DESC -->
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">Content:
+                                        </div>
+                                        <div class="col-md-12">
+                                            <trix-editor angular-trix class="editor" rows="8" ng-model="currentExpert.content" placeholder="expert Content..."></trix-editor>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="todo-tasklist-item-title col-md-12">
+                                        Image URL:
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="expert Image URL" ng-model="currentExpert.imgUrl">
+                                        </div>
+                                    </div>
+                                    <!-- END TASK DESC -->
+                                    <!-- TASK TAGS -->
+                                    <div class="form-group">
+                                      <div class="todo-tasklist-item-title col-md-12">
+                                      Tags:
+                                      </div>
+                                      <duv class="col-md-12">
+                                        <content-tags data-current-content="currentExpert"></content-tags>
+                                      </duv>
+                                    </div>
+
+                                    <!-- TASK TAGS -->
+                                    <div class="form-actions right todo-form-actions">
+                                        <button class="btn btn-circle btn-sm green" ng-click="saveCurrentexpert($event)">Save Changes</button>
+                                        <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentexpert($event)">Delete expert</button>
+                                    </div>
+                                </div>
+                                <comments data-current="currentExpert"></comments>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
