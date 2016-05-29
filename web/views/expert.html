@@ -9,9 +9,6 @@
             </div>
             <content-search data-get-content="getExperts(val)" data-current-content="currentExpert" data-content-type="expert" data-label-attr="_company.name"></content-search>
             <div class="actions col-md-3 col-sm-12">
-                <div class="btn-group pull-right">
-                    <div class="btn green btn-circle btn-sm" ng-click="setupNewexpert()">New expert</div>
-                </div>
             </div>
         </div>
         <!-- end PROJECT HEAD -->
@@ -128,6 +125,21 @@
                             </div>
                           </uib-accordion-group>
                         </uib-accordion>
+                        <div ng-show="!currentExpert.projects.length">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                </div>
+                                <div ng-if="!gettingProjects" class="col-md-6">
+                                No projects to show
+                                </div>
+                                <div ng-if="gettingProjects" class="col-md-6">
+                                Loading projects...
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+
                       </div>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ function ExpertController($scope, Page, ExpertService) {
   $scope.totalExperts = 0;
   $scope.itemsPerPage = 10;
   $scope.maxSize = 5;
+  $scope.gettingProjects = true;
 
   $scope.getExperts = function (val) {
     return ExpertService.search(val).then(function (data) {
@@ -50,7 +51,17 @@ function ExpertController($scope, Page, ExpertService) {
 
     $scope.currentExpert.projects = Page.projects({
       id: $scope.currentExpert._id
+    });
+
+    $scope.currentExpert.projects.$promise.then({
+      function () {
+        $scope.gettingProjects = false;
+      },
+      function () {
+        $scope.gettingProjects = false;
+      }
     })
+
   });
 }
 
