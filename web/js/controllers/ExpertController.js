@@ -44,6 +44,14 @@ function ExpertController($scope, Page, ExpertService) {
     $scope.currentExpert = $scope.experts[0];
   });
 
+  $scope.changePage = function () {
+    ExpertService.getExperts($scope.currentPage).then(function (data) {
+      data = data.data;
+      $scope.experts = data.response.docs;
+      $scope.currentExpert = $scope.experts[0];
+    });
+  }
+
   $scope.$watch('currentExpert', function (newVal, old) {
     if (newVal === old || !$scope.currentExpert._id) {
       return;

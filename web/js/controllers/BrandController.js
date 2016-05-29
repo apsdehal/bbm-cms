@@ -44,6 +44,14 @@ function BrandController($scope, Page, BrandService) {
     $scope.currentBrand = $scope.brands[0];
   });
 
+  $scope.changePage = function () {
+    BrandService.getBrands($scope.currentPage).then(function (data) {
+      data = data.data;
+      $scope.brands = data.response.docs;
+      $scope.currentBrand = $scope.brands[0];
+    });
+  }
+
   $scope.$watch('currentBrand', function (newVal, old) {
     if (newVal === old || !$scope.currentBrand._id) {
       return;
