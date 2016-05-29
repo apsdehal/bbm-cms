@@ -74,8 +74,8 @@
                       <div class="todo-tasklist-item-title col-md-12">Projects:</div>
                       <div class="col-md-12">
                         <uib-accordion close-others="true">
-                          <uib-accordion-group heading={{project.title}} ng-repeat="project in currentExpert.projects">
-                            <div>
+                          <uib-accordion-group is-open="isopen" heading={{project.title}} ng-repeat="project in currentExpert.projects">
+                            <div ng-if="isopen">
                               <div style="overflow: auto" class="form-group">
                                 <div class="todo-tasklist-item-title col-md-12">Title:</div>
                                 <div class="col-md-12">
