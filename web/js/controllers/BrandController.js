@@ -60,14 +60,14 @@ function BrandController($scope, Page, BrandService) {
     $scope.currentBrand.products = Page.products({
       id: $scope.currentBrand._id
     });
-    $scope.currentBrand.products.$promise.then({
+    $scope.currentBrand.products.$promise.then(
       function () {
         $scope.gettingProducts = false;
       },
       function () {
         $scope.gettingProducts = false;
       }
-    })
+    )
   });
 }
 

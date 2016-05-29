@@ -61,13 +61,12 @@ function ExpertController($scope, Page, ExpertService) {
       id: $scope.currentExpert._id
     });
 
-    $scope.currentExpert.projects.$promise.then({
+    $scope.currentExpert.projects.$promise.then(
       function () {
         $scope.gettingProjects = false;
       },
       function () {
         $scope.gettingProjects = false;
-      }
     })
 
   });
