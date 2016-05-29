@@ -1,0 +1,171 @@
+<div class="todo-content">
+    <div class="portlet light">
+        <!-- PROJECT HEAD -->
+        <div class="portlet-title">
+            <div class="caption col-md-3 col-sm-12">
+                <i class="icon-bar-chart font-green hide"></i>
+                <span class="caption-helper">Manage:</span> &nbsp;
+                <span class="caption-subject font-green bold uppercase">Brands</span>
+            </div>
+            <content-search data-get-content="getBrands(val)" data-current-content="currentBrand" data-content-type="brand" data-label-attr="_company.name"></content-search>
+            <div class="actions col-md-3 col-sm-12">
+                <div class="btn-group pull-right">
+                </div>
+            </div>
+        </div>
+        <!-- end PROJECT HEAD -->
+        <div class="portlet-body">
+            <div class="row">
+                <div class="col-md-5 col-sm-4">
+                    <div style="min-height: 600px;">
+                        <div class="col-md-12 text-center">
+                            <uib-pagination boundary-links="true" total-items="totalBrands" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
+                        <div class="todo-tasklist">
+                            <div ng-repeat="brand in brands">
+                                <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentBrand($index)">
+                                    <div class="todo-tasklist-item-title">
+                                      <img class="todo-userpic" ng-src="{{brand.image}}" width="27px" height="27px" >{{brand.title_s}}
+                                    </div>
+                                </div>
+                                <br/>
+                            </div>
+                        </div>
+                        <div ng-show="!brands.length">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                </div>
+                                <div class="col-md-6">
+                                Loading brands...
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 text-center">
+                            <uib-pagination boundary-links="true" total-items="totalBrands" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                        </div>
+                    </div>
+                </div>
+                <div class="todo-tasklist-devider"> </div>
+                <div class="portlet light col-md-7 col-sm-8">
+                    <div style="min-height: 600px;">
+                      <div class="form" style="overflow: auto">
+                        <div class="form-group">
+                          <div class="col-md-12 media">
+                            <a class="pull-left" href="#">
+                            <img class="todo-userpic" src="{{currentBrand.image}}" width="27px" height="27px">
+                            </a>
+                            <div class="media-body todo-comment">
+                              <p class="todo-comment-head">
+                                  <span class="todo-comment-username">{{currentBrand.title}} by {{currentBrand.displayName}}</span> &nbsp;
+                              </p>
+                            </div>
+                          </div>
+                          <div class="col-md-12">{{currentBrand['_company.about']}}</div>
+                        </div>
+                      </div>
+                      <br/>
+                      <div class="todo-tasklist-item-title col-md-12">Products:</div>
+                      <div class="col-md-12">
+                        <uib-accordion close-others="true">
+                          <uib-accordion-group heading={{product.title}} ng-repeat="product in currentBrand.products">
+                            <div>
+                                    <div style="overflow: auto" class="form-group">
+                                        <div class="col-md-12">
+                                          <div class="todo-tasklist-item-title">Title:</div>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Product Title..." ng-model="product.title">
+                                        </div>
+                                    </div>
+                                    <!-- TASK DESC -->
+                                    <div style="overflow: auto" class="form-group margin-top-15">
+                                        <div class="col-md-12">
+                                          <div class="todo-tasklist-item-title">Description:</div>
+                                            <textarea class="form-control todo-taskbody-taskdesc" ng-model="product.desc" rows="8" placeholder="Product Description..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div style="overflow: auto" class="form-group margin-top-15">
+                                        <div class="col-md-6">
+                                            <span class="todo-tasklist-item-title">Current Price:</span>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Current Price..." ng-model="product.price_curr">
+                                        </div>
+                                        <div class="col-md-6">
+                                            <span class="todo-tasklist-item-title">Currency:</span>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Currency" ng-model="product.currency">
+                                        </div>
+                                    </div>
+                                    <div style="overflow: auto" class="form-group margin-top-15">
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">Published:</span>
+                                            <input type="checkbox" ng-model="product.published">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">Top Seller:</span>
+                                            <input type="checkbox" ng-model="product.topSeller">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">Sold Out:</span>
+                                            <input type="checkbox" ng-model="product.soldOut">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">On Sale:</span>
+                                            <input type="checkbox" ng-model="product.onSale">
+                                        </div>
+                                    </div>
+                                    <div style="overflow: auto" class="form-group margin-top-15">
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">Price Min:</span>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="..." ng-model="product.priceMin">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">Price Max:</span>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="..." ng-model="product.priceMax">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">MRP Min:</span>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="..." ng-model="product.mrpMin">
+                                        </div>
+                                        <div class="col-md-3">
+                                            <span class="todo-tasklist-item-title">MRP Max:</span>
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="..." ng-model="product.mrpMax">
+                                        </div>
+                                    </div>
+                                    <div style="overflow: auto" class="form-group margin-top-15">
+                                        <div class="col-md-12">
+                                          <span class="todo-tasklist-item-title">Image:
+                                          </span>
+                                          <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="product.imgUrl">
+                                          <br/>
+                                          <img ng-src="{{product.imgUrl}}" title="{{product.title}}"/>
+                                        </div>
+
+                                    </div>
+                              <div class="form-actions col-md-12 text-right right todo-form-actions margin-top-15">
+                                  <button class="btn btn-circle btn-sm green" ng-click="saveCurrentProduct($event, $index)">Save Changes</button>
+                                  <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentProduct($event, $index)">Delete</button>
+                              </div>
+                              <comments data-current="product"></comments>
+                            </div>
+                          </uib-accordion-group>
+                        </uib-accordion>
+                        <div ng-show="!currentBrand.products.length">
+                            <div class="col-md-12">
+                                <div class="col-md-3">
+                                </div>
+                                <div ng-if="!gettingProducts" class="col-md-6">
+                                No products to show
+                                </div>
+                                <div ng-if="gettingProducts" class="col-md-6">
+                                Loading products...
+                                </div>
+                                <div class="col-md-3">
+                                </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
