@@ -16,7 +16,7 @@ var rev = require('gulp-rev');
 var clean = require('gulp-clean');
 var gulpSequence = require('gulp-sequence').use(gulp);
 var runSequence = require('run-sequence');
-
+var gutil = require('gulp-util');
 
 //*** SASS compiler task
 gulp.task('sass', function () {
@@ -94,7 +94,7 @@ gulp.task('usemin', function() {
   return gulp.src('./web/index.html')
     .pipe(usemin({
       css: [ minifyCss(), rev() ],
-      js: [ uglify({ outSourceMap: true }), rev() ],
+      js: [ uglify({ outSourceMap: true }).on('error', gutil.log), rev() ],
     }))
     .pipe(gulp.dest('./build/'));
 });
