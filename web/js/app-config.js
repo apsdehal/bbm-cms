@@ -98,6 +98,16 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
             }
           }
         })
+        .state('root.brand', {
+          url: '/brand',
+          data: {pageTitle: 'Brand Management'},
+          views: {
+            'main@': {
+              templateUrl: "views/brand.html",
+              controller: "BrandController"
+            }
+          }
+        })
         .state('root.content', {
           abstract: true,
           data: {pageTitle: 'Content Management'},
