@@ -6,6 +6,7 @@ function ExpertController($scope, Page, ExpertService) {
   $scope.itemsPerPage = 10;
   $scope.maxSize = 5;
   $scope.gettingProjects = true;
+  $scope.isProjectSelected = false;
 
   $scope.getExperts = function (val) {
     return ExpertService.search(val).then(function (data) {
@@ -24,7 +25,7 @@ function ExpertController($scope, Page, ExpertService) {
       return false;
     }
 
-    $scope.currentExpert.projects[index].$save();
+    $scope.currentProject.$save();
   }
 
   $scope.deleteCurrentProject = function (event, index) {
@@ -33,7 +34,18 @@ function ExpertController($scope, Page, ExpertService) {
       return false;
     }
 
-    $scope.currentExpert.projects[index].$delete();
+    $scope.currentProject.$delete();
+  }
+
+  $scope.changeCurrentProject = function (index) {
+    $scope.currentProject = $scope.currentExpert.projects[index];
+    $scope.isProjectSelected = true;
+  }
+
+  $scope.backToExperts = function (event) {
+
+    event.preventDefault();
+    $scope.isProjectSelected = false;
   }
 
   ExpertService.getExperts(1).then(function (data) {
@@ -44,8 +56,9 @@ function ExpertController($scope, Page, ExpertService) {
     $scope.currentExpert = $scope.experts[0];
   });
 
-  $scope.changePage = function () {
-    ExpertService.getExperts($scope.currentPage).then(function (data) {
+  $scope.changePage = function (currentPage) {
+    $scope.experts = [];
+    ExpertService.getExperts(currentPage).then(function (data) {
       data = data.data;
       $scope.experts = data.response.docs;
       $scope.currentExpert = $scope.experts[0];
@@ -56,7 +69,7 @@ function ExpertController($scope, Page, ExpertService) {
     if (newVal === old || !$scope.currentExpert._id) {
       return;
     }
-
+    $scope.gettingProjects = true;
     $scope.currentExpert.projects = Page.projects({
       id: $scope.currentExpert._id
     });

@@ -14,10 +14,10 @@
         <!-- end PROJECT HEAD -->
         <div class="portlet-body">
             <div class="row">
-                <div class="col-md-5 col-sm-4">
+                <div class="col-md-7 col-sm-8" ng-if="!isProjectSelected">
                     <div style="min-height: 600px;">
                         <div class="col-md-12 text-center">
-                            <uib-pagination boundary-links="true" total-items="totalExperts" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                            <uib-pagination boundary-links="true" total-items="totalExperts" ng-change="changePage(currentPage)" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                         </div>
                         <div class="todo-tasklist">
                             <div ng-repeat="expert in experts">
@@ -40,7 +40,7 @@
                             <div class="col-md-12">
                                 <div class="col-md-3">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-6 text-center">
                                 Loading experts...
                                 </div>
                                 <div class="col-md-3">
@@ -48,13 +48,62 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-center">
-                            <uib-pagination boundary-links="true" total-items="totalExperts" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                            <uib-pagination boundary-links="true" total-items="totalExperts" ng-change="changePage(currentPage)" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                         </div>
                     </div>
                 </div>
+                <div class="col-md-7 col-sm-8" ng-if="isProjectSelected">
+                  <div style="overflow: auto" class="form-group">
+                    <div class="todo-tasklist-item-title col-md-12">Title:<button ng-click="backToExperts($event)" class="btn green btn-circle btn-sm pull-right">Back</button></div>
+                    <div class="col-md-12">
+                        <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Project Title..." ng-model="currentProject.title">
+                    </div>
+                  </div>
+                  <div style="overflow: auto" class="form-group margin-top-15">
+                    <div class="todo-tasklist-item-title col-md-12">Description:</div>
+                    <div class="col-md-12">
+                        <textarea rows="8" class="form-control todo-taskbody-tasktitle" placeholder="Project Description..." ng-model="currentProject.description"></textarea>
+                    </div>
+                  </div>
+                  <div>
+                    <uib-carousel active="false"  no-wrap="noWrapSlides">
+                      <uib-slide ng-repeat="slide in currentProject.images">
+                        <img ng-src="{{slide.url}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                          <p>{{slide.title}}</p>
+                        </div>
+                      </uib-slide>
+                    </uib-carousel>
+                  </div>
+
+                  <div style="overflow: auto" class="form-group margin-top-15">
+                    <div class="todo-tasklist-item-title col-md-12">Style:</div>
+                    <div class="col-md-12">
+                        <input class="form-control todo-taskbody-tasktitle" placeholder="Project style..." ng-model="currentProject.style">
+                    </div>
+                  </div>
+                  <div style="overflow: auto" class="form-group margin-top-15">
+                      <div class="todo-tasklist-item-title col-md-2">Duration:</div>
+                      <div class="col-md-2">
+                          <input class="form-control todo-taskbody-tasktitle" placeholder="Project duration..." ng-model="currentProject.duration">
+                      </div>
+                      <div class="col-md-1">
+                      </div>
+                      <div class="todo-tasklist-item-title col-md-2">Location:</div>
+                      <div class="col-md-5">
+                          <input class="form-control todo-taskbody-tasktitle" placeholder="Project Location..." ng-model="currentProject.location">
+                      </div>
+                  </div>
+                  <div class="form-actions col-md-12 text-right right todo-form-actions margin-top-15">
+                      <button class="btn btn-circle btn-sm green" ng-click="saveCurrentProject($event)">Save Changes</button>
+                      <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentProject($event)">Delete</button>
+                  </div>
+                  <comments data-current="currentProject"></comments>
+                </div>
+
                 <div class="todo-tasklist-devider"> </div>
-                <div class="portlet light col-md-7 col-sm-8">
-                    <div style="min-height: 600px;">
+                <div class="portlet light col-md-5 col-sm-4">
+                    <div style="max-height: 600px; overflow: auto;">
                       <div class="form" style="overflow: auto">
                         <div class="form-group">
                           <div class="col-md-12 media">
@@ -73,66 +122,15 @@
                       <br/>
                       <div class="todo-tasklist-item-title col-md-12">Projects:</div>
                       <div class="col-md-12">
-                        <uib-accordion close-others="true">
-                          <uib-accordion-group is-open="isopen" heading={{project.title}} ng-repeat="project in currentExpert.projects">
-                            <div ng-if="isopen">
-                              <div style="overflow: auto" class="form-group">
-                                <div class="todo-tasklist-item-title col-md-12">Title:</div>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Project Title..." ng-model="project.title">
-                                </div>
-                              </div>
-                              <div style="overflow: auto" class="form-group margin-top-15">
-                                <div class="todo-tasklist-item-title col-md-12">Description:</div>
-                                <div class="col-md-12">
-                                    <textarea rows="8" class="form-control todo-taskbody-tasktitle" placeholder="Project Description..." ng-model="project.description"></textarea>
-                                </div>
-                              </div>
-                              <div>
-                                <uib-carousel active="false"  no-wrap="noWrapSlides">
-                                  <uib-slide ng-repeat="slide in project.images">
-                                    <img ng-src="{{slide.url}}" style="margin:auto;">
-                                    <div class="carousel-caption">
-                                      <p>{{slide.title}}</p>
-                                    </div>
-                                  </uib-slide>
-                                </uib-carousel>
-                              </div>
-
-                              <div style="overflow: auto" class="form-group margin-top-15">
-                                <div class="todo-tasklist-item-title col-md-12">Style:</div>
-                                <div class="col-md-12">
-                                    <input class="form-control todo-taskbody-tasktitle" placeholder="Project style..." ng-model="project.style">
-                                </div>
-                              </div>
-                              <div style="overflow: auto" class="form-group margin-top-15">
-                                  <div class="todo-tasklist-item-title col-md-2">Duration:</div>
-                                  <div class="col-md-2">
-                                      <input class="form-control todo-taskbody-tasktitle" placeholder="Project duration..." ng-model="project.duration">
-                                  </div>
-                                  <div class="col-md-1">
-                                  </div>
-                                  <div class="todo-tasklist-item-title col-md-2">Location:</div>
-                                  <div class="col-md-5">
-                                      <input class="form-control todo-taskbody-tasktitle" placeholder="Project Location..." ng-model="project.location">
-                                  </div>
-                              </div>
-                              <div class="form-actions col-md-12 text-right right todo-form-actions margin-top-15">
-                                  <button class="btn btn-circle btn-sm green" ng-click="saveCurrentProject($event, $index)">Save Changes</button>
-                                  <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentProject($event, $index)">Delete</button>
-                              </div>
-                              <comments data-current="project"></comments>
-                            </div>
-                          </uib-accordion-group>
-                        </uib-accordion>
+                        <button class="btn margin-top-15 col-md-12" ng-click="changeCurrentProject($index)" ng-repeat="project in currentExpert.projects">{{project.title}}</button>
                         <div ng-show="!currentExpert.projects.length">
                             <div class="col-md-12">
                                 <div class="col-md-3">
                                 </div>
-                                <div ng-if="!gettingProjects" class="col-md-6">
+                                <div ng-if="!gettingProjects" class="col-md-6 text-center">
                                 No projects to show
                                 </div>
-                                <div ng-if="gettingProjects" class="col-md-6">
+                                <div ng-if="gettingProjects" class="col-md-6 text-center">
                                 Loading projects...
                                 </div>
                                 <div class="col-md-3">
