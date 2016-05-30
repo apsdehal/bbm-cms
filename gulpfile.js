@@ -21,7 +21,7 @@ var gutil = require('gulp-util');
 //*** SASS compiler task
 gulp.task('sass', function () {
   // bootstrap compilation
-	gulp.src('./web/sass/style.scss').pipe(sass()).pipe(gulp.dest('./web/assets/style.css'));
+	gulp.src('./web/sass/style.scss').pipe(sass()).pipe(gulp.dest('./web/assets'));
 });
 
 //*** SASS watch(realtime) compiler task

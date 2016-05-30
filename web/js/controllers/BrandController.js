@@ -6,6 +6,7 @@ function BrandController($scope, Page, BrandService) {
   $scope.itemsPerPage = 10;
   $scope.maxSize = 5;
   $scope.gettingProducts = true;
+  $scope.isProductSelected = false;
 
   $scope.getBrands = function (val) {
     return BrandService.search(val).then(function (data) {
@@ -18,22 +19,27 @@ function BrandController($scope, Page, BrandService) {
     $scope.currentBrand = $scope.brands[index];
   }
 
-  $scope.saveCurrentProducts = function (event, index) {
+  $scope.saveCurrentProduct = function (event, index) {
     event.preventDefault();
     if ($scope.currentBrand.products.length < index) {
       return false;
     }
 
-    $scope.currentBrand.products[index].$save();
+    $scope.currentProduct.$save();
   }
 
-  $scope.deleteCurrentProducts = function (event, index) {
+  $scope.deleteCurrentProduct = function (event, index) {
     event.preventDefault();
     if ($scope.currentBrand.products.length < index) {
       return false;
     }
 
-    $scope.currentBrand.products[index].$delete();
+    $scope.currentProduct.$delete();
+  }
+
+  $scope.changeCurrentProduct = function (index) {
+    $scope.currentProduct = $scope.currentBrand.products[index];
+    $scope.isProductSelected = true;
   }
 
   BrandService.getBrands(1).then(function (data) {
@@ -50,6 +56,11 @@ function BrandController($scope, Page, BrandService) {
       $scope.brands = data.response.docs;
       $scope.currentBrand = $scope.brands[0];
     });
+  }
+
+  $scope.backToBrands = function (event) {
+    event.preventDefault();
+    $scope.isProductSelected = false;
   }
 
   $scope.$watch('currentBrand', function (newVal, old) {
