@@ -15,10 +15,10 @@ bbmCms.controller('LoginController', [
 bbmCms.controller('LoginModalController', [
   '$rootScope',
   '$scope',
-  '$modalInstance',
+  '$uibModalInstance',
   '$state',
   'AuthService',
-  function ($rootScope, $scope, $modalInstance, $state, AuthService) {
+  function ($rootScope, $scope, $uibModalInstance, $state, AuthService) {
     $scope.loginform = {
       username: '',
       password: ''
@@ -30,7 +30,7 @@ bbmCms.controller('LoginModalController', [
         success: function (data) {
           $rootScope.user = data.user;
           $scope.message = false;
-          $modalInstance.close();
+          $uibModalInstance.close();
           $state.go('root.dashboard');
         },
         reject: function (data) {
