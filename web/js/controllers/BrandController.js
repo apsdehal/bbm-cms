@@ -50,8 +50,9 @@ function BrandController($scope, Page, BrandService) {
     $scope.currentBrand = $scope.brands[0];
   });
 
-  $scope.changePage = function () {
-    BrandService.getBrands($scope.currentPage).then(function (data) {
+  $scope.changePage = function (currentPage) {
+    $scope.brands = [];
+    BrandService.getBrands(currentPage).then(function (data) {
       data = data.data;
       $scope.brands = data.response.docs;
       $scope.currentBrand = $scope.brands[0];

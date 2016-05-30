@@ -16,10 +16,10 @@
         <!-- end PROJECT HEAD -->
         <div class="portlet-body">
             <div class="row">
-                <div class="col-md-5 col-sm-4" ng-if="!isProductSelected">
+                <div class="col-md-6 col-sm-6" ng-if="!isProductSelected">
                     <div style="min-height: 600px;">
                         <div class="col-md-12 text-center">
-                            <uib-pagination boundary-links="true" total-items="totalBrands" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                            <uib-pagination boundary-links="true" total-items="totalBrands" ng-change="changePage(currentPage)" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                         </div>
                         <div class="todo-tasklist">
                             <div ng-repeat="brand in brands">
@@ -43,11 +43,11 @@
                             </div>
                         </div>
                         <div class="col-md-12 text-center">
-                            <uib-pagination boundary-links="true" total-items="totalBrands" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                            <uib-pagination boundary-links="true" total-items="totalBrands" ng-change="changePage(currentPage)" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5 col-sm-4" ng-if="isProductSelected">
+                <div class="col-md-6 col-sm-6" ng-if="isProductSelected">
                     <div style="overflow: auto" class="form-group">
                         <div class="col-md-12">
                           <div class="todo-tasklist-item-title">Title: <button ng-click="backToBrands($event)" class="btn green btn-circle btn-sm pull-right">Back</button></div>
@@ -125,7 +125,7 @@
                 </div>
 
                 <div class="todo-tasklist-devider"> </div>
-                <div class="portlet light col-md-7 col-sm-8">
+                <div class="portlet light col-md-6 col-sm-6">
                     <div style="min-height: 600px;">
                       <div class="form" style="overflow: auto">
                         <div class="form-group">
@@ -135,7 +135,7 @@
                             </a>
                             <div class="media-body todo-comment">
                               <p class="todo-comment-head">
-                                  <span class="todo-comment-username">{{currentBrand.title}} by {{currentBrand.displayName}}</span> &nbsp;
+                                  <span class="todo-comment-username">{{currentBrand.displayName}}</span> &nbsp;
                               </p>
                             </div>
                           </div>
