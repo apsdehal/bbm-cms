@@ -1,4 +1,4 @@
-function ExpertController($scope, Page, ExpertService) {
+function ExpertController($scope, Page, ExpertService, $uibModal) {
 
   $scope.currentExpert = {};
   $scope.experts = [];
@@ -65,6 +65,22 @@ function ExpertController($scope, Page, ExpertService) {
     });
   }
 
+  $scope.openImageModal = function (index) {
+    var modalInstance = $uibModal.open({
+      templateUrl: 'views/image-modal.html',
+      controller: 'ImageModalController',
+      size: 'lg',
+      resolve: {
+        currentIndex: function () {
+          return index;
+        },
+        currentProject: function () {
+          return $scope.currentProject;
+        }
+      }
+    })
+  }
+
   $scope.$watch('currentExpert', function (newVal, old) {
     if (newVal === old || !$scope.currentExpert._id) {
       return;
@@ -85,6 +101,6 @@ function ExpertController($scope, Page, ExpertService) {
   });
 }
 
-ExpertController.$inject = ['$scope', 'Page', 'ExpertService'];
+ExpertController.$inject = ['$scope', 'Page', 'ExpertService', '$uibModal'];
 
 bbmCms.controller('ExpertController', ExpertController);

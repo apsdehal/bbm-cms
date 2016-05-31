@@ -1,0 +1,63 @@
+<div class="modal-body">
+    <form action="#" class="form-horizontal">
+        <!-- TASK HEAD -->
+        <div class="form">
+            <div class="form-group">
+              <div class="col-md-12 media">
+                    <a class="pull-left" href="#">
+                        <img class="todo-userpic" src="{{currentImage.page.image}}" width="27px" height="27px"> </a>
+                    <div class="media-body todo-comment">
+                        <p class="todo-comment-head">
+                            <span class="todo-comment-username">{{currentImage.page.displayName}}</span> &nbsp;
+                            <span class="todo-comment-date">{{ currentImage.created | formatTime }}</span>
+                        </p>
+                    </div>
+              </div>
+            </div>
+            <!-- END TASK HEAD -->
+            <!-- TASK TITLE -->
+
+            <div class="form-group">
+                <div class="col-md-12">
+                <div class="todo-tasklist-item-title">Category:
+                </div>
+                <div>
+                  <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Category" ng-model="currentImage.category[0]">
+                  <br/>
+                </div>
+                </div>
+                <div class="todo-tasklist-item-title col-md-12">Title:</div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Title..." ng-model="currentImage.title">
+                </div>
+            </div>
+            <!-- TASK DESC -->
+            <div class="form-group">
+                <div class="todo-tasklist-item-title col-md-12">Image:
+                </div>
+                <div class="col-md-12">
+                  <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentImage.url">
+                  <br/>
+                  <img style="width: 100%" ng-src="{{currentImage.url}}" title="{{currentImage.title}}"/>
+                </div>
+            </div>
+            <!-- END TASK DESC -->
+            <!-- TASK TAGS -->
+            <div class="form-group">
+              <div class="todo-tasklist-item-title col-md-12">
+              Tags:
+              </div>
+              <duv class="col-md-12">
+                <content-tags data-current-content="currentArticle"></content-tags>
+              </duv>
+            </div>
+            <!-- TASK TAGS -->
+            <comments data-current="currentImage"></comments>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="save()">Save</button>
+    <button class="btn btn-danger" type="button" ng-click="delete()">Delete</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>

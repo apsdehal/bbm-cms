@@ -65,18 +65,19 @@
                         <textarea rows="8" class="form-control todo-taskbody-tasktitle" placeholder="Project Description..." ng-model="currentProject.description"></textarea>
                     </div>
                   </div>
-                  <div>
-                    <uib-carousel active="false"  no-wrap="noWrapSlides">
-                      <uib-slide ng-repeat="slide in currentProject.images">
-                        <img ng-src="{{slide.url}}" style="margin:auto;">
-                        <div class="carousel-caption">
-                          <p>{{slide.title}}</p>
-                        </div>
-                      </uib-slide>
-                    </uib-carousel>
+                  <div class="form-group margin-top-15">
+                    <div class="btn-group col-md-12" uib-dropdown keyboard-nav>
+                        <button id="simple-btn-keyboard-nav" type="button" class="btn btn-primary" uib-dropdown-toggle>
+                            Images <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="simple-btn-keyboard-nav">
+                            <li role="menuitem" ng-click="openImageModal($index)" ng-repeat="image in currentProject.images"><a href="#">{{image.title}}</a></li>
+                        </ul>
+                    </div>
                   </div>
-
-                  <div style="overflow: auto" class="form-group margin-top-15">
+                  <br/>
+                  <br/>
+                  <div style="overflow: auto" class="clearfix form-group margin-top-15">
                     <div class="todo-tasklist-item-title col-md-12">Style:</div>
                     <div class="col-md-12">
                         <input class="form-control todo-taskbody-tasktitle" placeholder="Project style..." ng-model="currentProject.style">
