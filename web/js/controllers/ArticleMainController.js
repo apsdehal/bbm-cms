@@ -8,6 +8,14 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
   var skip = 10;
   var limit = 10;
 
+  $scope.user = {};
+
+  // Need user for pageid
+  $scope.$on('user:change', function (e, data) {
+    $scope.user = data;
+  });
+
+
   $scope.editButtonText = 'render';
   $scope.toggleEdit = function () {
     $scope.isEditActive = !$scope.isEditActive;
@@ -54,7 +62,7 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
   }
 
   $scope.setupNewArticle = function () {
-    $scope.currentArticle = false;
+    $scope.currentArticle = {link: '', pageId: $scope.user.id};
     isNewArticle = true;
     currentSelected = false
   }
