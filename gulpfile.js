@@ -33,6 +33,7 @@ gulp.task('sass:watch', function () {
 gulp.task('copy', function () {
   gulp.src('./web/views/**/*.html').pipe(gulp.dest('./build/views/'))
   gulp.src('./web/assets/fonts/**/*').pipe(gulp.dest('./build/fonts/'))
+  gulp.src('./web/bower_components/summernote/dist/font/**/*').pipe(gulp.dest('./build/font/'))
   gulp.src('./web/assets/images/**/*').pipe(gulp.dest('./build/images/'))
   gulp.src('./web/favicon.ico').pipe(gulp.dest('./build/'))
 });
