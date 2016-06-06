@@ -10,7 +10,7 @@ var bbmCms = angular.module('bbmCms', [
     'ngSanitize',
     'ngResource',
     'lbServices',
-    'angularTrix',
+    'summernote',
     'infinite-scroll'
 ]);
 
