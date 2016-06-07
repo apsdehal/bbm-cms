@@ -77,6 +77,9 @@ gulp.task('concat', function () {
   gulp.src(['./web/js/app-config.js']).
   pipe(gulp.dest('./web/dist/'));
 
+  gulp.src(['./web/js/config.js']).
+  pipe(gulp.dest('./web/dist/'));
+
   gulp.src(['./web/js/**/*.js',
             '!./web/js/services/lb-services.js',
             '!./web/js/app.js',
