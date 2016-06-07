@@ -1,4 +1,4 @@
-function ExpertController($scope, Page, ExpertService, $uibModal) {
+function ExpertController($scope, Page, SearchService, $uibModal) {
 
   $scope.currentExpert = {};
   $scope.experts = [];
@@ -9,7 +9,7 @@ function ExpertController($scope, Page, ExpertService, $uibModal) {
   $scope.isProjectSelected = false;
 
   $scope.getExperts = function (val) {
-    return ExpertService.search(val).then(function (data) {
+    return SearchService.searchExperts(val).then(function (data) {
       data = data.data
       return data.response.numFound ? data.response.docs : [];
     });
@@ -48,7 +48,7 @@ function ExpertController($scope, Page, ExpertService, $uibModal) {
     $scope.isProjectSelected = false;
   }
 
-  ExpertService.getExperts(1).then(function (data) {
+  SearchService.getExperts(1).then(function (data) {
     data = data.data;
     $scope.totalExperts = data.response.numFound;
     $scope.experts = data.response.docs;
@@ -58,7 +58,7 @@ function ExpertController($scope, Page, ExpertService, $uibModal) {
 
   $scope.changePage = function (currentPage) {
     $scope.experts = [];
-    ExpertService.getExperts(currentPage).then(function (data) {
+    SearchService.getExperts(currentPage).then(function (data) {
       data = data.data;
       $scope.experts = data.response.docs;
       $scope.currentExpert = $scope.experts[0];
@@ -101,6 +101,6 @@ function ExpertController($scope, Page, ExpertService, $uibModal) {
   });
 }
 
-ExpertController.$inject = ['$scope', 'Page', 'ExpertService', '$uibModal'];
+ExpertController.$inject = ['$scope', 'Page', 'SearchService', '$uibModal'];
 
 bbmCms.controller('ExpertController', ExpertController);

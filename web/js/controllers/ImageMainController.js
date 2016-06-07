@@ -1,4 +1,4 @@
-function ImageMainController($rootScope, $scope, Image, AuthService) {
+function ImageMainController($rootScope, $scope, Image, AuthService, SearchService) {
   $scope.images = [];
   $scope.currentImage = false;
   var currentSelected = false;
@@ -48,17 +48,9 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
   }
 
   $scope.getImages = function (val) {
-    return Image.find({
-      filter: {
-        where: {
-          title: {
-            like: val
-          }
-        },
-        limit: 6
-      }
-    }).$promise.then(function (responses) {
-      return responses;
+    return SearchService.searchImages(val).then(function (data) {
+      data = data.data
+      return data.response.numFound ? data.response.docs : [];
     });
   }
 
@@ -95,6 +87,6 @@ function ImageMainController($rootScope, $scope, Image, AuthService) {
   );
 };
 
-ImageMainController.$inject = ['$rootScope', '$scope', 'Image', 'AuthService'];
+ImageMainController.$inject = ['$rootScope', '$scope', 'Image', 'AuthService', 'SearchService'];
 
 bbmCms.controller('ImageMainController', ImageMainController);

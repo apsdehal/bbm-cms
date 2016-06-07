@@ -1,4 +1,4 @@
-function ArticleMainController($rootScope, $scope, Article, AuthService) {
+function ArticleMainController($rootScope, $scope, Article, AuthService, SearchService) {
   $scope.articles = [];
   $scope.currentArticle = false;
   $scope.isEditActive = true;
@@ -68,17 +68,9 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
   }
 
   $scope.getArticles = function (val) {
-    return Article.find({
-      filter: {
-        where: {
-          title: {
-            like: val
-          }
-        },
-        limit: 6
-      }
-    }).$promise.then(function (responses) {
-      return responses;
+    return SearchService.searchArticles(val).then(function (data) {
+      data = data.data
+      return data.response.numFound ? data.response.docs : [];
     });
   }
 
@@ -113,6 +105,6 @@ function ArticleMainController($rootScope, $scope, Article, AuthService) {
   );
 };
 
-ArticleMainController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService'];
+ArticleMainController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService', 'SearchService'];
 
 bbmCms.controller('ArticleMainController', ArticleMainController);

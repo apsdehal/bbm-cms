@@ -1,4 +1,4 @@
-function BrandController($scope, Page, BrandService) {
+function BrandController($scope, Page, SearchService) {
 
   $scope.currentBrand = {};
   $scope.brands = [];
@@ -9,7 +9,7 @@ function BrandController($scope, Page, BrandService) {
   $scope.isProductSelected = false;
 
   $scope.getBrands = function (val) {
-    return BrandService.search(val).then(function (data) {
+    return SearchService.searchBrands(val).then(function (data) {
       data = data.data
       return data.response.numFound ? data.response.docs : [];
     });
@@ -42,7 +42,7 @@ function BrandController($scope, Page, BrandService) {
     $scope.isProductSelected = true;
   }
 
-  BrandService.getBrands(1).then(function (data) {
+  SearchService.getBrands(1).then(function (data) {
     data = data.data;
     $scope.totalBrands = data.response.numFound;
     $scope.brands = data.response.docs;
@@ -52,7 +52,7 @@ function BrandController($scope, Page, BrandService) {
 
   $scope.changePage = function (currentPage) {
     $scope.brands = [];
-    BrandService.getBrands(currentPage).then(function (data) {
+    SearchService.getBrands(currentPage).then(function (data) {
       data = data.data;
       $scope.brands = data.response.docs;
       $scope.currentBrand = $scope.brands[0];
@@ -83,6 +83,6 @@ function BrandController($scope, Page, BrandService) {
   });
 }
 
-BrandController.$inject = ['$scope', 'Page', 'BrandService'];
+BrandController.$inject = ['$scope', 'Page', 'SearchService'];
 
 bbmCms.controller('BrandController', BrandController);

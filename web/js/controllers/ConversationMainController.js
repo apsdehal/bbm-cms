@@ -1,4 +1,4 @@
-function ConversationMainController($rootScope, $scope, Discussion, AuthService) {
+function ConversationMainController($rootScope, $scope, Discussion, AuthService, SearchService) {
   $scope.conversations = [];
   $scope.currentConversation = false;
   var currentSelected = false;
@@ -41,17 +41,9 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
   }
 
   $scope.getConversations = function (val) {
-    return Discussion.find({
-      filter: {
-        where: {
-          title: {
-            like: val
-          }
-        },
-        limit: 6
-      }
-    }).$promise.then(function (responses) {
-      return responses;
+    return SearchService.searchConversations(val).then(function (data) {
+      data = data.data
+      return data.response.numFound ? data.response.docs : [];
     });
   }
 
@@ -93,6 +85,6 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService)
   );
 };
 
-ConversationMainController.$inject = ['$rootScope', '$scope', 'Discussion', 'AuthService'];
+ConversationMainController.$inject = ['$rootScope', '$scope', 'Discussion', 'AuthService', 'SearchService'];
 
 bbmCms.controller('ConversationMainController', ConversationMainController);

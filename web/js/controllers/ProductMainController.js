@@ -1,4 +1,4 @@
-function ProductMainController($rootScope, $scope, Product, AuthService) {
+function ProductMainController($rootScope, $scope, Product, AuthService, SearchService) {
   $scope.products = [];
   $scope.currentProduct = false;
   var currentSelected = false;
@@ -47,17 +47,9 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
   }
 
   $scope.getProducts = function (val) {
-    return Product.find({
-      filter: {
-        where: {
-          title: {
-            like: val
-          }
-        },
-        limit: 6
-      }
-    }).$promise.then(function (responses) {
-      return responses;
+    return SearchService.searchProducts(val).then(function (data) {
+      data = data.data
+      return data.response.numFound ? data.response.docs : [];
     });
   }
 
@@ -93,6 +85,6 @@ function ProductMainController($rootScope, $scope, Product, AuthService) {
   );
 };
 
-ProductMainController.$inject = ['$rootScope', '$scope', 'Product', 'AuthService'];
+ProductMainController.$inject = ['$rootScope', '$scope', 'Product', 'AuthService', 'SearchService'];
 
 bbmCms.controller('ProductMainController', ProductMainController);
