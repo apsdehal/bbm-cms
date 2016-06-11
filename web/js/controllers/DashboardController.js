@@ -52,7 +52,8 @@ function DashboardController($rootScope, $scope, $http, $timeout,
 
         Activity.find(
           {filter:
-            {limit: 35}},
+            {limit: 35,
+             include: ['feed', 'page']}},
           function (list) {
             $scope.activities = list;
           }
@@ -64,8 +65,35 @@ function DashboardController($rootScope, $scope, $http, $timeout,
       switch (activity.type) {
         case 'like': return 'fa-thumbs-o-up';
         case 'share': return 'fa-share-alt';
+        case 'space': return 'fa-plus';
+        case 'post': return 'fa-comments';
         default: return 'fa-check';
       }
+    }
+
+    $scope.getActivityContent = function (activity) {
+      var mid = '', last = '';
+      switch (activity.type) {
+        case 'like': {
+          mid = 'liked';
+          break;
+        }
+        case 'share': {
+          mid = 'shared';
+          break;
+        }
+        case 'space': {
+          mid = 'added';
+          last = "to space";
+          break;
+        }
+        case 'post': {
+          mid = 'posted';
+        }
+      }
+
+      return [activity.page.displayName, mid, activity.feed.type,
+      activity.feed[activity.feed.type]['title'], last].join(' ');
     }
     // set sidebar closed and body solid layout mode
     $rootScope.settings.layout.pageContentWhite = true;

@@ -63,16 +63,17 @@
     </div>
     <!-- END DASHBOARD STATS -->
     <div class="row">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-12 col-sm-12">
             <!-- BEGIN PORTLET-->
-            <div class="portlet light bordered ">
+            <div class="portlet light bordered overflow--auto">
                 <div class="portlet-title">
                     <div class="caption caption-md">
                         <i class="icon-settings font-green"></i>
-                        <span class="caption-subject font-green bold uppercase">Interaction Summary</span>
+                        <span class="caption-subject font-green bold uppercase">Summary</span>
                     </div>
                 </div>
                 <div class="portlet-body">
+                  <div class="col-md-6">
                     <div class="row list-separated">
                         <div class="col-md-3 col-sm-3 col-xs-6">
                             <div class="font-grey-mint font-sm"> Total comments </div>
@@ -95,12 +96,22 @@
                             </div>
                         </div>
                     </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row list-separated">
+                        <div class="col-md-3 col-sm-3 col-xs-6">
+                            <div class="font-grey-mint font-sm"> Total Users </div>
+                            <div class="uppercase font-hg font-red-flamingo"> {{userCount}}
+                            </div>
+                        </div>
+                    </div>
+                  </div>
                 </div>
             </div>
             <!-- END PORTLET-->
         </div>
     </div>
-<!--     <div class="row">
+    <div class="row">
         <div class="col-md-6 col-sm-6">
             <div class="portlet light bordered ">
                 <div class="portlet-title">
@@ -124,29 +135,22 @@
                                             </div>
                                         </div>
                                         <div class="cont-col2">
-                                            <div class="desc"> By: {{activity.page.displayName}},  Type: {{activity.type}}
-                                            </div>
+                                            <div class="desc">{{getActivityContent(activity)}}</div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col2">
-                                    <div class="date">{{ activity.created | formatTime }}</div>
+                                <div class="col2 col2-dashboard">
+                                    <div class="date">{{ activity.created | getTimePassed }}</div>
                                 </div>
                             </li>
 
                         </ul>
                     </div>
-                    <div class="scroller-footer">
-                        <div class="btn-arrow-link pull-right">
-                            <a href="#">See All Records</a>
-                            <i class="icon-arrow-right"></i>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
- --></div>
+</div>
 <!-- END MAIN CONTENT -->
 <!-- BEGIN MAIN JS & CSS -->
 <script>
