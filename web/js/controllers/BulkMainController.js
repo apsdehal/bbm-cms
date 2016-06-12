@@ -96,7 +96,6 @@ function BulkMainController(
   }
 
   $scope.changePage = function () {
-    $scope.$apply();
   }
 
   function startUpdates(index, updateObject) {
@@ -158,7 +157,7 @@ function BulkMainController(
 
   $scope.closeAlert = function (index) {
     if (index) {
-      $scope.alerts.splice(index, 1)''
+      $scope.alerts.splice(index, 1);
     } else {
       return;
     }
