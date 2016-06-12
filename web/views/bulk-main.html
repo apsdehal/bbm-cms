@@ -12,58 +12,83 @@
         <div class="portlet-body">
             <div class="row">
                 <div class="col-md-5 col-sm-4">
-                    <div style="max-height: 600px; overflow: auto;">
-                    <div>
-                        <span>Select</span>
-                        <ui-select append-to-body="true" ng-model="$parent.selectedNamespace">
-                          <ui-select-match>{{$select.selected}}</ui-select-match>
-                          <ui-select-choices repeat="namespace in namespaces | filter: $select.search">
-                              <div ng-bind-html="namespace | highlight: $select.search"></div>
-                          </ui-select-choices>
-                        </ui-select>
-                    </div>
-                    <div>
-                      <div ng-repeat="filter in filters">
-                        <div><b>Filter {{$index+1}}</b></div>
-                        Select filter param
-                        <ui-select append-to-body="true" ng-model="filter.type">
-                          <ui-select-match>{{$select.selected.key}}</ui-select-match>
-                          <ui-select-choices repeat="value.key as (key, value) in currentOptions | filter: $select.search">
-                              <div ng-bind-html="value.key | highlight: $select.search"></div>
-                          </ui-select-choices>
-                        </ui-select>
-                        Select comparison param
-                        <ui-select append-to-body="true" ng-model="filter.comparison">
-                          <ui-select-match>{{$select.selected.key}}</ui-select-match>
-                          <ui-select-choices repeat="value.key as (key, value) in currentOptions[filter.type] | filter: $select.search">
-                              <div ng-bind-html="value.key | highlight: $select.search"></div>
-                          </ui-select-choices>
-                        </ui-select>
-                        <div data-ng-switch on="currentOptions[filter.type][filter.comparison]">
-                          <div data-ng-switch-when="text">
-                              Enter a text value <input type="text" data-ng-model="filter.value" />
-                          </div>
-                          <div data-ng-switch-when="number">
-                              Enter a number value <input type="number" data-ng-model="filter.value" />
-                          </div>
-                          <div data-ng-switch-when="checkbox">
-                              Select true/false <input type="checkbox" data-ng-model="filter.value" />
-                          </div>
-                        </div>
+                    <div style="max-height: 800px; overflow: auto;">
+                      <h4 class="alert alert-info">Search for items</h4>
+                      <div>
+                          <span>Select type</span>
+                          <ui-select append-to-body="true" ng-model="$parent.selectedNamespace">
+                            <ui-select-match>{{$select.selected}}</ui-select-match>
+                            <ui-select-choices repeat="namespace in namespaces | filter: $select.search">
+                                <div ng-bind-html="namespace | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
                       </div>
                       <div>
-                      <button ng-click="addFilter()" class="btn btn-primary"><i class="fa fa-plus"></i> Add filter</button>
-                      <button ng-click="searchUsingFilters()" class="pull-right btn btn-success">GO!</button>
+                        <div ng-repeat="filter in filters">
+                          <br/>
+                          <div><b>Filter {{$index+1}}</b></div><br/>
+                          Select filter parameter
+                          <ui-select append-to-body="true" ng-model="filter.type">
+                            <ui-select-match>{{$select.selected.key}}</ui-select-match>
+                            <ui-select-choices repeat="value.key as (key, value) in currentOptions | filter: $select.search">
+                                <div ng-bind-html="value.key | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                          <br/>
+                          Select comparison parameter
+                          <ui-select append-to-body="true" ng-model="filter.comparison">
+                            <ui-select-match>{{$select.selected.key}}</ui-select-match>
+                            <ui-select-choices repeat="value.key as (key, value) in currentOptions[filter.type] | filter: $select.search">
+                                <div ng-bind-html="value.key | highlight: $select.search"></div>
+                            </ui-select-choices>
+                          </ui-select>
+                          <br/>
+                          <div data-ng-switch on="currentOptions[filter.type][filter.comparison]">
+                            <div data-ng-switch-when="text">
+                                Enter a text value <input type="text" data-ng-model="filter.value" />
+                            </div>
+                            <div data-ng-switch-when="number">
+                                Enter a number value <input type="number" data-ng-model="filter.value" />
+                            </div>
+                            <div data-ng-switch-when="checkbox">
+                                Select true/false <input type="checkbox" data-ng-model="filter.value" />
+                            </div>
+                          </div>
+                        </div>
+                        <br/>
+                        <div>
+                          <button ng-click="addFilter()" class="btn btn-primary"><i class="fa fa-plus"></i> Add filter</button>
+                          <button ng-click="searchUsingFilters()" class="pull-right btn btn-success">GO!</button>
+                        </div>
+                        <br/>
+                        <div ng-if="searchDone" class="form-group">
+                          <h4 class="alert alert-info">Now update attributes:</h4>
+                          <div class="todo-tasklist-item-title">
+                            Order Rank
+                            <input type="number" class="form-control" placeholder="New order rank" ng-model="updates.orderRank">
+                          </div>
+                          <div class="todo-tasklist-item-title">Publish?
+                            <button type="button" class="btn btn-primary" ng-model="updates.published" uib-btn-checkbox btn-checkbox-true="1" btn-checkbox-false="0">{{(updates.published ? "Yes" : "No")}}</button>
+                          </div>
+                          <div>
+                            <button ng-click="updateAttr(1,0)" class="btn btn-primary">Update Order Rank</button>
+                            <button ng-click="updateAttr(0,1)" class="btn btn-primary">Update Published</button>
+                            <button ng-click="updateAttr(1,1)" class="btn btn-primary">Update Both</button>
+                          </div>
+                          <br/>
+                          <div class="alert alert-success" ng-if="isUpdationComplete">Updation complete</div>
+                          <uib-alert ng-repeat="alert in alerts" type="danger" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+                          <uib-progressbar ng-if="isUpdationActive" class="progress-striped active" max="totalResponses" value="currentUpdationValue" type="danger"><i>Updating {{currentUpdationValue}} / {{totalResponses}}</i></uib-progressbar>
+                        </div>
                       </div>
                     </div>
-                  </div>
                 </div>
                 <div class="todo-tasklist-devider"> </div>
                 <div class="portlet light col-md-7 col-sm-8">
-                    <div style="min-height: 600px;">
-                      <div ng-if="totalResponses">Total results: {{totalResponses}}</div>
+                    <div ng-if="totalResponses" style="min-height: 600px;">
+                      <div>Total results: {{totalResponses}}</div>
                       <div class="col-md-12 text-center">
-                          <uib-pagination ng-if="totalResponses" boundary-links="true" total-items="totalResponses" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
+                          <uib-pagination boundary-links="true" total-items="totalResponses" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                       </div>
 
                       <div ng-repeat="response in responses.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
@@ -76,20 +101,20 @@
                           </div>
                           <br/>
                       </div>
-                      <div ng-show="!responses.length">
-                          <div class="col-md-12">
-                              <div class="col-md-3">
-                              </div>
-                              <div class="col-md-6 text-center">
-                              No results as of now
-                              </div>
-                              <div class="col-md-3">
-                              </div>
-                          </div>
-                      </div>
                       <div class="col-md-12 text-center">
                           <uib-pagination ng-if="totalResponses" boundary-links="true" total-items="totalResponses" ng-change="changePage()" num-pages="numPages" rotate="false" items-per-page="itemsPerPage" max-size="maxSize" ng-model="currentPage" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></uib-pagination>
                       </div>
+                    </div>
+                    <div ng-show="!responses.length">
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                            </div>
+                            <div class="col-md-6 text-center">
+                            No results as of now
+                            </div>
+                            <div class="col-md-3">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

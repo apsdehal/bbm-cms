@@ -1,18 +1,41 @@
-function BulkMainController($rootScope, $scope, Article, AuthService, SearchService) {
+function BulkMainController(
+  $rootScope,
+  $scope,
+  $timeout,
+  Article,
+  Image,
+  Product,
+  Discussion,
+  AuthService,
+  SearchService) {
+
   $scope.namespaces = ['product', 'article', 'conversation', 'image'];
   $scope.selectedNamespace = 'product';
   $scope.namespaceSelected = true;
+  $scope.searchDone = false;
   $scope.viewby = 10;
   $scope.itemsPerPage = $scope.viewby;
   $scope.maxSize = 5;
   $scope.currentPage = 1;
   $scope.totalResponses = 0;
+  $scope.currentUpdationValue = 0;
+  $scope.alerts = [];
+  $scope.isUpdationComplete = false;
+
+  $scope.updates = {
+    orderRank: '',
+    published: 1
+  }
+
+  $scope.isUpdationActive = false;
 
   $scope.filters = [
   {
     type: 'orderRank',
     comparison: '='
   }];
+
+  var typeClass = Product;
   var options = {
     'product': {
       orderRank: {'>': 'number', '=': 'number', '<': 'number'},
@@ -60,6 +83,7 @@ function BulkMainController($rootScope, $scope, Article, AuthService, SearchServ
 
     queryString += "&fl=title,desc,_id&rows=2147483647"
     SearchService.search(queryString).then(function (data) {
+      $scope.searchDone = true;
       data = data.data
       $scope.totalResponses = data.response.numFound;
       $scope.responses = data.response.numFound ? data.response.docs : [];
@@ -72,9 +96,73 @@ function BulkMainController($rootScope, $scope, Article, AuthService, SearchServ
   }
 
   $scope.changePage = function () {
-    $scope.currentArticle = $scope.articles[($scope.currentPage - 1) * $scope.itemsPerPage];
+    $scope.$apply();
   }
 
+  function startUpdates(index, updateObject) {
+    if (index >= $scope.totalResponses) {
+      $scope.isUpdationComplete = true;
+      $scope.isUpdationActive = false;
+      return;
+    }
+    var id = $scope.responses[index]['_id'];
+    updateObject['id'] = id;
+
+    $scope.currentUpdationValue = index + 1;
+
+    typeClass.prototype$updateAttributes(updateObject)
+    .$promise.then(function () {
+      startUpdates(index + 1, updateObject);
+    })
+  }
+
+  $scope.updateAttr = function (or, pub) {
+    $scope.isUpdationComplete = false;
+    switch ($scope.selectedNamespace) {
+      case 'product': {
+        typeClass = Product;
+        break;
+      }
+      case 'article': {
+        typeClass = Article;
+        break;
+      }
+      case 'image': {
+        typeClass = Image;
+        break;
+      }
+      case 'conversation': {
+        typeClass = Discussion;
+        break;
+      }
+    }
+
+    var updateObject = {};
+
+    if (or) {
+      updateObject['orderRank'] = $scope.updates['orderRank'];
+      if (!updateObject['orderRank']) {
+        $scope.alerts.push({msg: 'Please pass an order rank'});
+        return;
+      }
+    }
+
+    if (pub) {
+      updateObject['published'] = $scope.updates['published'];
+    }
+
+    $scope.isUpdationActive = true;
+    startUpdates(0, updateObject);
+
+  }
+
+  $scope.closeAlert = function (index) {
+    if (index) {
+      $scope.alerts.splice(index, 1)''
+    } else {
+      return;
+    }
+  }
 
   $scope.$watch('selectedNamespace', function (newVal, oldVal) {
     if (newVal !== oldVal) {
@@ -83,6 +171,15 @@ function BulkMainController($rootScope, $scope, Article, AuthService, SearchServ
   });
 };
 
-BulkMainController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService', 'SearchService'];
+BulkMainController.$inject = [
+'$rootScope',
+'$scope',
+'$timeout',
+'Article',
+'Image',
+'Product',
+'Discussion',
+'AuthService',
+'SearchService'];
 
 bbmCms.controller('BulkMainController', BulkMainController);
