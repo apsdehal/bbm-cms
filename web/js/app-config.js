@@ -178,6 +178,16 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
             }
           }
         })
+        .state('root.content.bulk', {
+          url: "/content/bulk",
+          data: {pageTitle: 'Bulk Content Management'},
+          views: {
+            'main@': {
+                templateUrl: 'views/bulk-main.html',
+                controller: 'BulkMainController'
+            }
+          }
+        })
 
 }]);
 
