@@ -1,6 +1,10 @@
 function SearchService($http) {
   var searchUrl = bbmCmsConfig['bbmSolrUrl'];
 
+  this.getGeneralQuery = function (query) {
+    return searchUrl + query + '&json.wrf=JSON_CALLBACK';
+  }
+
   this.getGeneralBrandQueryUrl = function (term) {
     return searchUrl + '&q=' + term + '&fq=ns:"solr.page"&fq=type:"brand"&json.wrf=JSON_CALLBACK';
   }
@@ -71,6 +75,11 @@ function SearchService($http) {
 
   this.searchImages = function (term) {
     var url = this.getGeneralImageQueryUrl(term);
+    return $http.jsonp(url);
+  }
+
+  this.search = function (query) {
+    var url = this.getGeneralQuery(query);
     return $http.jsonp(url);
   }
 }
