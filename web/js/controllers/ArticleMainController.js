@@ -29,7 +29,9 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
 
   $scope.changeCurrentArticle = function (index) {
     if ($scope.articles.length > index) {
-      $scope.currentArticle = $scope.articles[index];
+      if ($scope.articles[index] instanceof Article) {
+        $scope.currentArticle = $scope.articles[index];
+      }
       currentSelected = index;
     }
   }
@@ -38,7 +40,7 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
     if ($scope.currentArticle && !isNewArticle) {
-      $scope.currentArticle.$save();
+        $scope.currentArticle.$save();
     }
 
     if (isNewArticle) {
