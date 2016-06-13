@@ -1,11 +1,29 @@
 function ConversationMainController($rootScope, $scope, Discussion, AuthService, SearchService) {
   $scope.conversations = [];
   $scope.currentConversation = false;
+
+  $scope.ajaxInProcess = false;
+  $scope.ajaxComplete = false;
+  $scope.ajaxState = 'Success';
+
   var currentSelected = false;
   var isNewConversation = false;
   var user = false;
   var skip = 10;
   var limit = 10;
+
+
+  function successChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Success';
+  }
+
+  function failureChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Failed';
+  }
 
   $scope.changeCurrentConversation = function (index) {
     if ($scope.conversations.length > index) {
@@ -16,16 +34,26 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
 
   $scope.saveCurrentConversation = function (e) {
     e.preventDefault();
-    if ($scope.currentConversation && !isNewConversation) {
-      $scope.currentConversation.$save();
-    }
 
     if (isNewConversation) {
       $scope.currentConversation.author = AuthService.getCurrentUser().username;
       var newConversation = new Discussion($scope.currentConversation);
       $scope.currentConversation = newConversation;
-      $scope.currentConversation.$save();
     }
+
+    if (!$scope.currentConversation) {
+      return;
+    }
+
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
+
+    $scope.currentConversation.$save()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.deleteCurrentConversation = function (e) {
@@ -36,6 +64,9 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
       .then(function () {
         $scope.currentConversation = false;
         $scope.conversations.splice(currentSelected, 1);
+        successChanges();
+      }, function () {
+        failureChanges();
       });
     }
   }

@@ -131,6 +131,9 @@
 
                                     <!-- TASK TAGS -->
                                     <div class="form-actions right todo-form-actions">
+                                        <img ng-if="ajaxInProcess" src="assets/images/reload.gif" class="btn-sm">
+                                        <span ng-if="ajaxComplete" class="alert" ng-class="ajaxState !== 'Success' ? 'alert-danger' : 'alert-success' ">{{ajaxState}}</span>
+
                                         <button class="btn btn-circle btn-sm green" ng-click="saveCurrentProduct($event)">Save Changes</button>
                                         <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentProduct($event)">Delete product</button>
                                     </div>

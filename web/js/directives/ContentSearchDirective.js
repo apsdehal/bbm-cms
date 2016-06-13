@@ -40,6 +40,7 @@ function ContentSearchDirective(Article, Product, Image, Discussion) {
   };
 }
 
-ContentSearchDirective.$inject = ['Article', 'Product', 'Image', 'Discussion'];
+ContentSearchDirective.$inject =
+['Article', 'Product', 'Image', 'Discussion'];
 
 bbmCms.directive('contentSearch', ContentSearchDirective);

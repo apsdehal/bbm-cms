@@ -7,6 +7,21 @@ function ExpertController($scope, Page, SearchService, $uibModal) {
   $scope.maxSize = 5;
   $scope.gettingProjects = true;
   $scope.isProjectSelected = false;
+  $scope.ajaxInProcess = false;
+  $scope.ajaxComplete = false;
+  $scope.ajaxState = 'Success';
+
+  function successChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Success';
+  }
+
+  function failureChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Failed';
+  }
 
   $scope.getExperts = function (val) {
     return SearchService.searchExperts(val).then(function (data) {
@@ -24,8 +39,15 @@ function ExpertController($scope, Page, SearchService, $uibModal) {
     if ($scope.currentExpert.projects.length < index) {
       return false;
     }
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
 
-    $scope.currentProject.$save();
+    $scope.currentProject.$save()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.deleteCurrentProject = function (event, index) {
@@ -33,8 +55,15 @@ function ExpertController($scope, Page, SearchService, $uibModal) {
     if ($scope.currentExpert.projects.length < index) {
       return false;
     }
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
 
-    $scope.currentProject.$delete();
+    $scope.currentProject.$delete()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.changeCurrentProject = function (index) {

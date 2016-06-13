@@ -7,6 +7,23 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
   var skip = 10;
   var limit = 10;
 
+
+  $scope.ajaxInProcess = false;
+  $scope.ajaxComplete = false;
+  $scope.ajaxState = 'Success';
+
+  function successChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Success';
+  }
+
+  function failureChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Failed';
+  }
+
   $scope.changeCurrentProduct = function (index) {
     if ($scope.products.length > index) {
       $scope.currentProduct = $scope.products[index];
@@ -16,26 +33,42 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
 
   $scope.saveCurrentProduct = function (e) {
     e.preventDefault();
-    if ($scope.currentProduct && !isNewProduct) {
-      $scope.currentProduct.$save();
-    }
 
     if (isNewProduct) {
       $scope.currentProduct.author = AuthService.getCurrentUser().username;
       var newProduct = new Product($scope.currentProduct);
       $scope.currentProduct = newProduct;
-      $scope.currentProduct.$save();
     }
+
+    if (!$scope.currentProduct) {
+      return;
+    }
+
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
+
+    $scope.currentProduct.$save()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.deleteCurrentProduct = function (e) {
     e.preventDefault();
     if ($scope.currentProduct && !isNewProduct) {
+      $scope.ajaxComplete = false;
+      $scope.ajaxInProcess = true;
+
       Product.deleteById(({id: $scope.currentProduct.id}))
       .$promise
       .then(function () {
         $scope.currentProduct = false;
         $scope.products.splice(currentSelected, 1);
+        successChanges();
+      }, function () {
+        failureChanges();
       });
     }
   }

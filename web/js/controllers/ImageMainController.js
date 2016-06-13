@@ -7,6 +7,22 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
   var skip = 10;
   var limit = 10;
 
+  $scope.ajaxInProcess = false;
+  $scope.ajaxComplete = false;
+  $scope.ajaxState = 'Success';
+
+  function successChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Success';
+  }
+
+  function failureChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Failed';
+  }
+
 
   $scope.changeCurrentImage = function (index) {
     if ($scope.images.length > index) {
@@ -17,26 +33,41 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
 
   $scope.saveCurrentImage = function (e) {
     e.preventDefault();
-    if ($scope.currentImage && !isNewImage) {
-      $scope.currentImage.$save();
-    }
-
     if (isNewImage) {
       $scope.currentImage.author = AuthService.getCurrentUser().username;
       var newArticle = new Image($scope.currentImage);
       $scope.currentImage = newArticle;
-      $scope.currentImage.$save();
     }
+
+    if (!$scope.currentImage) {
+      return;
+    }
+
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
+
+    $scope.currentImage.$save()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.deleteCurrentImage = function (e) {
     e.preventDefault();
     if ($scope.currentImage && !isNewImage) {
+      $scope.ajaxComplete = false;
+      $scope.ajaxInProcess = true;
+
       Image.deleteById(({id: $scope.currentImage.id}))
       .$promise
       .then(function () {
         $scope.currentImage = false;
         $scope.images.splice(currentSelected, 1);
+        successChanges();
+      }, function () {
+        failureChanges();
       });
     }
   }
@@ -74,13 +105,11 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
     );
   }
 
-
   Image.find(
     {filter:
       {order: 'created DESC',
        limit: limit}},
     function (list) {
-      console.log(list);
       $scope.images = list;
       $scope.currentImage = list[0];
     }

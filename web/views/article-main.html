@@ -97,15 +97,17 @@
                                       <div class="todo-tasklist-item-title col-md-12">
                                       Tags:
                                       </div>
-                                      <duv class="col-md-12">
+                                      <div class="col-md-12">
                                         <content-tags data-current-content="currentArticle"></content-tags>
-                                      </duv>
+                                      </div>
                                     </div>
 
                                     <!-- TASK TAGS -->
                                     <div class="form-actions right todo-form-actions">
-                                        <button class="btn btn-circle btn-sm green" ng-click="saveCurrentArticle($event)">Save Changes</button>
-                                        <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentArticle($event)">Delete article</button>
+                                        <img ng-if="ajaxInProcess" src="assets/images/reload.gif" class="btn-sm">
+                                        <span ng-if="ajaxComplete" class="alert" ng-class="ajaxState !== 'Success' ? 'alert-danger' : 'alert-success' ">{{ajaxState}}</span>
+                                        <button class="btn btn-circle btn-sm green" ng-click="saveCurrentArticle($event)">Save changes</button>
+                                        <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentArticle($event)">Delete</button>
                                     </div>
                                 </div>
                                 <comments data-current="currentArticle"></comments>

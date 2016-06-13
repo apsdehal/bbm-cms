@@ -7,6 +7,22 @@ function BrandController($scope, Page, SearchService) {
   $scope.maxSize = 5;
   $scope.gettingProducts = true;
   $scope.isProductSelected = false;
+  $scope.ajaxInProcess = false;
+  $scope.ajaxComplete = false;
+  $scope.ajaxState = 'Success';
+
+  function successChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Success';
+  }
+
+  function failureChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Failed';
+  }
+
 
   $scope.getBrands = function (val) {
     return SearchService.searchBrands(val).then(function (data) {
@@ -25,7 +41,15 @@ function BrandController($scope, Page, SearchService) {
       return false;
     }
 
-    $scope.currentProduct.$save();
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
+
+    $scope.currentProduct.$save()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.deleteCurrentProduct = function (event, index) {
@@ -34,7 +58,12 @@ function BrandController($scope, Page, SearchService) {
       return false;
     }
 
-    $scope.currentProduct.$delete();
+    $scope.currentProduct.$delete()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.changeCurrentProduct = function (index) {

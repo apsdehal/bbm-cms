@@ -92,7 +92,8 @@ function DashboardController($rootScope, $scope, $http, $timeout,
         }
       }
 
-      return [activity.page.displayName, mid, activity.feed.type,
+      return [(activity.page ? activity.page.displayName : activity.feed[activity.feed.type].page.displayName),
+      mid, activity.feed.type,
       activity.feed[activity.feed.type]['title'], last].join(' ');
     }
     // set sidebar closed and body solid layout mode

@@ -96,6 +96,9 @@
                       </div>
                   </div>
                   <div class="form-actions col-md-12 text-right right todo-form-actions margin-top-15">
+                      <img ng-if="ajaxInProcess" src="assets/images/reload.gif" class="btn-sm">
+                      <span ng-if="ajaxComplete" class="alert" ng-class="ajaxState !== 'Success' ? 'alert-danger' : 'alert-success' ">{{ajaxState}}</span>
+
                       <button class="btn btn-circle btn-sm green" ng-click="saveCurrentProject($event)">Save Changes</button>
                       <button class="btn btn-circle btn-sm btn-default" ng-click="deleteCurrentProject($event)">Delete</button>
                   </div>

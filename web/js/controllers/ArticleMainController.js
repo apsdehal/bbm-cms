@@ -2,6 +2,9 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
   $scope.articles = [];
   $scope.currentArticle = false;
   $scope.isEditActive = true;
+  $scope.ajaxInProcess = false;
+  $scope.ajaxComplete = false;
+  $scope.ajaxState = 'Success';
   var currentSelected = false;
   var isNewArticle = false;
   var user = false;
@@ -36,29 +39,55 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
     }
   }
 
+  function successChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Success';
+  }
+
+  function failureChanges() {
+    $scope.ajaxInProcess = false;
+    $scope.ajaxComplete = true;
+    $scope.ajaxState = 'Failed';
+  }
 
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
-    if ($scope.currentArticle && !isNewArticle) {
-        $scope.currentArticle.$save();
-    }
-
     if (isNewArticle) {
       $scope.currentArticle.author = AuthService.getCurrentUser().username;
       var newArticle = new Article($scope.currentArticle);
       $scope.currentArticle = newArticle;
-      $scope.currentArticle.$save();
     }
+
+    if (!$scope.currentArticle) {
+      return;
+    }
+
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
+
+    $scope.currentArticle.$save()
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
   }
 
   $scope.deleteCurrentArticle = function (e) {
     e.preventDefault();
     if ($scope.currentArticle && !isNewArticle) {
+      $scope.ajaxComplete = false;
+      $scope.ajaxInProcess = true;
+
       Article.deleteById(({id: $scope.currentArticle.id}))
       .$promise
       .then(function () {
         $scope.currentArticle = false;
         $scope.articles.splice(currentSelected, 1);
+        successChanges();
+      }, function () {
+        failureChanges();
       });
     }
   }
