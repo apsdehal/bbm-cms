@@ -13,6 +13,7 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
 
   $scope.user = {};
 
+  $scope.currentType = Article;
   // Need user for pageid
   $scope.$on('user:change', function (e, data) {
     $scope.user = data;
@@ -63,12 +64,14 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
       return;
     }
 
+    var tags = $scope.currentArticle.tags;
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
     $scope.currentArticle.$save()
     .then(function () {
       successChanges();
+      $scope.currentArticle.tags = tags;
     }, function () {
       failureChanges();
     });

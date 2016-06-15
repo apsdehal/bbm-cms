@@ -7,6 +7,7 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
   var skip = 10;
   var limit = 10;
 
+  $scope.currentType = Image;
   $scope.ajaxInProcess = false;
   $scope.ajaxComplete = false;
   $scope.ajaxState = 'Success';
@@ -43,12 +44,15 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
       return;
     }
 
+    var tags = $scope.currentImage.tags;
+
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
     $scope.currentImage.$save()
     .then(function () {
       successChanges();
+      $scope.currentImage.tags = tags;
     }, function () {
       failureChanges();
     });

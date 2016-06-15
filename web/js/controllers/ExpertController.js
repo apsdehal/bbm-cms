@@ -10,6 +10,7 @@ function ExpertController($scope, Page, SearchService, $uibModal) {
   $scope.ajaxInProcess = false;
   $scope.ajaxComplete = false;
   $scope.ajaxState = 'Success';
+  $scope.currentType = Product;
 
   function successChanges() {
     $scope.ajaxInProcess = false;

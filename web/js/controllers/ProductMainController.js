@@ -24,6 +24,7 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
     $scope.ajaxState = 'Failed';
   }
 
+  $scope.currentType = Product;
   $scope.changeCurrentProduct = function (index) {
     if ($scope.products.length > index) {
       $scope.currentProduct = $scope.products[index];

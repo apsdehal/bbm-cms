@@ -3,11 +3,27 @@ function ContentTagsDirective(Tag) {
     restrict: 'E',
     replace: false,
     scope: {
-      currentContent: '='
+      currentContent: '=',
+      currentType: '='
     },
     templateUrl: 'views/directives/content-tags.html',
     link: function (scope) {
       scope.tags = [];
+
+      scope.addTag = function ($item, $modal) {
+        scope.currentType.tags.link({
+          id: scope.currentContent.id,
+          fk: $item.id
+        });
+      }
+
+      scope.removeTag = function ($item, $modal) {
+        scope.currentType.tags.unlink({
+          id: scope.currentContent.id,
+          fk: $item.id
+        });
+      }
+
 
       scope.refreshTags = function (val) {
         return Tag.find({

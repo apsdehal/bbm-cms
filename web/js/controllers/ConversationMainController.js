@@ -5,6 +5,7 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
   $scope.ajaxInProcess = false;
   $scope.ajaxComplete = false;
   $scope.ajaxState = 'Success';
+  $scope.currentType = Discussion;
 
   var currentSelected = false;
   var isNewConversation = false;
@@ -45,12 +46,15 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
       return;
     }
 
+    var tags = $scope.currentConversation.tags;
+
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
     $scope.currentConversation.$save()
     .then(function () {
       successChanges();
+      $scope.currentConversation.tags = tags;
     }, function () {
       failureChanges();
     });
