@@ -95,8 +95,15 @@
                           <div class="todo-tasklist-item todo-tasklist-item-border-green">
                               <div class="todo-tasklist-item-title">
                                 {{response.title}}
+                                <p class="pull-right">
+                                Price: {{response.priceC}}
+                                </p>
                               </div>
                               <div class="divider"></div>
+                              <div ng-if="response.imgUrl" class="todo-tasklist-item-text text-center">
+                                    <img ng-src="{{response.imgUrl}}" width="90px">
+                              </div>
+
                               <div class="todo-tasklist-item-text"> {{response.desc}} </div>
                           </div>
                           <br/>

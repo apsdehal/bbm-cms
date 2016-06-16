@@ -81,7 +81,7 @@ function BulkMainController(
       }
     }
 
-    queryString += "&fl=title,desc,_id&rows=2147483647"
+    queryString += "&fl=title,desc,_id,imgUrl,priceC&rows=2147483647"
     SearchService.search(queryString).then(function (data) {
       $scope.searchDone = true;
       data = data.data
