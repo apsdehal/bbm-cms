@@ -14,19 +14,19 @@ function SearchService($http) {
   }
 
   this.getGeneralArticleQueryUrl = function (term) {
-    return searchUrl + '&q=' + term + '&fq=ns:"solr.article"&json.wrf=JSON_CALLBACK';
+    return searchUrl + '&q=' + term + '&fq=ns:"solr.article"&json.wrf=JSON_CALLBACK&fl=title,_id';
   }
 
   this.getGeneralProductQueryUrl = function (term) {
-    return searchUrl + '&q=' + term + '&fq=ns:"solr.product"&json.wrf=JSON_CALLBACK';
+    return searchUrl + '&q=' + term + '&fq=ns:"solr.product"&json.wrf=JSON_CALLBACK&fl=title,_id';
   }
 
   this.getGeneralConversationQueryUrl = function (term) {
-    return searchUrl + '&q=' + term + '&fq=ns:"solr.discussion"&json.wrf=JSON_CALLBACK';
+    return searchUrl + '&q=' + term + '&fq=ns:"solr.discussion"&json.wrf=JSON_CALLBACK&fl=title,_id';
   }
 
   this.getGeneralImageQueryUrl = function (term) {
-    return searchUrl + '&q=' + term + '&fq=ns:"solr.image"&json.wrf=JSON_CALLBACK';
+    return searchUrl + '&q=' + term + '&fq=ns:"solr.image"&json.wrf=JSON_CALLBACK&fl=title,_id';
   }
 
   this.getAllExpertQueryUrl = function (start) {
