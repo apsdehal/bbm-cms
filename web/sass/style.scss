@@ -15,6 +15,23 @@
   overflow: auto;
 }
 
+.filter-menu-sidebar {
+  transition: right 0.3s;
+  z-index: 10500;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 320px;
+  right: -320px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: -1px 0px 4px #aaa;
+}
+
+.filter-menu-active .filter-menu-sidebar {
+  right: 0px;
+  transition: right 0.3s;
+}
 
 
 /**
