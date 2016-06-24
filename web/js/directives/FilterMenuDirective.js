@@ -16,7 +16,7 @@ function FilterMenuDirective() {
       })
 
       angular.element('body').click(function () {
-        angular.element(this).toggleClass('filter-menu-active');
+        angular.element(this).removeClass('filter-menu-active');
       })
     }
   };
