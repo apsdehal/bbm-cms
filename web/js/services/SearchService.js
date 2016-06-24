@@ -5,6 +5,10 @@ function SearchService($http) {
     return searchUrl + query + '&json.wrf=JSON_CALLBACK';
   }
 
+  this.getGeneralTermQuery = function (term, query) {
+    return searchUrl + '&q=' + term + query + '&json.wrf=JSON_CALLBACK';
+  }
+
   this.getGeneralBrandQueryUrl = function (term) {
     return searchUrl + '&q=' + term + '&fq=ns:"solr.page"&fq=type:"brand"&json.wrf=JSON_CALLBACK';
   }
@@ -17,8 +21,8 @@ function SearchService($http) {
     return searchUrl + '&q=' + term + '&fq=ns:"solr.article"&json.wrf=JSON_CALLBACK&fl=title,_id';
   }
 
-  this.getGeneralProductQueryUrl = function (term) {
-    return searchUrl + '&q=' + term + '&fq=ns:"solr.product"&json.wrf=JSON_CALLBACK&fl=title,_id';
+  this.getGeneralProductQueryUrl = function (term, query) {
+    return this.getGeneralTermQuery(term, query) + '&fq=ns:"solr.product"&fl=title,_id';
   }
 
   this.getGeneralConversationQueryUrl = function (term) {
@@ -63,8 +67,8 @@ function SearchService($http) {
     return $http.jsonp(url);
   }
 
-  this.searchProducts = function (term) {
-    var url = this.getGeneralProductQueryUrl(term);
+  this.searchProducts = function (term, query) {
+    var url = this.getGeneralProductQueryUrl(term, query);
     return $http.jsonp(url);
   }
 

@@ -7,6 +7,7 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
   var skip = 10;
   var limit = 10;
 
+  $scope.currentFilters = {};
 
   $scope.ajaxInProcess = false;
   $scope.ajaxComplete = false;
@@ -80,8 +81,48 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
     currentSelected = false
   }
 
+  function buildQueryFromFilters() {
+    var query = '';
+
+    for(var key in $scope.currentFilters) {
+      var value = $scope.currentFilters[key];
+      if (value && key !== 'orderRank') {
+        query += '&fq=' + key + ':"' + value + '"';
+      }
+
+      // Setting orderRank parameter
+      if (key === 'orderRank') {
+        var orderRank = $scope.currentFilters.orderRank;
+        if (orderRank.compare === undefined || orderRank.value === undefined) {
+          return;
+        }
+        query += '&fq=orderRank:';
+        switch(orderRank.compare) {
+          case '=': {
+            query += '"' + orderRank.value + '"';
+            break;
+          }
+
+          case '>': {
+            query += '[' + (window.parseInt(orderRank.value, 10) + 1) + ' TO *]';
+            break;
+          }
+
+          case '<': {
+            query += '[* TO ' + (window.parseInt(orderRank.value, 10) - 1) + ']';
+            break;
+          }
+        }
+      }
+    };
+    console.log(query);
+
+    return query;
+  }
+
   $scope.getProducts = function (val) {
-    return SearchService.searchProducts(val).then(function (data) {
+    var queryString = buildQueryFromFilters();
+    return SearchService.searchProducts(val, queryString).then(function (data) {
       data = data.data
       return data.response.numFound ? data.response.docs : [];
     });
