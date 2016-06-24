@@ -1,4 +1,87 @@
 <div class="todo-content">
+    <filter-menu>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Category:</span>
+          <input type="text" class="filter-textbox col-md-8 filter-item-value" ng-model="currentFilters.category">
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Main Category:</span>
+          <input type="text" class="filter-textbox col-md-8 filter-item-value" ng-model="currentFilters.mainCategory">
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Mid Category:</span>
+          <input type="text" class="filter-textbox col-md-8 filter-item-value" ng-model="currentFilters.midCategory">
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Brand:</span>
+          <input type="text" class="filter-textbox col-md-8 filter-item-value" ng-model="currentFilters.brand">
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Provider:</span>
+          <input type="text" class="filter-textbox col-md-8 filter-item-value" ng-model="currentFilters.provider">
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Order Rank</span>
+          <select class="col-md-2" ng-model="currentFilter.orderRankCompare">
+            <option value="=">=</option>
+            <option value=">">></option>
+            <option value="<"><</option>
+          </select>
+          <input type="text" class="filter-textbox col-md-offset-1 col-md-5 filter-item-value" ng-model="currentFilters.orderRankValue">
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Color</span>
+          <input type="text" class="filter-textbox col-md-offset-1 col-md-5 filter-item-value" ng-model="currentFilters.color">
+          <div class="filter-note"><i class="fa fa-warning"> Take care of capital letters in color name.</i></div>
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Published?</span>
+          <div class="col-md-4">
+            <input type="radio" value="1" ng-model="currentFilters.published"> Yes
+          </div>
+          <div class="col-md-4">
+            <input type="radio" value="0" ng-model="currentFilters.published"> No
+          </div>
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">On Sale?</span>
+          <div class="col-md-4">
+            <input type="radio" value="1" ng-model="currentFilters.onSale"> Yes
+          </div>
+          <div class="col-md-4">
+            <input type="radio" value="0" ng-model="currentFilters.onSale"> No
+          </div>
+        </div>
+      </div>
+      <div class="filter-inside">
+        <div class="col-md-12 pull-left">
+          <span class="filter-item col-md-4">Top Seller?</span>
+          <div class="col-md-4">
+            <input type="radio" value="1" ng-model="currentFilters.topSeller"> Yes
+          </div>
+          <div class="col-md-4">
+            <input type="radio" value="0" ng-model="currentFilters.topSeller"> No
+          </div>
+        </div>
+      </div>
+    </filter-menu>
     <div class="portlet light">
         <!-- PROJECT HEAD -->
         <div class="portlet-title">
@@ -8,7 +91,10 @@
                 <span class="caption-subject font-green bold uppercase">Products</span>
             </div>
             <content-search data-get-content="getProducts(val)" data-current-content="currentProduct" data-content-type="product" data-label-attr="title"></content-search>
-            <div class="actions col-md-3 col-sm-12">
+            <div class="col-md-2 col-sm-12">
+              <button class="btn btn-circle btn-sm green" filter-menu-toggler>Apply filters</button>
+            </div>
+            <div class="actions col-md-1 col-sm-12">
                 <div class="btn-group pull-right">
                     <div class="btn green btn-circle btn-sm" ng-click="setupNewProduct()">New Product</div>
                 </div>

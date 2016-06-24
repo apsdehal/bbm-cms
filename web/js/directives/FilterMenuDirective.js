@@ -11,6 +11,10 @@ function FilterMenuDirective() {
         e.stopPropagation();
       })
 
+      elem.find('.closer').click(function () {
+        angular.element('body').removeClass('filter-menu-active');
+      })
+
       angular.element('body').click(function () {
         angular.element(this).toggleClass('filter-menu-active');
       })

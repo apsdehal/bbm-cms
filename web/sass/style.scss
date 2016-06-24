@@ -33,6 +33,47 @@
   transition: right 0.3s;
 }
 
+$color-filter-menu: #577688;
+$color-filter-menu-light: #356466;
+
+.filter-heading {
+  font-size: 24px;
+  border-bottom: 1px solid #999;
+  width: 80%;
+  margin: 0 auto;
+  padding-top: 50px;
+  padding-bottom: 10px;
+  color: $color-filter-menu;
+}
+
+.filter-inside {
+  margin: 0 auto;
+  color: $color-filter-menu;
+  width: 100%;
+  overflow: auto;
+  padding-top: 25px;
+  padding-bottom: 15px;
+}
+
+.filter-note {
+  color: $color-filter-menu-light;
+  font-size: 11px;
+  padding-left: 5%;
+  margin-top: 15px;
+}
+
+.first-inside:first {
+  padding-top: 40px;
+}
+
+.dib {
+  display: inline-block;
+}
+
+.pt7 {
+  padding-top: 7px;
+}
+
 
 /**
  * Copy pasted reload animation css
