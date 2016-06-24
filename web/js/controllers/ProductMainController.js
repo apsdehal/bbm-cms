@@ -86,7 +86,7 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
 
     for(var key in $scope.currentFilters) {
       var value = $scope.currentFilters[key];
-      if (value && key !== 'orderRank') {
+      if (value && value.length && key !== 'orderRank') {
         query += '&fq=' + key + ':"' + value + '"';
       }
 
@@ -116,7 +116,6 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
       }
     };
     console.log(query);
-
     return query;
   }
 

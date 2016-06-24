@@ -45,39 +45,51 @@
         <div class="col-md-12 pull-left">
           <span class="filter-item col-md-4">Color</span>
           <input type="text" class="filter-textbox col-md-offset-1 col-md-5 filter-item-value" ng-model="currentFilters.color">
-          <div class="filter-note"><i class="fa fa-warning"> Take care of capital letters in color name.</i></div>
+          <br/>
+          <div class="filter-note"><i class="fa fa-warning"></i> Take care of capital letters in color name.</div>
         </div>
       </div>
       <div class="filter-inside">
         <div class="col-md-12 pull-left">
-          <span class="filter-item col-md-4">Published?</span>
-          <div class="col-md-4">
+          <span class="filter-item col-md-3">Published?</span>
+          <div class="col-md-3">
             <input type="radio" value="1" ng-model="currentFilters.published"> Yes
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <input type="radio" value="0" ng-model="currentFilters.published"> No
           </div>
+          <div class="col-md-3">
+            <input type="radio" value="" ng-model="currentFilters.published"> X
+          </div>
+          <br/>
+          <div class="filter-note"><i class="fa fa-warning"></i> No means "published=false", to exclude select X</div>
         </div>
       </div>
       <div class="filter-inside">
         <div class="col-md-12 pull-left">
-          <span class="filter-item col-md-4">On Sale?</span>
-          <div class="col-md-4">
+          <span class="filter-item col-md-3">On Sale?</span>
+          <div class="col-md-3">
             <input type="radio" value="1" ng-model="currentFilters.onSale"> Yes
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <input type="radio" value="0" ng-model="currentFilters.onSale"> No
+          </div>
+          <div class="col-md-3">
+            <input type="radio" value="" ng-model="currentFilters.onSale"> X
           </div>
         </div>
       </div>
       <div class="filter-inside">
         <div class="col-md-12 pull-left">
-          <span class="filter-item col-md-4">Top Seller?</span>
-          <div class="col-md-4">
+          <span class="filter-item col-md-3">Top Seller?</span>
+          <div class="col-md-3">
             <input type="radio" value="1" ng-model="currentFilters.topSeller"> Yes
           </div>
-          <div class="col-md-4">
+          <div class="col-md-3">
             <input type="radio" value="0" ng-model="currentFilters.topSeller"> No
+          </div>
+          <div class="col-md-3">
+            <input type="radio" value="" ng-model="currentFilters.topSeller"> X
           </div>
         </div>
       </div>
