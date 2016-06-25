@@ -10,6 +10,7 @@ function BrandController($scope, Page, SearchService) {
   $scope.ajaxInProcess = false;
   $scope.ajaxComplete = false;
   $scope.ajaxState = 'Success';
+  $scope.currentType = Product;
 
   function successChanges() {
     $scope.ajaxInProcess = false;
