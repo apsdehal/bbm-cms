@@ -7,6 +7,7 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
   var skip = 10;
   var limit = 10;
 
+  $scope.currentType = Product;
   $scope.currentFilters = {};
 
   $scope.ajaxInProcess = false;
@@ -115,7 +116,6 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
         }
       }
     };
-    console.log(query);
     return query;
   }
 
