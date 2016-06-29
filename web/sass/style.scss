@@ -78,7 +78,9 @@ $color-filter-menu-light: #356466;
   color: yellow;
 }
 
-
+input[type=file] {
+  display: inline;
+}
 /**
  * Copy pasted reload animation css
  */

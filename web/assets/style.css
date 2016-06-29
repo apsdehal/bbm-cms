@@ -62,6 +62,9 @@
 .color--yellow {
   color: yellow; }
 
+input[type=file] {
+  display: inline; }
+
 /**
  * Copy pasted reload animation css
  */

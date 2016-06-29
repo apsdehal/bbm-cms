@@ -1,4 +1,4 @@
-function CurateProductDirective() {
+function CurateProductDirective(Curation) {
   return {
     restrict: 'E',
     replace: true,
@@ -10,13 +10,17 @@ function CurateProductDirective() {
     link: function (scope, elem) {
       scope.isCurated = false;
       scope.curate = function () {
-        console.log(scope.productId);
-        scope.isCurated = true;
+        Curation.create({
+          productId: scope.productId,
+          published: false
+        }).$promise.then(function () {
+          scope.isCurated = true;
+        });
       }
     }
   };
 }
 
-CurateProductDirective.$inject = [];
+CurateProductDirective.$inject = ['Curation'];
 
 bbmCms.directive('curateProduct', CurateProductDirective);

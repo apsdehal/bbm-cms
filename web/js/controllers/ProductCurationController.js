@@ -1,13 +1,15 @@
-function ProductCurationController($rootScope, $scope, Product, AuthService, SearchService) {
+function ProductCurationController($rootScope, $scope, Curation, FileUploadService, Product, AuthService, SearchService) {
   $scope.products = [];
   $scope.currentProduct = false;
+  $scope.imageFile = null;
   var currentSelected = false;
   var isNewProduct = false;
   var user = false;
   var skip = 10;
   var limit = 10;
 
-  $scope.currentType = Product;
+  $scope.currentType = Curation;
+  $scope.uploadButtonText = 'Upload';
 
   $scope.ajaxInProcess = false;
   $scope.ajaxComplete = false;
@@ -25,7 +27,6 @@ function ProductCurationController($rootScope, $scope, Product, AuthService, Sea
     $scope.ajaxState = 'Failed';
   }
 
-  $scope.currentType = Product;
   $scope.changeCurrentProduct = function (index) {
     if ($scope.products.length > index) {
       $scope.currentProduct = $scope.products[index];
@@ -33,14 +34,38 @@ function ProductCurationController($rootScope, $scope, Product, AuthService, Sea
     }
   }
 
+  $scope.publishCurrentProduct = function (e) {
+    e.preventDefault();
+    $scope.saveCurrentProduct(e);
+    $scope.currentProduct.published = true;
+
+    Curation.prototype$updateAttributes({
+      id: $scope.currentProduct.id,
+      published: true
+    })
+    .$promise
+    .then(function () {
+      successChanges();
+    }, function () {
+      failureChanges();
+    });
+  }
+
+  $scope.uploadImage = function (e) {
+    e.preventDefault();
+    FileUploadService
+    .uploadFileToUrl($scope.imageFile, bbmCmsConfig.bbmApiUrl + '/media/upload')
+    .success(function (data) {
+      $scope.currentProduct.product.imgUrl = data.result.secure_url;
+      $scope.uploadButtonText = 'Uploaded';
+    })
+    .error(function () {
+      $scope.uploadButtonText = 'Failed';
+    });
+  }
+
   $scope.saveCurrentProduct = function (e) {
     e.preventDefault();
-
-    if (isNewProduct) {
-      $scope.currentProduct.author = AuthService.getCurrentUser().username;
-      var newProduct = new Product($scope.currentProduct);
-      $scope.currentProduct = newProduct;
-    }
 
     if (!$scope.currentProduct) {
       return;
@@ -49,7 +74,12 @@ function ProductCurationController($rootScope, $scope, Product, AuthService, Sea
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
-    $scope.currentProduct.$save()
+    Product.prototype$updateAttributes({
+      id: $scope.currentProduct.product.id,
+      desc: $scope.currentProduct.product.desc,
+      title: $scope.currentProduct.product.title,
+      imgUrl: $scope.currentProduct.product.imgUrl,
+    }).$promise
     .then(function () {
       successChanges();
     }, function () {
@@ -63,7 +93,7 @@ function ProductCurationController($rootScope, $scope, Product, AuthService, Sea
       $scope.ajaxComplete = false;
       $scope.ajaxInProcess = true;
 
-      Product.deleteById(({id: $scope.currentProduct.id}))
+      Curation.deleteById(({id: $scope.currentProduct.id}))
       .$promise
       .then(function () {
         $scope.currentProduct = false;
@@ -75,14 +105,20 @@ function ProductCurationController($rootScope, $scope, Product, AuthService, Sea
     }
   }
 
+  var lessResults = false;
+
   $scope.nextProducts = function () {
+    if (lessResults) {
+      return;
+    }
+
     if ($scope.busy) {
       return;
     }
 
     $scope.busy = true;
 
-    Product.find(
+    Curation.find(
       {filter:
         {order: 'storyId DESC',
          skip: skip,
@@ -91,22 +127,28 @@ function ProductCurationController($rootScope, $scope, Product, AuthService, Sea
         $scope.busy = false;
         $scope.products = $scope.products.concat(list);
         skip += limit;
+        if (list.length < limit) {
+          lessResults = true;
+        }
       }
     );
   }
 
 
-  Product.find(
+  Curation.find(
     {filter:
       {order: 'storyId DESC',
        limit: limit}},
     function (list) {
       $scope.products = list;
       $scope.currentProduct = list[0];
+      if (list.length < limit) {
+        lessResults = true;
+      }
     }
   );
 };
 
-ProductCurationController.$inject = ['$rootScope', '$scope', 'Product', 'AuthService', 'SearchService'];
+ProductCurationController.$inject = ['$rootScope', '$scope', 'Curation', 'FileUploadService', 'Product', 'AuthService', 'SearchService'];
 
 bbmCms.controller('ProductCurationController', ProductCurationController);
