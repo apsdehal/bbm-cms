@@ -188,6 +188,16 @@ bbmCms.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
             }
           }
         })
+        .state('root.content.curated', {
+          url: "/content/curated",
+          data: {pageTitle: 'Curated Product Management'},
+          views: {
+            'main@': {
+                templateUrl: 'views/product-curation.html',
+                controller: 'ProductCurationController'
+            }
+          }
+        })
 
 }]);
 

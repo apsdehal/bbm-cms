@@ -120,7 +120,7 @@
                         <div class="todo-tasklist" infinite-scroll="nextProducts()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
                             <div ng-repeat="product in products">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentProduct($index)">
-                                    <div class="todo-tasklist-item-title">                                    <img class="todo-userpic" ng-src="{{::product.page.image}}" width="27px" height="27px">{{::product.title}} </div>
+                                    <div class="todo-tasklist-item-title">                                    <img class="todo-userpic" ng-src="{{::product.page.image}}" width="27px" height="27px">{{::product.title}} <curate-product data-product-id="{{product.id}}"class="pull-right"></curate-product></div>
                                     <div class="divider"></div>
                                     <div class="todo-tasklist-item-text"> {{::product.desc | oneFifty}} </div>
                                     <div class="todo-tasklist-controls pull-left">
@@ -153,6 +153,7 @@
                                                   <p class="todo-comment-head">
                                                       <span class="todo-comment-username">{{(currentProduct.page.displayName || currentProduct.brand)}}</span> &nbsp;
                                                       <span class="todo-comment-date">{{ currentProduct.updated | formatTime }}</span>
+                                                      <curate-product class="pull-right" data-product-id="{{currentProduct.id}}"></curate-product>
                                                   </p>
                                               </div>
                                         </div>
