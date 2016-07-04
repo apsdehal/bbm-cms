@@ -53,7 +53,7 @@ function DashboardController($rootScope, $scope, $http, $timeout,
         Activity.find(
           {filter:
             {limit: 35,
-             include: ['feed', 'page']}},
+             include: [{'feed': ['discussion', 'post'] }, 'page']}},
           function (list) {
             $scope.activities = list;
           }
@@ -90,6 +90,12 @@ function DashboardController($rootScope, $scope, $http, $timeout,
         case 'post': {
           mid = 'posted';
         }
+      }
+
+      activity.canBeShown = true;
+      if (!activity.feed[activity.feed.type]) {
+        activity.canBeShown = false;
+        return;
       }
 
       return [(activity.page ? activity.page.displayName : activity.feed[activity.feed.type].page.displayName),
