@@ -6,6 +6,9 @@
 var mongoose = require('mongoose');
 var utils = require('../app/utils');
 var path = require('path');
+var Article = require('../app/models/article');
+var Image = require('../app/models/image');
+
 
 /**
  * Expose
@@ -15,6 +18,7 @@ module.exports = function (app, passport) {
   app.get('/', function (req, res) {
     res.sendFile('index.html');
   });
+
 
   app.post('/user/login', function (req, res, next) {
     passport.authenticate('login', function(err, user, info) {
@@ -50,6 +54,105 @@ module.exports = function (app, passport) {
       return res.status(401).json({message: 'User not logged in'});
     }
   })
+
+
+  app.post('/api/article/createMany', function (req, res) {
+    createMany(req, res, Article);
+  });
+
+  app.get('/api/article/all', function (req, res) {
+    getAll(req, res, Article);
+  });
+
+  app.delete('/api/article/all', function (req, res) {
+    deleteAll(req, res, Article);
+  });
+
+
+  app.post('/api/article/update', function (req, res) {
+    updateModel(req, res, Article);
+  });
+
+  app.post('/api/article/delete', function (req, res) {
+    deleteModel(req, res, Article);
+  });
+
+  app.post('/api/image/createMany', function (req, res) {
+    createMany(req, res, Image);
+  });
+
+  app.get('/api/image/all', function (req, res) {
+    getAll(req, res, Image);
+  });
+
+  app.delete('/api/image/all', function (req, res) {
+    deleteAll(req, res, Image);
+  });
+
+
+  app.post('/api/image/update', function (req, res) {
+    updateModel(req, res, Image);
+  });
+
+  app.post('/api/image/delete', function (req, res) {
+    deleteModel(req, res, Image);
+  });
+
+  function createMany(req, res, model) {
+    var docs = JSON.parse(req.body.docs);
+    model.collection.insert(docs, function (err, docs) {
+      if (err) {
+        return res.status(500).json({message: 'Docs failed to insert', error: err});
+      } else {
+        return res.status(200).json({message: 'Docs successfully inserted'});
+      }
+    });
+  }
+
+  function getAll(req, res, model) {
+    model.find({}, function (err, docs) {
+      if (err) {
+        return res.status(500).json({message: 'Docs failed', error: err});
+      } else {
+        return res.status(200).json(Docs);
+      }
+    })
+  }
+
+  function updateModel(req, res, model) {
+    var doc = JSON.parse(req.body.doc);
+
+    model.update({"_id": doc._id}, doc, function (err, docs) {
+      if (err) {
+        return res.status(500).json({message: 'Doc failed to update', error: err});
+      } else {
+        return res.status(200).json({message: 'Doc successfully updated'});
+      }
+    });
+  }
+
+  function deleteModel(req, res, model) {
+    var doc = JSON.parse(req.body.doc);
+
+    model.remove({"_id": doc._id}, function (err, docs) {
+      if (err) {
+        return res.status(500).json({message: 'Doc failed to delete', error: err});
+      } else {
+        return res.status(200).json({message: 'Doc successfully deleted'});
+      }
+    });
+  }
+
+  function removeAll(req, res, model) {
+    model.remove({}, function (err, docs) {
+      if (err) {
+        return res.status(500).json({message: 'Docs failed to delete', error: err});
+      } else {
+        return res.status(200).json({message: 'Docs successfully deleted'});
+      }
+    });
+  }
+
 
   /**
    * Error handling

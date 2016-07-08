@@ -19,4 +19,6 @@ var ArticleSchema = new Schema({
  * Register
  */
 
-mongoose.model('Article', ArticleSchema);
+var Article = mongoose.model('Article', ArticleSchema);
+
+module.exports = Article;

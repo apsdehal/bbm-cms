@@ -16,4 +16,5 @@ var ImageSchema = new Schema({
  * Register
  */
 
-mongoose.model('Image', ImageSchema);
+var Image = mongoose.model('Image', ImageSchema);
+module.exports = Image;

@@ -11,8 +11,6 @@
                 <span class="caption-subject font-green bold uppercase">Articles</span>
             </div>
             <div class="col-md-6">
-                <div class="col-md-1">
-                </div>
                 <div class="col-md-3 text-center">
                     <input type="file" name="file" id="file" class="js-file-input inputfile" data-caption="{count} files selected"/>
                     <label for="file" class="btn btn-danger">Choose a file</label>
@@ -24,7 +22,8 @@
                 <div class="col-md-3 text-center">
                     <button ng-class="{ 'disabled': !isFileLoaded}" class="btn center btn-success" ng-click="downloadFile()">Download</button>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-3 text-center">
+                    <button class="btn center btn-success" ng-click="flushDocs()">Delete All</button>
                 </div>
             </div>
 
@@ -35,7 +34,7 @@
             </div>
         </div>
         <!-- end PROJECT HEAD -->
-        <div ng-show="isFileLoaded" class="portlet-body">
+        <div ng-show="articles.length" class="portlet-body">
             <div class="row">
                 <div class="col-md-3 col-sm-0">
                 </div>

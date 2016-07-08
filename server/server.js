@@ -7,6 +7,7 @@ var fs = require('fs');
 var express = require('express');
 var passport = require('passport');
 var mongoose = require('mongoose');
+var config = require('./config/config');
 
 var app = express();
 var port = process.env.PORT || 3000;
@@ -40,12 +41,6 @@ require('./config/express')(app, passport);
 // Bootstrap routes
 require('./config/routes')(app, passport);
 
-fs.readdirSync('./controllers').forEach(function (file) {
-  if(file.substr(-3) == '.js') {
-      route = require('./controllers/' + file);
-      route.controller(app);
-  }
-});
 
 app.listen(port);
 console.log('Express app started on port ' + port);

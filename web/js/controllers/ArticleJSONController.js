@@ -1,4 +1,4 @@
-function ArticleJSONController($rootScope, $scope, $filter, Article, AuthService) {
+function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleResource, AuthService) {
   $scope.isFileLoaded = false;
   $scope.articles = [];
   $scope.currentArticle = false;
@@ -46,10 +46,16 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, AuthService
         $scope.isFileLoaded = true;
         $scope.currentArticle = $scope.articles[0];
         $scope.totalArticles = $scope.articles.length;
+        ArticleResource.createMany({docs: result});
         $scope.$apply();
     }}
   }
 
+  $scope.flushDocs = function () {
+    ArticleResource.deleteAll().$promise.then(function () {
+      $scope.articles = [];
+    });
+  }
   $scope.setItemsPerPage = function(num) {
     $scope.itemsPerPage = num;
     $scope.currentPage = 1; //reset to first paghe
@@ -114,6 +120,7 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, AuthService
   }
 
   $scope.$on('$viewContentLoaded', function() {
+    $scope.articles = ArticleResource.all();
     var inputs = document.querySelectorAll( '.inputfile' );
     Array.prototype.forEach.call( inputs, function( input ) {
       var label  = input.nextElementSibling,
@@ -135,6 +142,6 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, AuthService
   });
 };
 
-ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'AuthService'];
+ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'ArticleResource', 'AuthService'];
 
 bbmCms.controller('ArticleJSONController', ArticleJSONController);
