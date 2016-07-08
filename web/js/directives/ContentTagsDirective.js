@@ -10,11 +10,23 @@ function ContentTagsDirective(Tag) {
     link: function (scope) {
       scope.tags = [];
 
-      scope.addTag = function ($item, $modal) {
+      function linkTag($item, $modal) {
         scope.currentType.tags.link({
           id: scope.currentContent.id,
           fk: $item.id
         });
+        scope.tags[scope.tags.length - 1].name = $item.name;
+      }
+      scope.addTag = function ($item, $modal) {
+        if ($item.id === 0) {
+          // Means we have to create new tag now
+          Tag.create({name: $item.val}).$promise.then(function (data) {
+            $item = data;
+            linkTag($item);
+          });
+        } else {
+          linkTag($item);
+        }
       }
 
       scope.removeTag = function ($item, $modal) {
@@ -36,6 +48,13 @@ function ContentTagsDirective(Tag) {
             limit: 6
           }
         }).$promise.then(function (responses) {
+          if (!responses.length) {
+            responses = [{
+              id: 0,
+              name: 'Create new tag "' + val + '"',
+              val: val
+            }];
+          }
           scope.tags = responses;
         });
       }
