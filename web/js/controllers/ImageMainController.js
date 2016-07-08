@@ -36,7 +36,7 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
     e.preventDefault();
     if (isNewImage) {
       $scope.currentImage.author = AuthService.getCurrentUser().username;
-      var newArticle = new Image($scope.currentImage);
+      var newArticle = Image.create($scope.currentImage);
       $scope.currentImage = newArticle;
     }
 

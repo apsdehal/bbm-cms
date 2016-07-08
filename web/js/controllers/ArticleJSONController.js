@@ -86,6 +86,7 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
 
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
+    ArticleResource.update({doc: JSON.stringify($scope.currentArticle)});
     if (isNewArticle) {
       $scope.articles.push($scope.currentArticle);
     }
@@ -93,8 +94,9 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
 
   $scope.deleteCurrentArticle = function (e) {
     e.preventDefault();
+    ArticleResource.delete({id: $scope.currentArticle._id});
     if ($scope.currentArticle && !isNewArticle) {
-      $scope.articles.splice(currentIndex, 1);
+      $scope.articles.splice(currentSelected, 1);
       $scope.currentArticle = false;
     }
   }
@@ -119,8 +121,27 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
     dlAnchorElem.click();
   }
 
+  $scope.publishArticle = function (e, index) {
+    e.preventDefault();
+    var id = $scope.currentArticle._id;
+    delete $scope.currentArticle._id;
+    var newArticle = Article.create($scope.currentArticle);
+    $scope.currentArticle.pageId = bbmCmsConfig.bbmTeamPageId;
+    newArticle.$promise.then(function () {
+      $scope.currentArticle._id = id;
+      ArticleResource.delete({id: id}).$promise.then(function () {
+        $scope.articles.splice(currentSelected, 1);
+        $scope.currentArticle = false;
+      })
+    })
+  }
+
   $scope.$on('$viewContentLoaded', function() {
-    $scope.articles = ArticleResource.all();
+    ArticleResource.all().$promise.then(function (data) {
+      $scope.articles = data;
+      $scope.currentArticle = data[0];
+    });
+
     var inputs = document.querySelectorAll( '.inputfile' );
     Array.prototype.forEach.call( inputs, function( input ) {
       var label  = input.nextElementSibling,

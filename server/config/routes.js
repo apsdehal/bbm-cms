@@ -65,15 +65,15 @@ module.exports = function (app, passport) {
   });
 
   app.delete('/api/article/all', function (req, res) {
-    deleteAll(req, res, Article);
+    removeAll(req, res, Article);
   });
 
 
-  app.post('/api/article/update', function (req, res) {
+  app.put('/api/article/update', function (req, res) {
     updateModel(req, res, Article);
   });
 
-  app.post('/api/article/delete', function (req, res) {
+  app.delete('/api/article/delete', function (req, res) {
     deleteModel(req, res, Article);
   });
 
@@ -86,15 +86,15 @@ module.exports = function (app, passport) {
   });
 
   app.delete('/api/image/all', function (req, res) {
-    deleteAll(req, res, Image);
+    removeAll(req, res, Image);
   });
 
 
-  app.post('/api/image/update', function (req, res) {
+  app.put('/api/image/update', function (req, res) {
     updateModel(req, res, Image);
   });
 
-  app.post('/api/image/delete', function (req, res) {
+  app.delete('/api/image/delete', function (req, res) {
     deleteModel(req, res, Image);
   });
 
@@ -114,7 +114,7 @@ module.exports = function (app, passport) {
       if (err) {
         return res.status(500).json({message: 'Docs failed', error: err});
       } else {
-        return res.status(200).json(Docs);
+        return res.status(200).json(docs);
       }
     })
   }
@@ -122,7 +122,7 @@ module.exports = function (app, passport) {
   function updateModel(req, res, model) {
     var doc = JSON.parse(req.body.doc);
 
-    model.update({"_id": doc._id}, doc, function (err, docs) {
+    model.update({_id: doc._id}, doc, function (err, docs) {
       if (err) {
         return res.status(500).json({message: 'Doc failed to update', error: err});
       } else {
@@ -132,9 +132,9 @@ module.exports = function (app, passport) {
   }
 
   function deleteModel(req, res, model) {
-    var doc = JSON.parse(req.body.doc);
-
-    model.remove({"_id": doc._id}, function (err, docs) {
+    var id = req.query.id;
+    console.log(id);
+    model.remove({"_id": id}, function (err, docs) {
       if (err) {
         return res.status(500).json({message: 'Doc failed to delete', error: err});
       } else {

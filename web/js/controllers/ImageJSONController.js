@@ -1,4 +1,4 @@
-function ImageJSONController($rootScope, $scope, $filter, Image, AuthService) {
+function ImageJSONController($rootScope, $scope, $filter, Image, ImageResource, AuthService) {
   $scope.isFileLoaded = false;
   $scope.images = [];
   $scope.currentImage = false;
@@ -46,8 +46,15 @@ function ImageJSONController($rootScope, $scope, $filter, Image, AuthService) {
         $scope.isFileLoaded = true;
         $scope.currentImage = $scope.images[0];
         $scope.totalImages = $scope.images.length;
+        ImageResource.createMany({docs: result});
         $scope.$apply();
     }}
+  }
+
+  $scope.flushDocs = function () {
+    ImageResource.deleteAll().$promise.then(function () {
+      $scope.images = [];
+    });
   }
 
   $scope.setItemsPerPage = function(num) {
@@ -80,6 +87,7 @@ function ImageJSONController($rootScope, $scope, $filter, Image, AuthService) {
 
   $scope.saveCurrentImage = function (e) {
     e.preventDefault();
+    ImageResource.update({doc: JSON.stringify($scope.currentImage)});
     if (isNewImage) {
       $scope.images.push($scope.currentImage);
     }
@@ -87,6 +95,8 @@ function ImageJSONController($rootScope, $scope, $filter, Image, AuthService) {
 
   $scope.deleteCurrentImage = function (e) {
     e.preventDefault();
+    ImageResource.delete({id: $scope.currentImage._id});
+
     if ($scope.currentImage && !isNewImage) {
       $scope.images.splice(currentIndex, 1);
       $scope.currentImage = false;
@@ -113,7 +123,26 @@ function ImageJSONController($rootScope, $scope, $filter, Image, AuthService) {
     dlAnchorElem.click();
   }
 
+  $scope.publishImage = function (e, index) {
+    e.preventDefault();
+    var id = $scope.currentImage._id;
+    delete $scope.currentImage._id;
+    var newImage = Image.create($scope.currentImage);
+    $scope.currentImage.pageId = bbmCmsConfig.bbmTeamPageId;
+    newImage.$promise.then(function () {
+      $scope.currentImage._id = id;
+      ImageResource.delete({id: id}).$promise.then(function () {
+        $scope.images.splice(currentSelected, 1);
+        $scope.currentImage = false;
+      })
+    })
+  }
+
   $scope.$on('$viewContentLoaded', function() {
+    ImageResource.all().$promise.then(function (data) {
+      $scope.images = data;
+      $scope.currentImage = data[0];
+    });
     var inputs = document.querySelectorAll( '.inputfile' );
     Array.prototype.forEach.call( inputs, function( input ) {
       var label  = input.nextElementSibling,
@@ -135,6 +164,6 @@ function ImageJSONController($rootScope, $scope, $filter, Image, AuthService) {
   });
 };
 
-ImageJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Image', 'AuthService'];
+ImageJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Image', 'ImageResource', 'AuthService'];
 
 bbmCms.controller('ImageJSONController', ImageJSONController);

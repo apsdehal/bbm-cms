@@ -56,8 +56,9 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
     e.preventDefault();
     if (isNewArticle) {
       $scope.currentArticle.author = AuthService.getCurrentUser().username;
-      var newArticle = new Article($scope.currentArticle);
+      var newArticle = Article.create($scope.currentArticle);
       $scope.currentArticle = newArticle;
+      newArticle.$save();
     }
 
     if (!$scope.currentArticle) {

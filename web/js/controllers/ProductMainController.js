@@ -39,7 +39,7 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
 
     if (isNewProduct) {
       $scope.currentProduct.author = AuthService.getCurrentUser().username;
-      var newProduct = new Product($scope.currentProduct);
+      var newProduct = Product.create($scope.currentProduct);
       $scope.currentProduct = newProduct;
     }
 

@@ -38,7 +38,7 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
 
     if (isNewConversation) {
       $scope.currentConversation.author = AuthService.getCurrentUser().username;
-      var newConversation = new Discussion($scope.currentConversation);
+      var newConversation = Discussion.create($scope.currentConversation);
       $scope.currentConversation = newConversation;
     }
 
