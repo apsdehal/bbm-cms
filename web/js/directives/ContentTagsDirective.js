@@ -1,20 +1,20 @@
-function ContentTagsDirective(Tag) {
+function ContentTagsDirective(Tag, $http) {
   return {
     restrict: 'E',
     replace: false,
     scope: {
       currentContent: '=',
-      currentType: '='
+      currentType: '=',
+      currentTypeName: '='
     },
     templateUrl: 'views/directives/content-tags.html',
     link: function (scope) {
       scope.tags = [];
 
       function linkTag($item, $modal) {
-        scope.currentType.tags.link({
-          id: scope.currentContent.id,
-          fk: $item.id
-        });
+        $http.put(
+          bbmCmsConfig.bbmApiUrl + '/' + scope.currentTypeName + '/'
+          + scope.currentContent.id + '/tags/rel/' + $item.id)
         scope.tags[scope.tags.length - 1].name = $item.name;
       }
       scope.addTag = function ($item, $modal) {
@@ -64,6 +64,6 @@ function ContentTagsDirective(Tag) {
   };
 }
 
-ContentTagsDirective.$inject = [ 'Tag' ];
+ContentTagsDirective.$inject = [ 'Tag', '$http' ];
 
 bbmCms.directive('contentTags', ContentTagsDirective);
