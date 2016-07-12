@@ -16,14 +16,12 @@
                         <div class="todo-tasklist" infinite-scroll="nextProducts()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
                             <div ng-repeat="product in products">
                                 <div class="todo-tasklist-item todo-tasklist-item-border-green" ng-click="changeCurrentProduct($index)">
-                                    <div class="todo-tasklist-item-title">                                    <img class="todo-userpic" ng-src="{{::product.product.page.image}}" width="27px" height="27px">{{::product.product.title}}</div>
+                                    <div class="todo-tasklist-item-title">                                    <img ng-if="product.product.page.image" class="todo-userpic" ng-src="{{::product.product.page.image}}" width="27px" height="27px">{{::product.title}}</div>
                                     <div class="divider"></div>
-                                    <div class="todo-tasklist-item-text"> {{::product.product.desc | oneFifty}} </div>
+                                    <div class="todo-tasklist-item-text"> {{::product.desc | oneFifty}} </div>
                                     <div class="todo-tasklist-controls pull-left">
-                                        <span class="todo-tasklist-date">
-                                            <i class="fa fa-thumbs-o-up"></i> {{::product.product.likes.length}} </span>
                                         <span class="todo-tasklist-badge badge badge-roundless">{{::product.product.price_curr}}</span>
-                                        <span class="todo-tasklist-badge badge badge-roundless">by {{::(product.product.page.displayName || product.product.brand)}}</span>
+                                        <span ng-if="product.product.page.displayName || product.product.brand" class="todo-tasklist-badge badge badge-roundless">by {{::(product.product.page.displayName || product.product.brand)}}</span>
                                     </div>
                                 </div>
                                 <br/>
@@ -42,35 +40,23 @@
                                 <!-- TASK TITLE -->
                                 <div>
                                     <div class="form-group">
-                                        <div class="col-md-12 media">
-                                              <a class="pull-left" href="#">
-                                                  <img class="todo-userpic" src="{{currentProduct.product.page.image}}" width="27px" height="27px"> </a>
-                                              <div class="media-body todo-comment">
-                                                  <p class="todo-comment-head">
-                                                      <span class="todo-comment-username">{{(currentProduct.product.page.displayName || currentProduct.product.brand)}}</span> &nbsp;
-                                                      <span class="todo-comment-date">{{ currentProduct.product.updated | formatTime }}</span>
-                                                  </p>
-                                              </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
                                         <div class="col-md-12">
                                           <div class="todo-tasklist-item-title">Title:</div>
-                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Product Title..." ng-model="currentProduct.product.title">
+                                            <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Product Title..." ng-model="currentProduct.title">
                                         </div>
                                     </div>
                                     <!-- TASK DESC -->
                                     <div class="form-group">
                                         <div class="col-md-12">
                                           <div class="todo-tasklist-item-title">Description:</div>
-                                            <summernote height="300" ng-model="currentProduct.product.desc" placeholder="Product Content..."></summernote>
+                                            <summernote height="300" ng-model="currentProduct.desc" placeholder="Product Content..."></summernote>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12">
                                           <span class="todo-tasklist-item-title">Image:
                                           </span>
-                                          <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentProduct.product.imgUrl">
+                                          <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Image Url" ng-model="currentProduct.imgUrl">
                                           <br/>
                                         </div>
                                         <div class="col-md-12">
@@ -79,7 +65,7 @@
                                             <button class="btn btn-circle green btn-sm" ng-click="uploadImage($event)">{{uploadButtonText}}</button>
                                         </div>
                                         <div class="col-md-12">
-                                          <img ng-src="{{currentProduct.product.imgUrl}}" title="{{currentProduct.product.title}}"/>
+                                          <img ng-src="{{currentProduct.imgUrl}}" title="{{currentProduct.title}}"/>
                                         </div>
                                     </div>
 

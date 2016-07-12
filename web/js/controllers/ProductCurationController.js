@@ -41,7 +41,7 @@ function ProductCurationController($rootScope, $scope, Curation, FileUploadServi
 
     Curation.prototype$updateAttributes({
       id: $scope.currentProduct.id,
-      published: true
+      published: true,
     })
     .$promise
     .then(function () {
@@ -56,7 +56,7 @@ function ProductCurationController($rootScope, $scope, Curation, FileUploadServi
     FileUploadService
     .uploadFileToUrl($scope.imageFile, bbmCmsConfig.bbmApiUrl + '/media/upload')
     .success(function (data) {
-      $scope.currentProduct.product.imgUrl = data.result.secure_url;
+      $scope.currentProduct.imgUrl = data.result.secure_url;
       $scope.uploadButtonText = 'Uploaded';
     })
     .error(function () {
@@ -74,12 +74,11 @@ function ProductCurationController($rootScope, $scope, Curation, FileUploadServi
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
-    Product.prototype$updateAttributes({
-      id: $scope.currentProduct.product.id,
-      desc: $scope.currentProduct.product.desc,
-      title: $scope.currentProduct.product.title,
-      imgUrl: $scope.currentProduct.product.imgUrl,
-    }).$promise
+    $scope.currentProduct.title = $scope.currentProduct.title || $scope.currentProduct.product.title;
+    $scope.currentProduct.desc = $scope.currentProduct.desc || $scope.currentProduct.product.desc;
+    $scope.currentProduct.imgUrl = $scope.currentProduct.imgUrl || $scope.currentProduct.product.imgUrl;
+
+    $scope.currentProduct.$save()
     .then(function () {
       successChanges();
     }, function () {
@@ -120,7 +119,7 @@ function ProductCurationController($rootScope, $scope, Curation, FileUploadServi
 
     Curation.find(
       {filter:
-        {order: 'storyId DESC',
+        {order: 'created DESC',
          skip: skip,
          limit: limit}},
       function (list) {
