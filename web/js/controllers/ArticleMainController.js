@@ -54,11 +54,22 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
 
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
+
+    var $parsedContent = $.parseHTML($scope.currentArticle.content);
+    $parsedContent = $("<div></div>").append($parsedContent);
+
+    $parsedContent.find('a').each(function () {
+      if ($(this).attr('href').indexOf('pinterest') != -1) {
+        $(this).attr('data-pin-do', 'embedPin');
+      }
+    });
+
+    $scope.currentArticle.content = $parsedContent.html();
+
     if (isNewArticle) {
       $scope.currentArticle.author = AuthService.getCurrentUser().username;
       var newArticle = Article.create($scope.currentArticle);
       $scope.currentArticle = newArticle;
-      newArticle.$save();
     }
 
     if (!$scope.currentArticle) {

@@ -86,9 +86,23 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
 
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
-    ArticleResource.update({doc: JSON.stringify($scope.currentArticle)});
+
+    var $parsedContent = $.parseHTML($scope.currentArticle.content);
+    $parsedContent = $("<div></div>").append($parsedContent);
+
+    $parsedContent.find('a').each(function () {
+      if ($(this).attr('href').indexOf('pinterest') != -1) {
+        $(this).attr('data-pin-do', 'embedPin');
+      }
+    });
+
+    $scope.currentArticle.content = $parsedContent.html();
+
     if (isNewArticle) {
       $scope.articles.push($scope.currentArticle);
+      ArticleResource.createMany({docs: [JSON.stringify($scope.currentArticle)]});
+    } else {
+      ArticleResource.update({doc: JSON.stringify($scope.currentArticle)});
     }
   }
 
