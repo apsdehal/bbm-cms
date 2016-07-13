@@ -93,6 +93,7 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
     $parsedContent.find('a').each(function () {
       if ($(this).attr('href').indexOf('pinterest') != -1) {
         $(this).attr('data-pin-do', 'embedPin');
+        $(this).parent().css('text-align', 'center');
       }
     });
 
