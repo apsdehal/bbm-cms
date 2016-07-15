@@ -141,7 +141,7 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
     var id = $scope.currentArticle._id;
     delete $scope.currentArticle._id;
     var newArticle = Article.create($scope.currentArticle);
-    $scope.currentArticle.pageId = bbmCmsConfig.bbmTeamPageId;
+    $scope.currentArticle.pageId = AuthService.getCurrentUser().id;
     newArticle.$promise.then(function () {
       $scope.currentArticle._id = id;
       ArticleResource.delete({id: id}).$promise.then(function () {
