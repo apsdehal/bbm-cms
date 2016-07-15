@@ -69,6 +69,7 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
 
     if (isNewArticle) {
       $scope.currentArticle.author = AuthService.getCurrentUser().username;
+      $scope.currentArticle.pageId = bbmCmsConfig.bbmTeamPageId;
       var newArticle = Article.create($scope.currentArticle);
       $scope.currentArticle = newArticle;
     }
