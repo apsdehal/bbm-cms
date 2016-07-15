@@ -12,9 +12,11 @@ function ContentTagsDirective(Tag, $http) {
       scope.tags = [];
 
       function linkTag($item, $modal) {
-        $http.put(
-          bbmCmsConfig.bbmApiUrl + '/' + scope.currentTypeName + '/'
-          + scope.currentContent.id + '/tags/rel/' + $item.id)
+        if (scope.currentContent.id) {
+          $http.put(
+            bbmCmsConfig.bbmApiUrl + '/' + scope.currentTypeName + '/'
+            + scope.currentContent.id + '/tags/rel/' + $item.id)
+        }
         scope.tags[scope.tags.length - 1].name = $item.name;
       }
       scope.addTag = function ($item, $modal) {
@@ -30,10 +32,12 @@ function ContentTagsDirective(Tag, $http) {
       }
 
       scope.removeTag = function ($item, $modal) {
-        scope.currentType.tags.unlink({
-          id: scope.currentContent.id,
-          fk: $item.id
-        });
+        if (scope.currentContent.id) {
+          scope.currentType.tags.unlink({
+            id: scope.currentContent.id,
+            fk: $item.id
+          });
+        }
       }
 
 

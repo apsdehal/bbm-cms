@@ -1,4 +1,4 @@
-function ArticleMainController($rootScope, $scope, Article, AuthService, SearchService) {
+function ArticleMainController($rootScope, $scope, $http, Article, AuthService, SearchService) {
   $scope.articles = [];
   $scope.currentArticle = false;
   $scope.isEditActive = true;
@@ -52,6 +52,15 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
     $scope.ajaxState = 'Failed';
   }
 
+  function saveTags(id, tags) {
+    for(var i = 0; i < tags.length; i++) {
+      $http.put(
+        bbmCmsConfig.bbmApiUrl + '/articles/'
+        + id + '/tags/rel/' + tags[i].id);
+    }
+
+  }
+
   $scope.saveCurrentArticle = function (e) {
     e.preventDefault();
 
@@ -68,11 +77,19 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
     $scope.currentArticle.content = $parsedContent.html();
 
     if (isNewArticle) {
-      var page = AuthService.getCurrentUser().username;
+      var page = AuthService.getCurrentUser();
       $scope.currentArticle.author = page.username;
       $scope.currentArticle.pageId = page.id;
-      var newArticle = Article.create($scope.currentArticle);
-      $scope.currentArticle = newArticle;
+      var tags = $scope.currentArticle.tags;
+      Article.create($scope.currentArticle).$promise.then(function (data) {
+        newArticle = data;
+        $scope.currentArticle = newArticle;
+        $scope.currentArticle.tags = tags;
+        if (newArticle.id) {
+          saveTags(newArticle.id, tags);
+        }
+      });
+      return;
     }
 
     if (!$scope.currentArticle) {
@@ -154,6 +171,6 @@ function ArticleMainController($rootScope, $scope, Article, AuthService, SearchS
   );
 };
 
-ArticleMainController.$inject = ['$rootScope', '$scope', 'Article', 'AuthService', 'SearchService'];
+ArticleMainController.$inject = ['$rootScope', '$scope', '$http', 'Article', 'AuthService', 'SearchService'];
 
 bbmCms.controller('ArticleMainController', ArticleMainController);
