@@ -52,16 +52,6 @@ function ProductCurationController($rootScope, $scope, Curation, FileUploadServi
   }
 
   $scope.uploadImage = function (e) {
-    e.preventDefault();
-    FileUploadService
-    .uploadFileToUrl($scope.imageFile, bbmCmsConfig.bbmApiUrl + '/media/upload')
-    .success(function (data) {
-      $scope.currentProduct.imgUrl = data.result.secure_url;
-      $scope.uploadButtonText = 'Uploaded';
-    })
-    .error(function () {
-      $scope.uploadButtonText = 'Failed';
-    });
   }
 
   $scope.saveCurrentProduct = function (e) {

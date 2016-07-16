@@ -60,13 +60,9 @@
                                           <br/>
                                         </div>
                                         <div class="col-md-12">
-                                            Upload new image:
-                                            <input type="file" file-model="imageFile">
-                                            <button class="btn btn-circle green btn-sm" ng-click="uploadImage($event)">{{uploadButtonText}}</button>
-                                        </div>
-                                        <div class="col-md-12">
                                           <img ng-src="{{currentProduct.imgUrl}}" title="{{currentProduct.title}}"/>
                                         </div>
+                                        <upload data-current="currentProduct"></upload>
                                     </div>
 
                                     <!-- TASK TAGS -->
