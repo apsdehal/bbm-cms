@@ -78,16 +78,18 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
 
     if (isNewArticle) {
       var page = AuthService.getCurrentUser();
-      $scope.currentArticle.author = page.username;
+      $scope.currentArticle.author = page.displayName;
       $scope.currentArticle.pageId = page.id;
       var tags = $scope.currentArticle.tags;
+      $scope.currentArticle.tags = [];
       Article.create($scope.currentArticle).$promise.then(function (data) {
-        newArticle = data;
+        newArticle = data[0].feed['article'];
         $scope.currentArticle = newArticle;
         $scope.currentArticle.tags = tags;
         if (newArticle.id) {
           saveTags(newArticle.id, tags);
         }
+        isNewArticle = false;
       });
       return;
     }

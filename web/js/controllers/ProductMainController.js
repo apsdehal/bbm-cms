@@ -38,9 +38,15 @@ function ProductMainController($rootScope, $scope, Product, AuthService, SearchS
     e.preventDefault();
 
     if (isNewProduct) {
-      $scope.currentProduct.author = AuthService.getCurrentUser().username;
-      var newProduct = Product.create($scope.currentProduct);
-      $scope.currentProduct = newProduct;
+      var page = AuthService.getCurrentUser();
+      $scope.currentProduct.productId = Math.round(Math.random() * 10000);
+      $scope.currentProduct.author = page.displayName;
+      $scope.currentProduct.pageId = page.id;
+      Product.create($scope.currentProduct).$promise.then(function (data) {
+        $scope.currentProduct = data;
+        isNewProduct = false;
+      });
+      return;
     }
 
     if (!$scope.currentProduct) {

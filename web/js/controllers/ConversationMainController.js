@@ -26,6 +26,16 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
     $scope.ajaxState = 'Failed';
   }
 
+  function saveTags(id, tags) {
+    for(var i = 0; i < tags.length; i++) {
+      $http.put(
+        bbmCmsConfig.bbmApiUrl + '/discussions/'
+        + id + '/tags/rel/' + tags[i].id);
+    }
+
+  }
+
+
   $scope.changeCurrentConversation = function (index) {
     if ($scope.conversations.length > index) {
       $scope.currentConversation = $scope.conversations[index];
@@ -37,9 +47,21 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
     e.preventDefault();
 
     if (isNewConversation) {
-      $scope.currentConversation.author = AuthService.getCurrentUser().username;
-      var newConversation = Discussion.create($scope.currentConversation);
-      $scope.currentConversation = newConversation;
+      var page = AuthService.getCurrentUser();
+      $scope.currentConversation.author = page.displayName;
+      $scope.currentConversation.pageId = page.id;
+      var tags = $scope.currentConversation.tags;
+      $scope.currentConversation.tags = [];
+      Discussion.create($scope.currentConversation).$promise.then(function (data) {
+        newConversation = data[0].feed['discussion'];
+        $scope.currentConversation = newConversation;
+        $scope.currentConversation.tags = tags;
+        if (newConversation.id) {
+          saveTags(newConversation.id, tags);
+        }
+        isNewConversation = false;
+      });
+      return;
     }
 
     if (!$scope.currentConversation) {

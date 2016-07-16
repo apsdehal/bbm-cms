@@ -24,6 +24,14 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
     $scope.ajaxState = 'Failed';
   }
 
+  function saveTags(id, tags) {
+    for(var i = 0; i < tags.length; i++) {
+      $http.put(
+        bbmCmsConfig.bbmApiUrl + '/images/'
+        + id + '/tags/rel/' + tags[i].id);
+    }
+  }
+
 
   $scope.changeCurrentImage = function (index) {
     if ($scope.images.length > index) {
@@ -35,9 +43,21 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
   $scope.saveCurrentImage = function (e) {
     e.preventDefault();
     if (isNewImage) {
-      $scope.currentImage.author = AuthService.getCurrentUser().username;
-      var newArticle = Image.create($scope.currentImage);
-      $scope.currentImage = newArticle;
+      var page = AuthService.getCurrentUser();
+      $scope.currentImage.author = page.displayName;
+      $scope.currentImage.pageId = page.id;
+      var tags = $scope.currentImage.tags;
+      $scope.currentImage.tags = [];
+      Image.create($scope.currentImage).$promise.then(function (data) {
+        newImage = data[0].feed['image'];
+        $scope.currentImage = newImage;
+        $scope.currentImage.tags = tags;
+        if (newImage.id) {
+          saveTags(newImage.id, tags);
+        }
+        isNewImage = false;
+      });
+      return;
     }
 
     if (!$scope.currentImage) {

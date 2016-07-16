@@ -1,4 +1,4 @@
-function AuthService($rootScope, $state, User) {
+function AuthService($rootScope, $state, User, Page) {
 
   this.user = {};
   this.isLoggedIn = false;
@@ -33,13 +33,21 @@ function AuthService($rootScope, $state, User) {
     User.login({
       email: props.username, password: props.password
     }).$promise.then(function (data) {
-      $rootScope.user = data.user;
-      $rootScope.$broadcast('user:change', data.user);
-      self.user = data.user;
-      self.isLoggedIn = true;
-      success({message: 'Logged in successfully', user: data.user});
+      Page.default().$promise.then(function (data) {
+
+        $rootScope.user = data;
+        $rootScope.$broadcast('user:change', data);
+        self.user = data;
+        self.isLoggedIn = true;
+        success({message: 'Logged in successfully', user: data});
+
+      }, function (err) {
+
+        self.isloggedin = false;
+        reject({message: 'Username or Password is incorrect', error: err});
+      });
     }, function (err) {
-      self.isLoggedIn = false;
+      self.isloggedin = false;
       reject({message: 'Username or Password is incorrect', error: err});
     })
   };
@@ -54,12 +62,23 @@ function AuthService($rootScope, $state, User) {
     User.getCurrent()
     .$promise
     .then(function (data) {
-      var success = props.success || noop;
-      self.user = data;
-      self.isLoggedIn = true;
-      $rootScope.user = data;
-      $rootScope.$broadcast('user:change', data);
-      success({message: 'User is logged in', user: data});
+      Page.default().$promise.then(function (data) {
+
+        var success = props.success || noop;
+        $rootScope.user = data;
+        $rootScope.$broadcast('user:change', data);
+        self.user = data;
+        self.isLoggedIn = true;
+        success({message: 'Logged in successfully', user: data});
+
+      }, function (err) {
+
+        var reject = props.reject || noop;
+        self.isloggedin = false;
+        reject({message: 'Username or Password is incorrect', error: err});
+
+      });
+
     }, function (err) {
       var reject = props.reject || noop;
       reject({message: 'User is not logged in', error: err});
@@ -125,5 +144,5 @@ function AuthService($rootScope, $state, User) {
   }
 }
 
-AuthService.$inject = ['$rootScope', '$state', 'User'];
+AuthService.$inject = ['$rootScope', '$state', 'User', 'Page'];
 bbmCms.service('AuthService', AuthService);

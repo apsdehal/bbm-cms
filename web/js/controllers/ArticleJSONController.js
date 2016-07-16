@@ -142,13 +142,20 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
     delete $scope.currentArticle._id;
     var newArticle = Article.create($scope.currentArticle);
     $scope.currentArticle.pageId = AuthService.getCurrentUser().id;
-    newArticle.$promise.then(function () {
+
+    var page = AuthService.getCurrentUser();
+    $scope.currentArticle.author = page.displayName;
+    $scope.currentArticle.pageId = page.id;
+    Article.create($scope.currentArticle).$promise.then(function (data) {
+      newArticle = data[0].feed['article'];
+      $scope.currentArticle = newArticle;
+      isNewArticle = false;
       $scope.currentArticle._id = id;
       ArticleResource.delete({id: id}).$promise.then(function () {
         $scope.articles.splice(currentSelected, 1);
         $scope.currentArticle = false;
       })
-    })
+    });
   }
 
   $scope.$on('$viewContentLoaded', function() {
