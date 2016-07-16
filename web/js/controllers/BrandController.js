@@ -1,4 +1,4 @@
-function BrandController($scope, Page, SearchService) {
+function BrandController($scope, Page, Product, SearchService) {
 
   $scope.currentBrand = {};
   $scope.brands = [];
@@ -113,6 +113,6 @@ function BrandController($scope, Page, SearchService) {
   });
 }
 
-BrandController.$inject = ['$scope', 'Page', 'SearchService'];
+BrandController.$inject = ['$scope', 'Page', 'Product', 'SearchService'];
 
 bbmCms.controller('BrandController', BrandController);

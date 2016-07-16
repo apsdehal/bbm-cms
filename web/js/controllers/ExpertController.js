@@ -1,4 +1,4 @@
-function ExpertController($scope, Page, SearchService, $uibModal) {
+function ExpertController($scope, Page, Product, SearchService, $uibModal) {
 
   $scope.currentExpert = {};
   $scope.experts = [];
@@ -131,6 +131,6 @@ function ExpertController($scope, Page, SearchService, $uibModal) {
   });
 }
 
-ExpertController.$inject = ['$scope', 'Page', 'SearchService', '$uibModal'];
+ExpertController.$inject = ['$scope', 'Page', 'Product', 'SearchService', '$uibModal'];
 
 bbmCms.controller('ExpertController', ExpertController);
