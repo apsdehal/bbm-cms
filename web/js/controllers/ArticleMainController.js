@@ -75,11 +75,18 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
     });
 
     $scope.currentArticle.content = $parsedContent.html();
+    $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
 
     if (isNewArticle) {
       var page = AuthService.getCurrentUser();
       $scope.currentArticle.author = page.displayName;
       $scope.currentArticle.pageId = page.id;
+
+      if (page['_profile']['email'] === 'admin@bedbathmore.com') {
+        $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
+        $scope.currentArticle.author = $scope.currentArticle.page.displayName || $scope.currentArticle.author;
+      }
+
       var tags = $scope.currentArticle.tags;
       $scope.currentArticle.tags = [];
       Article.create($scope.currentArticle).$promise.then(function (data) {
@@ -133,6 +140,10 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
     $scope.currentArticle = {link: '', pageId: $scope.user.id};
     isNewArticle = true;
     currentSelected = false
+  }
+
+  $scope.getPages = function (val) {
+    return SearchService.searchPages(val);
   }
 
   $scope.getArticles = function (val) {

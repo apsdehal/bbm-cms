@@ -1,4 +1,4 @@
-function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleResource, AuthService) {
+function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleResource, SearchService, AuthService) {
   $scope.isFileLoaded = false;
   $scope.articles = [];
   $scope.currentArticle = false;
@@ -49,6 +49,10 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
         ArticleResource.createMany({docs: result});
         $scope.$apply();
     }}
+  }
+
+  $scope.getPages = function (val) {
+    return SearchService.searchPages(val);
   }
 
   $scope.flushDocs = function () {
@@ -185,6 +189,6 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
   });
 };
 
-ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'ArticleResource', 'AuthService'];
+ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'ArticleResource', 'SearchService', 'AuthService'];
 
 bbmCms.controller('ArticleJSONController', ArticleJSONController);

@@ -1,4 +1,4 @@
-function SearchService($http) {
+function SearchService($http, Page) {
   var searchUrl = bbmCmsConfig['bbmSolrUrl'];
 
   this.getGeneralQuery = function (query) {
@@ -39,6 +39,21 @@ function SearchService($http) {
 
   this.getAllBrandQueryUrl = function (start) {
     return searchUrl + '&start=' + start + '&fq=ns:"solr.page"&fq=type:"brand"&json.wrf=JSON_CALLBACK';
+  }
+
+  this.searchPages = function (val) {
+    return Page.find({
+      filter: {
+        where: {
+          displayName: {
+            like: val
+          }
+        }
+      },
+      limit: 10
+    }).$promise.then(function (responses) {
+      return responses;
+    })
   }
 
   this.searchBrands = function (term) {
@@ -88,6 +103,6 @@ function SearchService($http) {
   }
 }
 
-SearchService.$inject = ['$http'];
+SearchService.$inject = ['$http', 'Page'];
 
 bbmCms.service('SearchService', SearchService);

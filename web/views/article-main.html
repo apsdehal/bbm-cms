@@ -92,6 +92,20 @@
                                             <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Article link" ng-model="currentArticle.link">
                                         </div>
                                     </div>
+                                    <div class="form-group">
+                                      <div class="todo-tasklist-item-title col-md-12">
+                                      Page:
+                                      </div>
+                                      <div class="col-md-12 col-sm-12">
+                                        <input type="text" ng-model="currentArticle.page" placeholder="Find users" uib-typeahead="content as (content['displayName'] + ' (' + content['_profile']['email'] + ')') for content in getPages($viewValue)" typeahead-loading="loading" typeahead-no-results="noResults" typeahead-wait-ms="1000" class="form-control">
+                                        <div ng-show="loading">
+                                          <i class="glyphicon glyphicon-refresh"></i> Loading results...
+                                        </div>
+                                        <div ng-show="noResults">
+                                          <i class="glyphicon glyphicon-remove"></i> No Results Found
+                                        </div>
+                                      </div>
+                                    </div>
                                     <!-- END TASK DESC -->
                                     <!-- TASK TAGS -->
                                     <div class="form-group">
