@@ -1,4 +1,4 @@
-function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleResource, SearchService, AuthService) {
+function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleResource, SearchService, AuthService, UtilService) {
   $scope.isFileLoaded = false;
   $scope.articles = [];
   $scope.currentArticle = false;
@@ -145,10 +145,12 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
     var id = $scope.currentArticle._id;
     delete $scope.currentArticle._id;
 
-    Utils.setSelectedPage($scope.currentArticle);
+    UtilService.setSelectedPage($scope.currentArticle);
     $scope.storyId = Math.floor(Math.random() * Math.pow(10, 16));
 
-
+    $scope.currentArticle.tags = $scope.currentArticle.tags.split(',').map(function (tag) {
+      return tag.trim();
+    })
     Article.create($scope.currentArticle).$promise.then(function (data) {
       newArticle = data[0].feed['article'];
       $scope.currentArticle = newArticle;
@@ -188,6 +190,6 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
   });
 };
 
-ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'ArticleResource', 'SearchService', 'AuthService'];
+ArticleJSONController.$inject = ['$rootScope', '$scope', '$filter', 'Article', 'ArticleResource', 'SearchService', 'AuthService', 'UtilService'];
 
 bbmCms.controller('ArticleJSONController', ArticleJSONController);
