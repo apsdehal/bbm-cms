@@ -1,4 +1,4 @@
-function ArticleMainController($rootScope, $scope, $http, Article, AuthService, SearchService) {
+function ArticleMainController($rootScope, $scope, $http, Article, AuthService, SearchService, UtilService) {
   $scope.articles = [];
   $scope.currentArticle = false;
   $scope.isEditActive = true;
@@ -19,7 +19,6 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
     $scope.user = data;
   });
 
-
   $scope.editButtonText = 'render';
   $scope.toggleEdit = function () {
     $scope.isEditActive = !$scope.isEditActive;
@@ -35,6 +34,7 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
     if ($scope.articles.length > index) {
       if ($scope.articles[index] instanceof Article) {
         $scope.currentArticle = $scope.articles[index];
+        UtilService.setTagString($scope.currentArticle);
       }
       currentSelected = index;
     }
@@ -75,27 +75,33 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
     });
 
     $scope.currentArticle.content = $parsedContent.html();
+    $scope.currentArticle.description = $scope.currentArticle.content;
     $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
+
+    UtilService.getTagsFromTagString($scope.currentArticle);
+
+    var page = $scope.currentArticle.page;
+    var tagString = $scope.currentArticle.tagString;
+    delete $scope.currentArticle.page
+    delete $scope.currentArticle.tagString;
 
     if (isNewArticle) {
       var page = AuthService.getCurrentUser();
       $scope.currentArticle.author = page.displayName;
       $scope.currentArticle.pageId = page.id;
 
+      $scope.storyId = Math.floor(Math.random() * Math.pow(10, 16));
+
       if (page['_profile']['email'] === 'admin@bedbathmore.com') {
         $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
         $scope.currentArticle.author = $scope.currentArticle.page.displayName || $scope.currentArticle.author;
       }
 
-      var tags = $scope.currentArticle.tags;
-      $scope.currentArticle.tags = [];
       Article.create($scope.currentArticle).$promise.then(function (data) {
         newArticle = data[0].feed['article'];
         $scope.currentArticle = newArticle;
-        $scope.currentArticle.tags = tags;
-        if (newArticle.id) {
-          saveTags(newArticle.id, tags);
-        }
+        $scope.currentArticle.page = page;
+        $scope.currentArticle.tagString = tagString;
         isNewArticle = false;
       });
       return;
@@ -105,15 +111,17 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
       return;
     }
 
-    var tags = $scope.currentArticle.tags;
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
     $scope.currentArticle.$save()
     .then(function () {
+      $scope.currentArticle.page = page;
+      $scope.currentArticle.tagString = tagString;
       successChanges();
-      $scope.currentArticle.tags = tags;
     }, function () {
+      $scope.currentArticle.page = page;
+      $scope.currentArticle.tagString = tagString;
       failureChanges();
     });
   }
@@ -162,7 +170,7 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
 
     Article.find(
       {filter:
-        {order: 'storyId DESC',
+        {order: 'id DESC',
          skip: skip,
          limit: limit}},
       function (list) {
@@ -175,15 +183,16 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
 
   Article.find(
     {filter:
-      {order: 'storyId DESC',
+      {order: 'id DESC',
        limit: limit}},
     function (list) {
       $scope.articles = list;
       $scope.currentArticle = list[0];
+      UtilService.setTagString($scope.currentArticle);
     }
   );
 };
 
-ArticleMainController.$inject = ['$rootScope', '$scope', '$http', 'Article', 'AuthService', 'SearchService'];
+ArticleMainController.$inject = ['$rootScope', '$scope', '$http', 'Article', 'AuthService', 'SearchService', 'UtilService'];
 
 bbmCms.controller('ArticleMainController', ArticleMainController);

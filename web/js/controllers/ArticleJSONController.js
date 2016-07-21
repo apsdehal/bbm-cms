@@ -144,12 +144,18 @@ function ArticleJSONController($rootScope, $scope, $filter, Article, ArticleReso
     e.preventDefault();
     var id = $scope.currentArticle._id;
     delete $scope.currentArticle._id;
-    var newArticle = Article.create($scope.currentArticle);
-    $scope.currentArticle.pageId = AuthService.getCurrentUser().id;
 
     var page = AuthService.getCurrentUser();
     $scope.currentArticle.author = page.displayName;
     $scope.currentArticle.pageId = page.id;
+
+    $scope.storyId = Math.floor(Math.random() * Math.pow(10, 16));
+
+    if (page['_profile']['email'] === 'admin@bedbathmore.com') {
+      $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
+      $scope.currentArticle.author = $scope.currentArticle.page.displayName || $scope.currentArticle.author;
+    }
+
     Article.create($scope.currentArticle).$promise.then(function (data) {
       newArticle = data[0].feed['article'];
       $scope.currentArticle = newArticle;
