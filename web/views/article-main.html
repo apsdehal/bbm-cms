@@ -26,7 +26,7 @@
                                       <img class="todo-userpic" ng-src="{{::article.page.image}}" width="27px" height="27px" >{{::article.title}}
                                     </div>
                                     <div class="divider"></div>
-                                    <div class="todo-tasklist-item-text"> {{::article.description}} </div>
+                                    <div class="todo-tasklist-item-text" ng-bind-html="article.description | oneFifty"></div>
                                     <div class="todo-tasklist-controls pull-left">
                                         <span class="todo-tasklist-date">
                                             <i class="fa fa-thumbs-o-up"></i> {{::article.likes.length}} </span>
