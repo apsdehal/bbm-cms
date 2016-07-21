@@ -124,8 +124,8 @@
                     </div>
                 </div>
                 <div class="portlet-body">
-                    <div class="scroller" style="height: 300px; overflow: auto" data-always-visible="1" data-rail-visible="0">
-                        <ul class="feeds">
+                    <div style="max-height: 300px; overflow: auto">
+                        <ul class="feeds" infinite-scroll="nextActivities()" infinite-scroll-disabled="busy" infinite-scroll-distance="1">
                               <li ng-repeat="activity in activities" ng-show="activity.canBeShown">
                                 <div class="col1">
                                     <div class="cont">
@@ -144,7 +144,9 @@
                                 </div>
                             </li>
 
+                            <div ng-show="busy" class="text-center">Loading ...</div>
                         </ul>
+
                     </div>
                 </div>
             </div>

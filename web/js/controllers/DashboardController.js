@@ -61,12 +61,38 @@ function DashboardController($rootScope, $scope, $http, $timeout,
 
     });
 
+    var limit = 35;
+    var skip = limit;
+
+    $scope.nextActivities = function () {
+      if ($scope.busy) {
+        return;
+      }
+
+      $scope.busy = true;
+      Activity.find(
+      {filter:
+        {limit: limit,
+         skip: skip,
+         include: [{'feed': ['discussion', 'post'] }, 'page']}},
+       function (list) {
+          $scope.busy = false;
+          $timeout(function () {
+            $scope.activities = $scope.activities.concat(list);
+          }, 0);
+          skip += limit;
+        }
+      );
+    }
+
+
     $scope.getActivityClass = function (activity) {
       switch (activity.type) {
         case 'like': return 'fa-thumbs-o-up';
         case 'share': return 'fa-share-alt';
         case 'space': return 'fa-plus';
         case 'post': return 'fa-comments';
+        case 'comment': return 'fa-comments';
         default: return 'fa-check';
       }
     }
@@ -89,11 +115,19 @@ function DashboardController($rootScope, $scope, $http, $timeout,
         }
         case 'post': {
           mid = 'posted';
+          break;
+        }
+        case 'comment': {
+          mid = 'commented on'
         }
       }
 
       activity.canBeShown = true;
       if (!activity.feed[activity.feed.type]) {
+        activity.canBeShown = false;
+        return;
+      }
+      if (!(activity.page || activity.feed[activity.feed.type].page)) {
         activity.canBeShown = false;
         return;
       }
