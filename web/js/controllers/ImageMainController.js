@@ -1,4 +1,4 @@
-function ImageMainController($rootScope, $scope, Image, AuthService, SearchService) {
+function ImageMainController($rootScope, $scope, Image, AuthService, SearchService, UtilService) {
   $scope.images = [];
   $scope.currentImage = false;
   var currentSelected = false;
@@ -37,24 +37,21 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
     if ($scope.images.length > index) {
       $scope.currentImage = $scope.images[index];
       currentSelected = index;
+      UtilService.setTagString($scope.currentImage);
     }
   }
 
   $scope.saveCurrentImage = function (e) {
     e.preventDefault();
+
+    UtilService.getTagsFromTagString($scope.currentImage);
+
     if (isNewImage) {
-      var page = AuthService.getCurrentUser();
-      $scope.currentImage.author = page.displayName;
-      $scope.currentImage.pageId = page.id;
-      var tags = $scope.currentImage.tags;
-      $scope.currentImage.tags = [];
+      UtilService.setSelectedPage($scope.currentImage);
+
       Image.create($scope.currentImage).$promise.then(function (data) {
         newImage = data[0].feed['image'];
         $scope.currentImage = newImage;
-        $scope.currentImage.tags = tags;
-        if (newImage.id) {
-          saveTags(newImage.id, tags);
-        }
         isNewImage = false;
       });
       return;
@@ -64,7 +61,6 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
       return;
     }
 
-    var tags = $scope.currentImage.tags;
 
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
@@ -72,7 +68,6 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
     $scope.currentImage.$save()
     .then(function () {
       successChanges();
-      $scope.currentImage.tags = tags;
     }, function () {
       failureChanges();
     });
@@ -118,7 +113,7 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
 
     Image.find(
       {filter:
-        {order: 'created DESC',
+        {order: 'id DESC',
          skip: skip,
          limit: limit}},
       function (list) {
@@ -131,15 +126,17 @@ function ImageMainController($rootScope, $scope, Image, AuthService, SearchServi
 
   Image.find(
     {filter:
-      {order: 'created DESC',
+      {order: 'id DESC',
        limit: limit}},
     function (list) {
       $scope.images = list;
       $scope.currentImage = list[0];
+      UtilService.setTagString($scope.currentImage);
     }
   );
 };
 
-ImageMainController.$inject = ['$rootScope', '$scope', 'Image', 'AuthService', 'SearchService'];
+ImageMainController.$inject =
+['$rootScope', '$scope', 'Image', 'AuthService', 'SearchService', 'UtilService'];
 
 bbmCms.controller('ImageMainController', ImageMainController);

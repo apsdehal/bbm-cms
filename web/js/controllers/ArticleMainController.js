@@ -35,8 +35,8 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
       if ($scope.articles[index] instanceof Article) {
         $scope.currentArticle = $scope.articles[index];
         UtilService.setTagString($scope.currentArticle);
+        currentSelected = index;
       }
-      currentSelected = index;
     }
   }
 
@@ -58,7 +58,6 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
         bbmCmsConfig.bbmApiUrl + '/articles/'
         + id + '/tags/rel/' + tags[i].id);
     }
-
   }
 
   $scope.saveCurrentArticle = function (e) {
@@ -74,35 +73,27 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
       }
     });
 
+    $scope.ajaxComplete = false;
+    $scope.ajaxInProcess = true;
+
     $scope.currentArticle.content = $parsedContent.html();
     $scope.currentArticle.description = $scope.currentArticle.content;
     $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
 
     UtilService.getTagsFromTagString($scope.currentArticle);
 
-    var page = $scope.currentArticle.page;
-    var tagString = $scope.currentArticle.tagString;
-    delete $scope.currentArticle.page
-    delete $scope.currentArticle.tagString;
-
     if (isNewArticle) {
-      var page = AuthService.getCurrentUser();
-      $scope.currentArticle.author = page.displayName;
-      $scope.currentArticle.pageId = page.id;
+      UtilService.setSelectedPage($scope.currentArticle);
 
       $scope.storyId = Math.floor(Math.random() * Math.pow(10, 16));
 
-      if (page['_profile']['email'] === 'admin@bedbathmore.com') {
-        $scope.currentArticle.pageId = $scope.currentArticle.page.id || $scope.currentArticle.pageId;
-        $scope.currentArticle.author = $scope.currentArticle.page.displayName || $scope.currentArticle.author;
-      }
-
       Article.create($scope.currentArticle).$promise.then(function (data) {
+        successChanges();
         newArticle = data[0].feed['article'];
         $scope.currentArticle = newArticle;
-        $scope.currentArticle.page = page;
-        $scope.currentArticle.tagString = tagString;
         isNewArticle = false;
+      }, function () {
+        failureChanges();
       });
       return;
     }
@@ -111,17 +102,11 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
       return;
     }
 
-    $scope.ajaxComplete = false;
-    $scope.ajaxInProcess = true;
 
     $scope.currentArticle.$save()
     .then(function () {
-      $scope.currentArticle.page = page;
-      $scope.currentArticle.tagString = tagString;
       successChanges();
     }, function () {
-      $scope.currentArticle.page = page;
-      $scope.currentArticle.tagString = tagString;
       failureChanges();
     });
   }
@@ -148,10 +133,6 @@ function ArticleMainController($rootScope, $scope, $http, Article, AuthService, 
     $scope.currentArticle = {link: '', pageId: $scope.user.id};
     isNewArticle = true;
     currentSelected = false
-  }
-
-  $scope.getPages = function (val) {
-    return SearchService.searchPages(val);
   }
 
   $scope.getArticles = function (val) {

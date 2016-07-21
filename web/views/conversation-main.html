@@ -82,15 +82,17 @@
                                         </div>
                                         <upload data-current="currentConversation"></upload>
                                     </div>
+                                    <page-search data-current-content="currentConversation"></page-search>
+
                                     <!-- END TASK DESC -->
                                     <!-- TASK TAGS -->
                                     <div class="form-group">
-                                      <div class="todo-tasklist-item-title col-md-12">
-                                      Tags:
-                                      </div>
-                                      <div class="col-md-12">
-                                        <content-tags data-current-type="currentType" data-current-content="currentConversation" data-current-type-name="'discussions'"></content-tags>
-                                      </div>
+                                        <div class="todo-tasklist-item-title col-md-12">
+                                        Tags (pass comma separated string):
+                                        </div>
+                                        <div class="col-md-12">
+                                          <input type="text" class="form-control todo-taskbody-tasktitle" placeholder="Add tags" ng-model="currentConversation.tagString">
+                                        </div>
                                     </div>
 
                                     <!-- TASK TAGS -->

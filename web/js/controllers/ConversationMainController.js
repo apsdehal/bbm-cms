@@ -1,4 +1,4 @@
-function ConversationMainController($rootScope, $scope, Discussion, AuthService, SearchService) {
+function ConversationMainController($rootScope, $scope, Discussion, AuthService, SearchService, UtilService) {
   $scope.conversations = [];
   $scope.currentConversation = false;
 
@@ -40,25 +40,22 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
     if ($scope.conversations.length > index) {
       $scope.currentConversation = $scope.conversations[index];
       currentSelected = index;
+      UtilService.setTagString($scope.currentConversation);
     }
   }
 
   $scope.saveCurrentConversation = function (e) {
     e.preventDefault();
 
+    UtilService.getTagsFromTagString($scope.currentConversation);
+
     if (isNewConversation) {
-      var page = AuthService.getCurrentUser();
-      $scope.currentConversation.author = page.displayName;
-      $scope.currentConversation.pageId = page.id;
-      var tags = $scope.currentConversation.tags;
-      $scope.currentConversation.tags = [];
+      UtilService.setSelectedPage($scope.currentConversation);
+
       Discussion.create($scope.currentConversation).$promise.then(function (data) {
         newConversation = data[0].feed['discussion'];
         $scope.currentConversation = newConversation;
-        $scope.currentConversation.tags = tags;
-        if (newConversation.id) {
-          saveTags(newConversation.id, tags);
-        }
+
         isNewConversation = false;
       });
       return;
@@ -68,15 +65,12 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
       return;
     }
 
-    var tags = $scope.currentConversation.tags;
-
     $scope.ajaxComplete = false;
     $scope.ajaxInProcess = true;
 
     $scope.currentConversation.$save()
     .then(function () {
       successChanges();
-      $scope.currentConversation.tags = tags;
     }, function () {
       failureChanges();
     });
@@ -114,7 +108,7 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
 
     Discussion.find(
       {filter:
-        {order: 'created DESC',
+        {order: 'id DESC',
          skip: skip,
          limit: limit}},
       function (list) {
@@ -133,15 +127,16 @@ function ConversationMainController($rootScope, $scope, Discussion, AuthService,
 
   Discussion.find(
     {filter:
-      {order: 'created DESC',
+      {order: 'id DESC',
        limit: limit}},
     function (list) {
       $scope.conversations = list;
       $scope.currentConversation = list[0];
+      UtilService.setTagString($scope.currentConversation);
     }
   );
 };
 
-ConversationMainController.$inject = ['$rootScope', '$scope', 'Discussion', 'AuthService', 'SearchService'];
+ConversationMainController.$inject = ['$rootScope', '$scope', 'Discussion', 'AuthService', 'SearchService', 'UtilService'];
 
 bbmCms.controller('ConversationMainController', ConversationMainController);
